@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 function Navbar() {
   return (
-    <nav className="flex justify-between bg-gray-200 p-4">
+    <nav className="flex justify-between bg-blue-900 text-white p-4">
       
       <h1>Logo</h1>
       <ul className='flex gap-x-3'>
