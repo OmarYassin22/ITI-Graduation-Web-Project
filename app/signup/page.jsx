@@ -5,23 +5,26 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
-
+import { TbLoader3 } from "react-icons/tb";
 function Page() {
   let router = useRouter();
   let [loading, setLoading] = useState(false);
+  let [errorMsg, setErrorMsg] = useState("");
 
   async function register(values) {
     try {
       setLoading(true);
+      setErrorMsg("");
       const res = await axios.post(
         "http://localhost:3000/api/auth/signup",
         values
       );
       console.log(res.data);
       router.push("/login");
+      setErrorMsg("");
     } catch (error) {
       setLoading(false);
-      console.error(error);
+      setErrorMsg(error.response.data.error.code);
     }
   }
   const formik = useFormik({
@@ -91,12 +94,20 @@ function Page() {
           {formik.touched.password && formik.errors.password ? (
             <div className="text-sm text-red-600">{formik.errors.password}</div>
           ) : null}
+
+          {errorMsg ? (
+            <div className="text-sm text-red-600">{errorMsg}</div>
+          ) : null}
           <button
-            disabled={loading}
+            disabled={
+              loading ||
+              (formik.touched.email && formik.errors.email) ||
+              (formik.touched.password && formik.errors.password)
+            }
             type="submit"
-            className="w-full bg-blue-500 mt-3 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
+            className="w-full text-center flex items-center justify-center bg-blue-500 mt-3 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
           >
-            Sign Up
+            {loading ? <TbLoader3 /> : "Sign Up"}
           </button>
           <p className="text-center mt-4 text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700">
             Already have an account?{" "}
