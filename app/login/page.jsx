@@ -5,15 +5,17 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
+import { TbLoader3 } from "react-icons/tb";
 
 function Page() {
   let router = useRouter();
   let [loading, setLoading] = useState(false);
+  let [errorMsg, setErrorMsg] = useState("");
 
   async function login(values) {
     try {
       setLoading(true);
-
+      setErrorMsg("");
       const res = await axios.post(
         "http://localhost:3000/api/auth/login",
         values
@@ -21,7 +23,7 @@ function Page() {
       console.log(res);
       router.push("/user");
     } catch (error) {
-      console.error(error);
+      setErrorMsg(error.response.data.error.code);
       setLoading(false);
     }
   }
@@ -94,14 +96,21 @@ function Page() {
                 {formik.errors.password}
               </div>
             ) : null}
+            {errorMsg ? (
+              <div className="text-sm text-red-600">{errorMsg}</div>
+            ) : null}
           </div>
           <div>
             <button
-              disabled={loading}
+              disabled={
+                loading ||
+                (formik.touched.email && formik.errors.email) ||
+                (formik.touched.password && formik.errors.password)
+              }
               type="submit"
               className="flex justify-center py-2 px-4 border border-transparent w-full text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Sign in
+              {loading ? <TbLoader3 /> : "Sign in"}
             </button>
           </div>
         </form>
