@@ -1,4 +1,4 @@
-import { db } from "../../../firebaseConfig";
+import { db, imageDb } from "../../../firebaseConfig";
 import {
   collection,
   getDocs,
@@ -8,6 +8,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { NextResponse } from "next/server";
+
 // Get request
 export async function GET(request) {
   const res = new URL(request.url);
@@ -18,7 +19,7 @@ export async function GET(request) {
   querySnapshot.forEach((c) => {
     c.id === id ? (result = c.data()) : (request = null);
   });
-
+  
   return NextResponse.json(result);
 }
 
