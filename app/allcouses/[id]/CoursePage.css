@@ -23,7 +23,10 @@
 .react-rater-star.is-active {
   color: var(--gold) !important;
 }
-
+.custom-image-gallery .image-gallery-slide img {
+  height: 300px; /* قم بتعديل الارتفاع حسب الحاجة */
+  object-fit: contain; /* لضمان ملاءمة الصورة للارتفاع المحدد */
+}
 
 
 

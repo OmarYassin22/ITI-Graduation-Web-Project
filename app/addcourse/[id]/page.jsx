@@ -13,7 +13,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/API/courses/${params.id}`);
+        const response = await fetch(`/api/courses/${params.id}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -34,9 +34,9 @@ const Page = ({ params }) => {
   }, []);
   const handlePUT = async (event) => {
     event.preventDefault();
-    console.log(`/API/courses/${params.id}`);
+    console.log(`/api/courses/${params.id}`);
     console.log(JSON.stringify({ title: cTitle, price: cPrice, image: cImage, details: cDetails, instructor:cInstructor }));
-    const response = await fetch(`/API/courses/${params.id}`, {
+    const response = await fetch(`/api/courses/${params.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
