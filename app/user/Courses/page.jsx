@@ -1,82 +1,94 @@
 "use client";
-import axios from "axios";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-
-function Courses() {
-  const [name, setName] = useState("");
-  const [instructor, setInstructor] = useState("");
-  const [period, setPeriod] = useState("");
-  const [img, setImg] = useState("");
-  //post course with images
-  const handleSumbit = async (e) => {
-    e.preventDefault();
-    const res = axios.post("../../api/course", {
-      name,
-      instructor,
-      period,
-      img,
-    });
-  };
-  const [courses, setCourses] = useState([]);
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+///
+import { FiSearch } from "react-icons/fi";
+///
+const Page = () => {
+  const [courses, setCourses] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { push } = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
-    fetch("/api/course")
-      .then((res) => res.json())
-      .then((data) => {
-        setCourses(data);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/courses");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        setCourses(result);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-
+  const openCourseDetails = async (id) => {
+    push(`/user/Courses/${id}`);
+  };
+  const filteredCourses = courses?.filter((course) =>
+    course.data.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   return (
-    <div style={{ height: "1000px" }}>
-      <h1>sadasdas</h1>
-
-      <form action="" method="POST" onSubmit={handleSumbit}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="name"
-        />
-        <input
-          type="text"
-          value={instructor}
-          onChange={(e) => setInstructor(e.target.value)}
-          placeholder="instructor"
-        />
-        <input
-          type="period"
-          value={period}
-          onChange={(e) => setPeriod(e.target.value)}
-          placeholder="period"
-        />
-        <input
-          type="file"
-          onChange={(e) => setImg(e.target.files[0])}
-          placeholder="name"
-        />
-        <input
-          type="file"
-          name=""
-          id=""
-          onChange={(e) => setImg(e.target.files[0])}
-        />
-        <button type="submit">add</button>
-      </form>
-      {courses.data?.forEach((course) => (
-        <div> {course.data}</div>
-      ))}
-      {courses.forEach((course) => (
-        <Image
-          src={course.data.imgPath}
-          className="border rounded-xl w-full"
-          alt="Card"
-          width={300}
-          height={300}
-        />
-      ))}
+    <div>
+      <div className="flex items-center justify-between pl-5 pt-7 mb-5">
+        <h2 className="text-5xl">All courses</h2>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="search about courses..."
+            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <FiSearch className="absolute left-3 top-1/3 transform-translate-y-1/2 text-gray-500" />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+        {filteredCourses?.map((course, i) => (
+          <div key={i} className="mx-3 my-5">
+            <div className="card-body p-0 h-full flex flex-col justify-between">
+              <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
+                <div className="flex justify-between items-center mb-4">
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {course.data.title}
+                  </h5>
+                </div>
+                <div className="image-container w-full h-48 mb-4 ">
+                  <img
+                    className="object-cover w-full h-full"
+                    src={course.image}
+                    alt={course.data.title}
+                  />
+                </div>
+                <div className="flex-grow">
+                  <p className="card-title text-base mb-2">{`by : ${course.data.instructor
+                    .split(" ")
+                    .slice(0, 3)
+                    .join(" ")}`}</p>
+                  <p className="text-3xl text-gray-600 mb-4">{`Price: ${course.data.price}`}</p>
+                </div>
+                <div className="flex justify-center mt-auto">
+                  <a
+                    href="#"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    onClick={() => {
+                      openCourseDetails(course.id);
+                    }}
+                  >
+                    Open course
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
-
-export default Courses;
+};
+export default Page;

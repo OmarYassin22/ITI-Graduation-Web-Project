@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   let router = useRouter();
@@ -10,8 +12,11 @@ function Navbar() {
 
   return (
     <nav className="flex justify-between bg-blue-900 text-white p-4">
-      <h1>Logo</h1>
-      <ul className="flex gap-x-3">
+      <h1>
+        <span className="text-3xl"> E-L</span>
+        <span className="text-2xl">earning</span>
+      </h1>
+      <ul className="flex  gap-x-3">
         <li>
           <Link href="/">Home</Link>
         </li>

@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebaseConfig";
+import { v4 } from "uuid";
 
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -20,7 +23,6 @@ const Page = () => {
         }
         const result = await response.json();
         setCourses(result);
-        console.log(result[0].data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -39,18 +41,10 @@ const Page = () => {
   const [cImage, setCImage] = useState("");
   const [cDetails, setCDetails] = useState("");
   const [cInstructor, setCInstructor] = useState("");
+  const [image, setImage] = useState();
   const handleCreate = async (event) => {
     event.preventDefault();
-    //console.log(JSON.stringify({ name: prdName, price: prdPrice , details: prdDetails }));
-    console.log(
-      JSON.stringify({
-        title: cTitle,
-        price: cPrice,
-        image: cImage,
-        details: cDetails,
-        instructor: cInstructor,
-      })
-    );
+    let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
       headers: {
@@ -62,12 +56,20 @@ const Page = () => {
         image: cImage,
         details: cDetails,
         instructor: cInstructor,
+        imgPath: image.name + imgPath,
       }),
     });
 
     const refresh = await fetch("/api/courses");
 
     const result = await refresh.json();
+
+    if (image) {
+      const imageRef = ref(storage, "images/courses/" + image.name + imgPath);
+      uploadBytes(imageRef, image).then(() => {
+      });
+    }
+
     setCourses(result);
     setCTitle("");
     setCPrice(0);
@@ -94,7 +96,7 @@ const Page = () => {
     }
   };
   const filteredCourses = courses?.filter((course) =>
-    course.data.title.toLowerCase().includes(searchTerm.toLowerCase())
+    course.data?.title?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
 
   return (
@@ -190,6 +192,14 @@ const Page = () => {
               onChange={(e) => {
                 setCImage(e.target.value);
               }}
+            />
+          </div>
+          <div>
+            <input
+              type="file"
+              name="Image"
+              id=""
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
           <div className="flex justify-center">
