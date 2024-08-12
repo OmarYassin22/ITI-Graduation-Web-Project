@@ -45,9 +45,10 @@ function UserPage() {
             <div className="relative z-10 text-white">
               <div className="card-content">
                 <h3 className='font-bold mb-2'>Business Analytics</h3>
- <span className=' flex'>
-          <FaStar className="text-yellow-400" /> <span>4.7</span>
-        </span>              </div>
+            <span className=' flex'>
+              <FaStar className="text-yellow-400" /> <span>4.7</span>
+            </span>          
+            </div>
             </div>
           </div>
           <div className="relative rounded-xl w-full h-80 flex items-end p-5 bg-cover bg-center bg-no-repeat hover:scale-105 duration-500" style={{ backgroundImage: `url(${img2.src})` }}>
