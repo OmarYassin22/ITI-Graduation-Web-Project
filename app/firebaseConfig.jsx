@@ -31,6 +31,6 @@ const db = getFirestore(app);
 
 
 // storeCloud
-const imageDb = getStorage(app)
+const storage = getStorage(app)
 // const analytics = getAnalytics(app);
-export { db, auth,imageDb };
+export { db, auth,storage };

@@ -1,23 +1,34 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
+import { TbLoader3 } from "react-icons/tb";
 
 function Page() {
   let router = useRouter();
+  let [loading, setLoading] = useState(false);
+  let [errorMsg, setErrorMsg] = useState("");
 
   async function login(values) {
     try {
+      setLoading(true);
+      setErrorMsg("");
       const res = await axios.post(
         "http://localhost:3000/api/auth/login",
         values
       );
-      console.log(res);
-      router.push("/welcome");
+      console.log(res.data.user.stsTokenManager.accessToken);
+      window.localStorage.setItem(
+        "token",
+        res.data.user.stsTokenManager.accessToken
+      );
+      router.push("/user");
     } catch (error) {
-      console.error(error);
+      setErrorMsg(error.response.data.error.code);
+      setLoading(false);
     }
   }
 
@@ -46,95 +57,78 @@ function Page() {
   });
 
   return (
-    <div className="flex h-1/2 m-auto items-center justify-center">
-      <div className="w-1/2 max-w-md flex flex-col h-full m-auto bg-slate-200 p-10 mx-auto shadow-lg shadow-indigo-500/50 space-y-4">
-        <h3 className="mx-auto text-4xl my-3">Login</h3>
-        <form onSubmit={formik.handleSubmit}>
-          <label className="input input-bordered flex items-center gap-2 my-10">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-               
-              <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-               
-            </svg>
+    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center justify-center p-4">
+      <div className="bg-white text-gray-900 rounded-2xl shadow-lg p-8 w-full max-w-md">
+        <div className="text-center mb-6">
+          {/* <img className='w-16 mx-auto' src="src/logo.jpeg" alt="logo" /> */}
+          <h2 className="text-3xl font-extrabold text-gray-800">Hello!</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Welcome to Courses, Please log in.
+          </p>
+        </div>
+        <form className="space-y-6" onSubmit={formik.handleSubmit}>
+          <div className="space-y-4">
             <input
-              type="text"
-              className="grow"
-              placeholder="Email"
               id="email"
               name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Email address"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
             />
-          </label>
-          {formik.touched.email && formik.errors.email ? (
-            <div role="alert" className="alert alert-info">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-6 w-6 shrink-0 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-              <span>{formik.errors.email}</span>
-            </div>
-          ) : null}
-
-          <label className="input input-bordered flex items-center gap-2 my-10">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                clipRule="evenodd"
-              />
-            </svg>
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-sm text-red-600">{formik.errors.email}</div>
+            ) : null}
             <input
-              type="password"
-              className="grow"
               id="password"
               name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
             />
-          </label>
-          {formik.touched.password && formik.errors.password ? (
-            <div role="alert" className="alert alert-info">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-6 w-6 shrink-0 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-              <span>{formik.errors.password}</span>
-            </div>
-          ) : null}
-          <button className="btn btn-active btn-secondary my-5">Login</button>
+            {formik.touched.password && formik.errors.password ? (
+              <div className="text-sm text-red-600">
+                {formik.errors.password}
+              </div>
+            ) : null}
+            {errorMsg ? (
+              <div className="text-sm text-red-600">{errorMsg}</div>
+            ) : null}
+          </div>
+          <div>
+            <button
+              disabled={
+                loading ||
+                (formik.touched.email && formik.errors.email) ||
+                (formik.touched.password && formik.errors.password)
+              }
+              type="submit"
+              className="flex justify-center py-2 px-4 border border-transparent w-full text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {loading ? <TbLoader3 /> : "Sign in"}
+            </button>
+          </div>
         </form>
+        <div className="text-center mt-4">
+          <p className="text-sm">
+            Don't have an account?{" "}
+            <Link
+              href="/signup"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
