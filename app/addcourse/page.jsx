@@ -5,6 +5,8 @@ import { FiSearch } from "react-icons/fi";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebaseConfig";
 import { v4 } from "uuid";
+import Image from "next/image";
+import Variants from "../Spinner";
 
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -22,6 +24,7 @@ const Page = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
+        console.log(result);
         setCourses(result);
       } catch (error) {
         setError(error.message);
@@ -66,8 +69,7 @@ const Page = () => {
 
     if (image) {
       const imageRef = ref(storage, "images/courses/" + image.name + imgPath);
-      uploadBytes(imageRef, image).then(() => {
-      });
+      uploadBytes(imageRef, image).then(() => {});
     }
 
     setCourses(result);
@@ -77,6 +79,7 @@ const Page = () => {
     setCDetails("");
     setCInstructor("");
     setSuccess(true);
+    setImage(null);
   };
 
   const handleDelete = async (id) => {
@@ -98,7 +101,12 @@ const Page = () => {
   const filteredCourses = courses?.filter((course) =>
     course.data?.title?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
-
+  if (!courses)
+    return (
+      <div className="max-h-full">
+        <Variants></Variants>
+      </div>
+    );
   return (
     <div>
       <h2 className="text-5xl mb-5 p-5"> Add new course</h2>
@@ -250,10 +258,12 @@ const Page = () => {
                   </button>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
-                  <img
+                  <Image
                     className="object-cover w-full h-full"
-                    src={course.data.image}
+                    src={course.image}
                     alt={course.data.title}
+                    width={100}
+                    height={100}
                   />
                 </div>
                 <div className="flex-grow">

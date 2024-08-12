@@ -13,13 +13,6 @@ function UserPage() {
   const [courses, setCourses] = useState();
   useEffect(() => {
     axios.get("api/courses").then((response) => setCourses(response.data));
-    // courses.data.forEach(element => {
-    //   console.log(e);
-    // });
-    // courses.data.map((course) => {
-    //   setSortedCourse((prev) => [...prev, course]);
-    //   console.log(sortedCourse);
-    // });
   }, []);
   useEffect(() => {
     if (courses) {
@@ -84,7 +77,7 @@ function UserPage() {
         <h2 className="font-bold text-4xl mb-5">Most Popular Courses</h2>
         <div className="cards-course text-white grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
           {courses.map((course, id) => {
-            if (id <= 6)
+            if (id < 6)
               return (
                 <div
                   key={course.id}

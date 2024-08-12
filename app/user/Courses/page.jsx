@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 ///
 import { FiSearch } from "react-icons/fi";
+import Image from "next/image";
+import Variants from "@/app/Spinner";
 ///
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -33,6 +35,13 @@ const Page = () => {
   const filteredCourses = courses?.filter((course) =>
     course.data.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (!courses)
+    return (
+      <div className="max-h-full">
+        <Variants></Variants>;
+      </div>
+    );
   return (
     <div>
       <div className="flex items-center justify-between pl-5 pt-7 mb-5">
@@ -49,6 +58,7 @@ const Page = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+        {courses?.map((course) => console.log(course))}
         {filteredCourses?.map((course, i) => (
           <div key={i} className="mx-3 my-5">
             <div className="card-body p-0 h-full flex flex-col justify-between">
@@ -59,10 +69,12 @@ const Page = () => {
                   </h5>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
-                  <img
+                  <Image
                     className="object-cover w-full h-full"
                     src={course.image}
                     alt={course.data.title}
+                    width={100}
+                    height={100}
                   />
                 </div>
                 <div className="flex-grow">
