@@ -20,7 +20,11 @@ function Page() {
         "http://localhost:3000/api/auth/login",
         values
       );
-      console.log(res);
+      console.log(res.data.user.stsTokenManager.accessToken);
+      window.localStorage.setItem(
+        "token",
+        res.data.user.stsTokenManager.accessToken
+      );
       router.push("/user");
     } catch (error) {
       setErrorMsg(error.response.data.error.code);

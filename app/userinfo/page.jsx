@@ -1,7 +1,8 @@
-///////////////////////////////////////////
-
 "use client";
 import React, { useState } from "react";
+import { addDoc, getDocs, collection } from "firebase/firestore";
+import { db } from "./../firebaseConfig";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -17,12 +18,10 @@ function Page() {
     try {
       setLoading(true);
       setErrorMsg("");
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/signup",
-        values
-      );
+      console.log(values);
+      const res = await addDoc(collection(db, "DataUser"), values);
       console.log(res.data);
-      router.push("/userinfo");
+      router.push("/login");
       setErrorMsg("");
     } catch (error) {
       setLoading(false);
@@ -31,23 +30,29 @@ function Page() {
   }
   const formik = useFormik({
     initialValues: {
+      fname: "",
+      lname: "",
       email: "",
-      password: "",
+      number: "",
     },
     validationSchema: Yup.object({
+      fname: Yup.string()
+        .required("please enter first name")
+        .min(3, "First name should have at least 3 characters"),
+      lname: Yup.string()
+        .required("please enter last name")
+        .min(3, "last name should have at least 3 characters"),
       email: Yup.string()
         .required("email is required and  writen  as moh.eha@gmail.com")
         .matches(
           /^\w{3,}.?\w{3,}?@(\w{3,}).(\w{3,})$/i,
           "email is required and  writen  as moh.eha@gmail.com"
         ),
-      password: Yup.string()
-        .required(
-          "password is required and sould have from 6-10 number and capital &small liter"
-        )
+      number: Yup.string()
+        .required("please enter phone number")
         .matches(
-          /^\d{6,10}[A-Z]{1}[a-z]{1}$/i,
-          "password sould have from 6-10 number and capital &small liter"
+          /^(01[0125]|010)\d{8}$/,
+          "please enter a valid Egyptian phone number"
         ),
     }),
     onSubmit: register,
@@ -58,18 +63,45 @@ function Page() {
       <div className="lg:w-3/5 w-full h-full lg:h-[800px] bg-gradient-to-r from-blue-500 to-purple-500 text-white p-8 lg:rounded-lg shadow-lg flex flex-col items-center justify-center">
         <div className="text-center">
           <h3 className="text-2xl font-bold mb-2">Welcome!</h3>
-          <p className="text-gray-200">Please sign up to create an account.</p>
+          <p className="text-gray-200">
+            Please fill information to complete your account.
+          </p>
         </div>
       </div>
       <div className="lg:w-2/5 w-full  bg-gray-200 p-8 rounded-lg shadow-lg mt-8 lg:mt-0 lg:h-[800px] flex flex-col justify-center">
         <form className="space-y-4" onSubmit={formik.handleSubmit}>
           <h3 className="text-xl text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700 font-bold text-center underline">
-            Sign Up
+            Account Info
           </h3>
           <p className="text-center text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700">
-            fill info to compleate your account
+            complete your account
           </p>
-
+          <input
+            type="text"
+            placeholder="first name"
+            id="fname"
+            name="fname"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.fname}
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+          />
+          {formik.touched.fname && formik.errors.fname ? (
+            <div className="text-sm text-red-600">{formik.errors.fname}</div>
+          ) : null}
+          <input
+            type="text"
+            placeholder="last name"
+            id="lname"
+            name="lname"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.lname}
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+          />
+          {formik.touched.lname && formik.errors.lname ? (
+            <div className="text-sm text-red-600">{formik.errors.lname}</div>
+          ) : null}
           <input
             type="email"
             placeholder="Email"
@@ -84,32 +116,28 @@ function Page() {
             <div className="text-sm text-red-600">{formik.errors.email}</div>
           ) : null}
           <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            id="password"
+            type="tel"
+            placeholder="phone number"
+            id="number"
+            name="number"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.password}
-            className="w-full px-4 py-2 mt-4 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400  text-gray-900"
+            value={formik.values.number}
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
           />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="text-sm text-red-600">{formik.errors.password}</div>
+          {formik.touched.number && formik.errors.number ? (
+            <div className="text-sm text-red-600">{formik.errors.number}</div>
           ) : null}
 
           {errorMsg ? (
             <div className="text-sm text-red-600">{errorMsg}</div>
           ) : null}
           <button
-            disabled={
-              loading ||
-              (formik.touched.email && formik.errors.email) ||
-              (formik.touched.password && formik.errors.password)
-            }
+            disabled={loading || (formik.touched.email && formik.errors.email)}
             type="submit"
             className="w-full text-center flex items-center justify-center bg-blue-500 mt-3 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
           >
-            {loading ? <TbLoader3 /> : "Sign Up"}
+            {loading ? <TbLoader3 /> : "confirm"}
           </button>
           <p className="text-center mt-4 text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700">
             Already have an account?{" "}
@@ -124,5 +152,3 @@ function Page() {
 }
 
 export default Page;
-
-///////////////////////////////////////////
