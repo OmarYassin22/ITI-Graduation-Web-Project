@@ -18,24 +18,23 @@ export async function GET(request) {
     )
   );
 
-  console.log(imageUrls);
+  console.log("images " + imageUrls);
   const querySnapshot = await getDocs(collection(db, "courses"));
   let docs = [];
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach( (doc) => {
     docs.push({
       id: doc.id,
       data: doc.data(),
-      image: imageUrls.find((url) => url.includes(doc.data().imgPath)),
+      image:  imageUrls.filter((url, i) => url.includes(doc.data().imgPath)),
     });
   });
 
-  return NextResponse.json(docs, imageUrls);
+  return NextResponse.json( docs );
 }
 export async function POST(request) {
   const { title, price, details, instructor, imgPath } = await request.json();
 
   try {
-    console.log("postttttttt-----------");
     console.log(imgPath);
     const docRef = await addDoc(collection(db, "courses"), {
       title: title,

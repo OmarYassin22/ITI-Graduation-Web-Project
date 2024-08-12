@@ -25,6 +25,7 @@ function UserPage() {
       );
     }
   }, [courses]);
+  console.log(courses);
   if (!courses)
     return (
       <div className="max-h-full">
@@ -76,7 +77,8 @@ function UserPage() {
       <div className="Popular my-20">
         <h2 className="font-bold text-4xl mb-5">Most Popular Courses</h2>
         <div className="cards-course text-white grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
-          {courses.map((course, id) => {
+          {courses?.map((course, id) => {
+          
             if (id < 6)
               return (
                 <div
@@ -85,7 +87,7 @@ function UserPage() {
                     router.push(`/Courses/${course.id}`);
                   }}
                   className="relative w-full h-80 flex items-end p-5 bg-cover bg-center bg-no-repeat  rounded-xl hover:scale-105 duration-500"
-                  style={{ backgroundImage: `url(${course.data.image})` }}
+                  style={{ backgroundImage: `url(${course.image})` }}
                 >
                   <div className=" overlay rounded-xl absolute top-0 left-0 opacity-50 h-full w-full bg-slate-900"></div>
                   <div className="relative z-10 text-white">

@@ -47,7 +47,7 @@ const Page = () => {
   const [image, setImage] = useState();
   const handleCreate = async (event) => {
     event.preventDefault();
-    console.log(cTitle,cDetails,image?.name,cInstructor);
+    console.log(cTitle, cDetails, image?.name, cInstructor);
     let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
@@ -59,12 +59,11 @@ const Page = () => {
         price: cPrice,
         details: cDetails,
         instructor: cInstructor,
-        imgPath: image?.name !=null? image.name + imgPath:null,
+        imgPath: imgPath,
       }),
     });
 
     const refresh = await fetch("/api/courses");
-
 
     const result = await refresh.json();
 
@@ -261,7 +260,10 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={course.image}
+                    src={
+                      course.image ||
+                      "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
+                    }
                     alt={course.data.title}
                     width={100}
                     height={100}
