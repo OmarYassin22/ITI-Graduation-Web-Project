@@ -82,7 +82,7 @@ function UserPage() {
                 <div
                   key={course.id}
                   onClick={() => {
-                    router.push(`/allcouses/${course.id}`);
+                    router.push(`/Courses/${course.id}`);
                   }}
                   className="relative w-full h-80 flex items-end p-5 bg-cover bg-center bg-no-repeat  rounded-xl hover:scale-105 duration-500"
                   style={{ backgroundImage: `url(${course.data.image})` }}

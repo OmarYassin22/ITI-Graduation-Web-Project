@@ -47,6 +47,7 @@ const Page = () => {
   const [image, setImage] = useState();
   const handleCreate = async (event) => {
     event.preventDefault();
+    console.log(cTitle,cDetails,image?.name,cInstructor);
     let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
@@ -56,14 +57,14 @@ const Page = () => {
       body: JSON.stringify({
         title: cTitle,
         price: cPrice,
-        image: cImage,
         details: cDetails,
         instructor: cInstructor,
-        imgPath: image.name + imgPath,
+        imgPath: image?.name !=null? image.name + imgPath:null,
       }),
     });
 
     const refresh = await fetch("/api/courses");
+
 
     const result = await refresh.json();
 

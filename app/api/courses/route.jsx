@@ -29,20 +29,20 @@ export async function GET(request) {
     });
   });
 
-  return NextResponse.json(docs);
+  return NextResponse.json(docs, imageUrls);
 }
 export async function POST(request) {
-  const { title, price, image, details, instructor, imgPath } =
-    await request.json();
+  const { title, price, details, instructor, imgPath } = await request.json();
 
   try {
+    console.log("postttttttt-----------");
+    console.log(imgPath);
     const docRef = await addDoc(collection(db, "courses"), {
       title: title,
       price: price,
-      image: image,
       details: details,
       instructor: instructor,
-      imgPath: imgPath,
+      imgPath: imgPath != null ? imgPath : null,
     });
 
     console.log("Document written with ID: ", docRef.id);
