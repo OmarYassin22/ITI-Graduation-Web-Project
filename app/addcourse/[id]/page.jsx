@@ -1,5 +1,5 @@
 "use client";
-import Variants from "@/app/Spinner";
+import Variants from "../../Spinner";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";

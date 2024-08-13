@@ -2,13 +2,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import { avatarClasses, Avatar } from "@mui/material";
 
 function Navbar() {
   let router = useRouter();
-  function logout() {
-    window.localStorage.removeItem("token");
-    router.push("/login");
-  }
+
+  const { data, status } = useSession();
 
   return (
     <nav className="flex justify-between bg-blue-900 text-white p-4">
@@ -29,14 +29,26 @@ function Navbar() {
         <li>
           <Link href="/user/Contact">Contact Us</Link>
         </li>
-        <li>
-          <Link href="/signup">Sign Up</Link>
-        </li>
-        <li>
-          <Link href="/login">Login</Link>
-        </li>
       </ul>
-      <button onClick={logout}>Logout</button>
+      {status == "authenticated" && (
+        <button
+          onClick={() => {
+            signOut();
+          }}
+        >
+          Logout
+        </button>
+      )}
+
+      {status == "unauthenticated" && (
+        <button
+          onClick={() => {
+            router.push("api/auth/signin");
+          }}
+        >
+          Login
+        </button>
+      )}
     </nav>
   );
 }
