@@ -18,7 +18,6 @@ export async function GET(request) {
     )
   );
 
-  console.log("images " + imageUrls);
   const querySnapshot = await getDocs(collection(db, "courses"));
   let docs = [];
   querySnapshot.forEach( (doc) => {
