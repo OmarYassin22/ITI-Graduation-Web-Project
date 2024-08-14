@@ -30,6 +30,7 @@ function Navbar() {
           <Link href="/user/Contact">Contact Us</Link>
         </li>
       </ul>
+      {status === 'loading'&& <p>Loading...</p>}
       {status == "authenticated" && (
         <button
           onClick={() => {

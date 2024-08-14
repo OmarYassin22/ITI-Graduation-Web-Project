@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react'
 import Image from 'next/image';
-import Contact from '../Contact/page';
+import Contact from "../Contact/page";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 //AIzaSyB6jJbqKnU4pvZoP3SntNIN5FJjmudTw34
 

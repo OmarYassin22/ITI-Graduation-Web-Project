@@ -1,9 +1,12 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./Navbar/page";
-import Footer from "./footer/page";
+import Navbar from "../components/Navbar/page"; // Updated file location
+import Footer from "../components/footer/page";
 import NextAuthProviderWraper from "./NextAuthProviderWraper";
+
 // import ProtectedRoute from "./ProtectedRoute/page";
+import "../css/satoshi.css"; // styles of admin page
+import "../css/style.css";  // styles of admin page
 
 const inter = Inter({ subsets: ["latin"] });
 
