@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 ///
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
-import Variants from "@/app/Spinner";
+import Variants from "../../Spinner";
 ///
 const Page = () => {
   const [courses, setCourses] = useState(null);
