@@ -111,7 +111,7 @@ const Page = () => {
   return (
     <div>
       <h2 className="text-5xl mb-5 p-5"> Add new course</h2>
-      <div className="mt-11 ">
+      <div className="mt-11">
         <form className="max-w-sm mx-auto">
           <div className="mb-5">
             <label
