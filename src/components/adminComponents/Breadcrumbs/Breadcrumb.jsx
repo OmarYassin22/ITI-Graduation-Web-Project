@@ -8,7 +8,7 @@ const Breadcrumb = ({ pageName }) => {
       <nav>
         <ol className="flex items-center gap-2">
           <li>
-            <Link className="font-medium" href="/adminPage">
+            <Link className="font-medium" href="/adminPages/adminHonePage">
               Dashboard /
             </Link>
           </li>

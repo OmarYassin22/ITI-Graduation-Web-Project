@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "./SidebarItem";
-import useLocalStorage from "../../hooks/useLocalStorage"
+import useLocalStorage from "../../../hooks/useLocalStorage"
 import ClickOutside from "../ClickOutside";
 
 // interface SidebarProps {
@@ -47,7 +47,7 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "#",
-        children: [{ label: "Home", route: "/adminPage" }],
+        children: [{ label: "Home", route: "/adminPages/adminHonePage" }],
       },
       {
         icon: (
@@ -66,7 +66,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Calendar",
-        route: "/calendar",
+        route: "/adminPages/calendar",
       },
       {
         icon: (
@@ -89,7 +89,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Profile",
-        route: "/profile",
+        route: "/adminPages/profile",
       },
       {
         icon: (
@@ -126,9 +126,9 @@ const menuGroups = [
         label: "Forms",
         route: "#",
         children: [
-          { label: "Add new course", route: "/forms/add-course" },
-          { label: "Add new instructor", route: "/forms/add-instructor" },
-          { label: "Accept students", route: "/forms/accept-students" },
+          { label: "Add new course", route: "/adminPages/forms/add-course" },
+          { label: "Add new instructor", route: "/adminPages/forms/add-instructor" },
+          { label: "Accept students", route: "/adminPages/forms/accept-students" },
         ],
       },
 
@@ -165,7 +165,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Settings",
-        route: "/settings",
+        route: "/adminPages/settings",
       },
     ],
   },
@@ -201,7 +201,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Tables",
-        route: "/tables",
+        route: "/adminPages/tables",
       },
       {
         icon: (
@@ -236,7 +236,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Chart",
-        route: "/chart",
+        route: "/adminPages/chart",
       },
       {
         icon: (
@@ -295,13 +295,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
           <Link href="/">
-            <Image
+            {/* <Image
               width={176}
               height={32}
-              src={"/images/logo/logo.svg"}
+              src={"src/app/favicon.ico"}
               alt="Logo"
               priority
-            />
+            /> */}
           </Link>
 
           <button

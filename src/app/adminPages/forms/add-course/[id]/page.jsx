@@ -1,12 +1,12 @@
 "use client";
-import Breadcrumb from "../../../../components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../../components/Layouts/DefaultLayout";
-import Variants from "../../../Spinner";
+import Breadcrumb from "../../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "../../../../../components/adminComponents/Layouts/DefaultLayout";
+import Variants from "../../../../Spinner";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../../firebaseConfig";
+import { storage } from "../../../../firebaseConfig";
 
 const Page = ({ params }) => {
   const [courses, setCourses] = useState();

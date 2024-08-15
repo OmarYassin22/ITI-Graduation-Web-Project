@@ -1,6 +1,6 @@
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../components/Layouts/DefaultLayout";
-import TableOne from "../../components/Tables/TableOne";
+import Breadcrumb from "../../../components/adminComponents/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout";
+import TableOne from "../../../components/adminComponents/Tables/TableOne";
 
 const TablesPage = () => {
   return (

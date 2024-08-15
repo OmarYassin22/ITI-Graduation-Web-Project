@@ -33,4 +33,4 @@ const ClickOutside = ({ children, exceptionRef, onClick, className }) => {
   );
 };
 
-export default ClickOutside;
+export default ClickOutside;

@@ -1,6 +1,6 @@
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
+import Breadcrumb from "../../../components/adminComponents/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
-import DefaultLayout from "../../components/Layouts/DefaultLayout"
+import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout"
 
 const Settings = () => {
   return (

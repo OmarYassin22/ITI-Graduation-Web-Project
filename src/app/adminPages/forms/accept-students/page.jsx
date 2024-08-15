@@ -1,7 +1,7 @@
 // pages/accept-students.jsx
 "use client";
-import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../components/Layouts/DefaultLayout";
+import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 
 const AcceptStudents = () => {
   return (

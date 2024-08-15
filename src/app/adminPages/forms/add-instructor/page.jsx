@@ -1,16 +1,16 @@
 "use client";
-import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../components/Layouts/DefaultLayout";
+import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 // import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
 import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebaseConfig";
+import { storage } from "../../../firebaseConfig";
 import { v4 } from "uuid";
 import Image from "next/image";
-import Variants from "../../Spinner";
+import Variants from "../../../Spinner";
 
 const Page = () => {
   const [instructors, setInstructors] = useState(null);
