@@ -9,6 +9,8 @@ export default withAuth(
     const protectedRoutes = ["/addcourse"];
     const pathName = request.nextUrl.pathname;
     const isAuth = await getToken({ req: request });
+
+    
     const isProtectedRoutes = protectedRoutes.some((route) =>
       pathName.startsWith(route)
     );
