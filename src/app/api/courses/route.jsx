@@ -31,7 +31,7 @@ export async function GET(request) {
   return NextResponse.json( docs );
 }
 export async function POST(request) {
-  const { title, price, details, instructor, imgPath } = await request.json();
+  const { title, price, details, duration , instructor, imgPath } = await request.json();
 
   try {
     console.log(imgPath);
@@ -40,6 +40,7 @@ export async function POST(request) {
       price: price,
       details: details,
       instructor: instructor,
+      duration: duration,
       imgPath: imgPath != null ? imgPath : null,
     });
 

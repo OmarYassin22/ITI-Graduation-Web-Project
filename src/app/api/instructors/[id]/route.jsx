@@ -26,7 +26,7 @@ export async function GET(request) {
       getDownloadURL(item).then((url) => imageUrls.push(url))
     )
   );
-  const querySnapshot = await getDocs(collection(db, "courses"));
+  const querySnapshot = await getDocs(collection(db, "instructors"));
   let result;
   querySnapshot.forEach((doc) => {
     doc.id === id
@@ -45,9 +45,9 @@ export async function DELETE(request) {
   const res = new URL(request.url);
   const id = res.pathname.substring(res.pathname.lastIndexOf("/") + 1);
   try {
-    await deleteDoc(doc(db, "courses", id));
+    await deleteDoc(doc(db, "instructors", id));
     return NextResponse.json({
-      message: `course with ${id} has been deleted`,
+      message: `instructor with ${id} has been deleted`,
     });
   } catch (error) {
     return NextResponse.json({ error: error });
@@ -57,11 +57,11 @@ export async function PUT(request) {
   try {
     const res = new URL(request.url);
     const id = res.pathname.substring(res.pathname.lastIndexOf("/") + 1);
-    const { title, price, imgPath, details, duration, instructor } = await request.json();
-    const oldDoc = doc(db, "courses", id);
-    updateDoc(oldDoc, { title, price, imgPath, details, duration, instructor });
+    const { name, email, phone, fields, password } = await request.json();
+    const oldDoc = doc(db, "instructors", id);
+    updateDoc(oldDoc, { name, email, phone, fields, password });
     return NextResponse.json({
-      message: `course with ${id} has been updated`,
+      message: `instructor with ${id} has been updated`,
     });
   } catch (error) {
     return NextResponse.json({ error });

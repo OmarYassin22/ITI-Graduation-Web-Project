@@ -3,8 +3,11 @@ import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
   return (
-    <div style={{ position: "relative", bottom: "0" }}>
-      <footer className="footer bg-blue-900 mt-7 py-10 flex justify-center items-center flex-col max-w-full">
+    <div
+      className="cardesbackground"
+      style={{ position: "relative", bottom: "0" }}
+    >
+      <footer className="footer cardesbackground mt-7 py-10 flex justify-center items-center flex-col max-w-full">
         <div className="footer-icon">
           <ul className="flex space-x-4 mb-4 text-cyan-700 ">
             <li className="hover:text-white duration-300">
@@ -35,4 +38,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default Footer;
