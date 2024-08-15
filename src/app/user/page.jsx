@@ -33,7 +33,7 @@ function UserPage() {
       </div>
     );
   return (
-    <div className="container mx-auto px-4">
+    <div className="container text-color mx-auto px-4">
       {/* Introduction Section */}
       <div className="my-14">
         <div className="test mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 m-auto">
@@ -78,7 +78,6 @@ function UserPage() {
         <h2 className="font-bold text-4xl mb-5">Most Popular Courses</h2>
         <div className="cards-course text-white grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
           {courses?.map((course, id) => {
-          
             if (id < 6)
               return (
                 <div
