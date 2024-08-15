@@ -1,12 +1,15 @@
 "use client";
+import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "../../../components/Layouts/DefaultLayout";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
 import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../firebaseConfig";
+import { storage } from "../../firebaseConfig";
 import { v4 } from "uuid";
 import Image from "next/image";
-import Variants from "../Spinner";
+import Variants from "../../Spinner";
+
 
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -37,17 +40,19 @@ const Page = () => {
   }, []);
 
   const handleCourseDetails = async (id) => {
-    push(`/addcourse/${id}`);
+    push(`/forms/add-course/${id}`);
   };
   const [cTitle, setCTitle] = useState("");
   const [cPrice, setCPrice] = useState(0);
   const [cImage, setCImage] = useState("");
   const [cDetails, setCDetails] = useState("");
+  const [cDuration, setCDuration] = useState("");
   const [cInstructor, setCInstructor] = useState("");
   const [image, setImage] = useState();
+  
   const handleCreate = async (event) => {
     event.preventDefault();
-    console.log(cTitle, cDetails, image?.name, cInstructor);
+    console.log(cTitle, cDetails, image?.name, cInstructor,cDuration);
     let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
@@ -59,6 +64,7 @@ const Page = () => {
         price: cPrice,
         details: cDetails,
         instructor: cInstructor,
+        duration:cDuration,
         imgPath: imgPath,
       }),
     });
@@ -78,6 +84,7 @@ const Page = () => {
     setCImage("");
     setCDetails("");
     setCInstructor("");
+    setCDuration("");
     setSuccess(true);
     setImage(null);
   };
@@ -108,118 +115,114 @@ const Page = () => {
       </div>
     );
   return (
-    <div>
-      <h2 className="text-5xl mb-5 p-5"> Add new course</h2>
-      <div className="mt-11">
-        <form className="max-w-sm mx-auto">
-          <div className="mb-5">
-            <label
-              htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              course Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-              value={cTitle}
-              onChange={(e) => {
-                setCTitle(e.target.value);
-              }}
-            />
+    <DefaultLayout>
+      <Breadcrumb pageName="Add new course" />
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+          <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+            <h3 className="font-medium text-black dark:text-white">
+              Input course info
+            </h3>
           </div>
-          <div className="mb-5">
-            <label
-              htmlFor="price"
-              className="block mb-2 text-sm font-medium text-gray-900  "
-            >
-              course Price
-            </label>
-            <input
-              type="number"
-              id="price"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-              value={cPrice}
-              onChange={(e) => {
-                setCPrice(e.target.value);
-              }}
-            />
+          <div className="flex flex-col gap-5.5 p-6.5">
+            <form className="max-w-sm">
+              <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Course name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Course name"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  required
+                  value={cTitle}
+                  onChange={(e) => {
+                    setCTitle(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Course Price
+                </label>
+                <input
+                  type="number"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  required
+                  value={cPrice}
+                  onChange={(e) => {
+                    setCPrice(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Instructor name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Instructor name"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  required
+                  value={cInstructor}
+                  onChange={(e) => {
+                    setCInstructor(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Course duration
+                </label>
+                <input
+                  type="text"
+                  placeholder="Course duration"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  required
+                  value={cDuration}
+                  onChange={(e) => {
+                    setCDuration(e.target.value);
+                  }}
+                />
+              </div>
+
+              <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Course details
+                </label>
+                <textarea
+                  rows={6}
+                  placeholder="Course details"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  value={cDetails}
+                  onChange={(e) => {
+                    setCDetails(e.target.value);
+                  }}
+                ></textarea>
+              </div>
+              <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Attach file
+                </label>
+                <input
+                  type="file"
+                  className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </div>
+              <br />
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 sm:w-auto"
+                  onClick={(e) => handleCreate(e)}
+                >
+                  Create
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="mb-5">
-            <label
-              htmlFor="instructor"
-              className="block mb-2 text-sm font-medium text-gray-900  "
-            >
-              instructor name
-            </label>
-            <input
-              type="text"
-              id="instructor"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-              value={cInstructor}
-              onChange={(e) => {
-                setCInstructor(e.target.value);
-              }}
-            />
-          </div>
-          <div className="mb-5">
-            <label
-              htmlFor="details"
-              className="block mb-2 text-sm font-medium text-gray-900 text-gray-950"
-            >
-              course details
-            </label>
-            <input
-              type="text"
-              id="details"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-              value={cDetails}
-              onChange={(e) => {
-                setCDetails(e.target.value);
-              }}
-            />
-          </div>
-          <div className="mb-5">
-            <label
-              htmlFor="image"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              course image link
-            </label>
-            <input
-              type="text"
-              id="image"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
-              value={cImage}
-              onChange={(e) => {
-                setCImage(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <input
-              type="file"
-              name="Image"
-              id=""
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-              onClick={(e) => handleCreate(e)}
-            >
-              Create
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
       <div className="flex items-center justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All courses</h2>
@@ -292,7 +295,8 @@ const Page = () => {
           </div>
         ))}
       </div>
-    </div>
+    </DefaultLayout>
   );
 };
+
 export default Page;

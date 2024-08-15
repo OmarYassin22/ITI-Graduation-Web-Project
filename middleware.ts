@@ -14,7 +14,7 @@ export default withAuth(
     );
     const isAuthRoute = pathName.startsWith("/auth");
     if (!isAuth && isProtectedRoutes)
-      return NextResponse.redirect(new URL("api/auth/signin", request.url));
+      return NextResponse.redirect(new URL("/api/auth/signin", request.url));
 
     if (isAuthRoute && isAuth)
       return NextResponse.redirect(new URL("/", request.url));

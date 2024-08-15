@@ -126,8 +126,8 @@ const menuGroups = [
         label: "Forms",
         route: "#",
         children: [
-          { label: "Add new course", route: "/forms/form-elements" },
-          { label: "Add new instructor", route: "/forms/form-layout" },
+          { label: "Add new course", route: "/forms/add-course" },
+          { label: "Add new instructor", route: "/forms/add-instructor" },
           { label: "Accept students", route: "/forms/accept-students" },
         ],
       },

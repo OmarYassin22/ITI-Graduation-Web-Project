@@ -33,6 +33,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
