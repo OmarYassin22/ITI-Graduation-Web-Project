@@ -6,8 +6,23 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+
+  --primary-color: #38b2ac;
+  --secondary-color: #f56565;
+  --background-color: #fff;
+  --cardesbackground-color: #1e3a8a;
+
+  --text-color: #333;
 }
 
+.dark {
+  --primary-color: #64c4ed;
+  --secondary-color: #f6ad55;
+  --background-color: #232a3b;
+  --cardesbackground-color: #2d344a;
+
+  --text-color: #fff;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -33,4 +48,17 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+/* for back ground */
+body {
+  background-color: var(--background-color);
+}
+
+/* for all text */
+.text-color {
+  color: var(--text-color);
+}
+/*  for cardes navbar footer sidebar */
+.cardesbackground {
+  background-color: var(--cardesbackground-color);
 }
