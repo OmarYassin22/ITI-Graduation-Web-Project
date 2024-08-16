@@ -1,16 +1,20 @@
-import React from 'react';
-import { CiMobile1 } from 'react-icons/ci';
-import { SlEnvolopeLetter } from 'react-icons/sl';
-import { BsTelephone } from 'react-icons/bs';
+import React from "react";
+import { CiMobile1 } from "react-icons/ci";
+import { SlEnvolopeLetter } from "react-icons/sl";
+import { BsTelephone } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
 function ContactPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen text-color flex items-center justify-center">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full p-4">
         {/* Box 1 */}
         <div className="box-1 flex flex-col justify-center p-6">
-          <h4 className="text-lg font-semibold mb-2 text-blue-700">Contact Us</h4>
-          <h2 className="text-2xl font-bold mb-4 text-blue-700">How Can I Help You?</h2>
+          <h4 className="text-lg font-semibold mb-2 text-blue-700">
+            Contact Us
+          </h4>
+          <h2 className="text-2xl font-bold mb-4 text-blue-700">
+            How Can I Help You?
+          </h2>
           <p className="mb-4">Fill in the form or drop an email</p>
           <div className="tele space-y-2 grid grid-cols-2 md:grid-cols-1 ">
             <h3 className="flex items-center text-lg">
@@ -29,10 +33,15 @@ function ContactPage() {
         </div>
 
         {/* Box 2 */}
-        <div className="box-2 flex flex-col justify-center p-6 bg-gray-100 rounded-md shadow-md">
+        <div className="box-2 flex flex-col justify-center p-6 bg-gray-100 rounded-md shadow-2xl  border-1">
           <form className="space-y-4">
             <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -43,7 +52,12 @@ function ContactPage() {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -54,7 +68,12 @@ function ContactPage() {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-700">Subject</label>
+              <label
+                htmlFor="subject"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Subject
+              </label>
               <input
                 type="text"
                 id="subject"
@@ -65,7 +84,12 @@ function ContactPage() {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Message
+              </label>
               <textarea
                 id="message"
                 name="message"

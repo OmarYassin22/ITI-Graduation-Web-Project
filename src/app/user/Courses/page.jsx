@@ -44,7 +44,7 @@ const Page = () => {
     );
   return (
     <div>
-      <div className="flex items-center justify-between pl-5 pt-7 mb-5">
+      <div className="flex items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All courses</h2>
         <div className="relative">
           <input
@@ -60,10 +60,10 @@ const Page = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
         {courses?.map((course) => console.log(course))}
         {filteredCourses?.map((course, i) => (
-          <div key={i} className="mx-3 my-5">
-            <div className="card-body p-0 h-full flex flex-col justify-between">
-              <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
-                <div className="flex justify-between items-center mb-4">
+          <div key={i} className="mx-3 text-color cardesbackgroundcourse my-5">
+            <div className="card-body cardesbackgroundcourse p-0 h-full flex flex-col justify-between">
+              <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
+                <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {course.data.title}
                   </h5>
@@ -78,11 +78,11 @@ const Page = () => {
                   />
                 </div>
                 <div className="flex-grow">
-                  <p className="card-title text-base mb-2">{`by : ${course.data.instructor
+                  <p className="card-title text-base text-color mb-2">{`by : ${course.data.instructor
                     .split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-gray-600 mb-4">{`Price: ${course.data.price}`}</p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course.data.price}`}</p>
                 </div>
                 <div className="flex justify-center mt-auto">
                   <a

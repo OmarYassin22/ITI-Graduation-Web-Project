@@ -37,7 +37,7 @@ function UserPage() {
     );
   
   return (
-    <div className="container mx-auto px-4">
+    <div className="container text-color mx-auto px-4">
       {/* Introduction Section */}
       <div className="my-14">
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 m-auto">

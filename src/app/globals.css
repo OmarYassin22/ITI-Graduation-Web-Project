@@ -11,7 +11,7 @@
   --secondary-color: #f56565;
   --background-color: #fff;
   --cardesbackground-color: #1e3a8a;
-
+  --cardesbackground-course: #fff;
   --text-color: #333;
 }
 
@@ -20,6 +20,7 @@
   --secondary-color: #f6ad55;
   --background-color: #232a3b;
   --cardesbackground-color: #2d344a;
+  --cardesbackground-course: #2d344a;
 
   --text-color: #fff;
 }
@@ -61,4 +62,7 @@ body {
 /*  for cardes navbar footer sidebar */
 .cardesbackground {
   background-color: var(--cardesbackground-color);
+}
+.cardesbackgroundcourse {
+  background-color: var(--cardesbackground-course);
 }

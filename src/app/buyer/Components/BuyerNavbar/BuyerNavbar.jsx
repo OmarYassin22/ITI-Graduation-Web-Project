@@ -10,7 +10,7 @@ import CategoryDropdown from './CategoryDropdown';
 
 const Logo = () => (
   <h2 className="font-bold text-2xl mr-12">
-    <Link href="/">E-Learning</Link>
+    <Link href="/buyer">E-Learning</Link>
   </h2>
 );
 
@@ -39,7 +39,7 @@ const NavIcons = () => {
   );
 };
 
-const BuyerNavbar = () => {
+const BuyerNavbar = ({onSearch}) => {
   return (
     <nav
       className="flex items-center justify-between px-20 py-7"
@@ -52,7 +52,7 @@ const BuyerNavbar = () => {
         <Logo />
         <CategoryDropdown />
       </div>
-      {/* <SearchBar /> */}
+      <SearchBar onSearch={onSearch}  /> 
       <div className="flex items-center space-x-5">
         <NavIcons />
         <UserProfile />

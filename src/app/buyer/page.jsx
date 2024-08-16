@@ -76,9 +76,9 @@ export default function Home() {
 
   return (
     <div>
-      <BuyerNavbar></BuyerNavbar>
+      <BuyerNavbar onSearch={handleSearch}></BuyerNavbar>
       <BuyerNavbar2></BuyerNavbar2>
-      <SearchBar onSearch={handleSearch} />
+      {/* <SearchBar test={test} onSearch={handleSearch} /> */}
       <div className="px-20 py-12 flex justify-between gap-y-9 flex-wrap">
         {filteredCourses.map((course, index) => (
           <CourseCard key={index} {...course} />
