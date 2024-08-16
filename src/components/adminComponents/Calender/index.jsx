@@ -107,7 +107,7 @@ const Calendar = () => {
         </table>
 
         {editingEvent && (
-          <div className="bg-gray-800 fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
+          <div className="bg-gray-800 fixed inset-0 z-99 flex items-center justify-center bg-opacity-50">
             <div className="z-60 relative rounded bg-white p-6 shadow-lg">
               <h3 className="text-lg font-bold">Edit Event</h3>
               <div className="mb-4">
