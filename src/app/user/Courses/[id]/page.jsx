@@ -26,7 +26,7 @@ const Page = ({ params }) => {
         setCPrice(result.price);
         setCDetails(result.details);
         setCImage(result.image);
-        setCInstructor(result.instructor)
+        setCInstructor(result.instructor);
         setCourses(result);
       } catch (error) {
         console.log(error);
@@ -34,11 +34,11 @@ const Page = ({ params }) => {
     };
     fetchData();
   }, []);
-///////////////////////////////////////////
+  ///////////////////////////////////////////
   const productDetailItem = {
     images: [
       {
-        original:`${cImage}`,
+        original: `${cImage}`,
       },
       // {
       //   original:
@@ -72,14 +72,14 @@ const Page = ({ params }) => {
     duration: "22 hours",
     // sku: "BE45VGTRK",
     price: `${cPrice}`,
-    previousPrice: `${parseInt(cPrice)+500}`,
-    description:`${cDetails}`,
+    previousPrice: `${parseInt(cPrice) + 500}`,
+    description: `${cDetails}`,
     language: ["Ar", "En"],
     // color: ["gray", "violet", "red"],
-  }
+  };
   const plusMinuceButton =
     "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
-///////////////////////////////////////////
+  ///////////////////////////////////////////
   return (
     <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
       {/* image gallery */}
@@ -94,14 +94,18 @@ const Page = ({ params }) => {
         {/* /image gallery  */}
       </div>
       {/* description  */}
-      <div className="mx-auto px-5 lg:px-5">
+      <div className="mx-auto text-color px-5 lg:px-5">
         <h2 className="pt-3 text-3xl font-bold lg:pt-0">
           {productDetailItem.title}
         </h2>
         <div className="mt-1">
           <div className="flex items-center">
             <Rater
-              style={{ fontSize: "20px", display: "flex", flexDirection: "row" }}
+              style={{
+                fontSize: "20px",
+                display: "flex",
+                flexDirection: "row",
+              }}
               total={5}
               interactive={false}
               rating={3}
@@ -120,37 +124,39 @@ const Page = ({ params }) => {
           )}
         </p> */}
         <p className="font-bold">
-          Instructor: <span className="font-normal">{productDetailItem.instructor}</span>
+          Instructor:{" "}
+          <span className="font-normal">{productDetailItem.instructor}</span>
         </p>
         <p className="font-bold">
-          Duration: <span className="font-normal">{productDetailItem.duration}</span>
+          Duration:{" "}
+          <span className="font-normal">{productDetailItem.duration}</span>
         </p>
 
         {/* <p className="font-bold">
           SKU: <span className="font-normal">{productDetailItem.sku}</span>
         </p> */}
         <p className="mt-4 text-4xl font-bold text-violet-900">
-      ${productDetailItem.price}{" "}
-      <span className="text-xs text-gray-400 line-through">
-        ${productDetailItem.previousPrice}
-      </span>
-    </p>
-    <p className="pt-5 text-sm leading-5 text-gray-500">
-      {productDetailItem.description}
-    </p>
-    <div className="mt-6">
-      <p className="pb-2 text-xs text-gray-500">Language</p>
-      <div className="flex gap-1">
-        {productDetailItem.language.map((x, index) => (
-          <div
-            key={index}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
-          >
-            {x}
+          ${productDetailItem.price}{" "}
+          <span className="text-xs text-gray-400 line-through">
+            ${productDetailItem.previousPrice}
+          </span>
+        </p>
+        <p className="pt-5 text-sm leading-5 text-gray-500">
+          {productDetailItem.description}
+        </p>
+        <div className="mt-6">
+          <p className="pb-2 text-xs text-gray-500">Language</p>
+          <div className="flex gap-1">
+            {productDetailItem.language.map((x, index) => (
+              <div
+                key={index}
+                className="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
+              >
+                {x}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
 
         {/* <div className="mt-6">
           <p className="pb-2 text-xs text-gray-500">Color</p>
@@ -176,22 +182,23 @@ const Page = ({ params }) => {
           </div>
         </div> */}
         <div className="mt-7 flex flex-row items-center gap-6">
-      <button className="flex h-12 w-40 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800">
-        <BiShoppingBag className="text-lg mr-2" />
-        Add to cart
-      </button>
-      <button className="flex h-12 w-40 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300">
-        <AiOutlineHeart className="text-lg mr-2" />
-        Wishlist
-      </button>
-    </div>
-  </div>
-</section>
+          <button className="flex h-12 w-40 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800">
+            <BiShoppingBag className="text-lg mr-2" />
+            Add to cart
+          </button>
+          <button className="flex h-12 w-40 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300">
+            <AiOutlineHeart className="text-lg mr-2" />
+            Wishlist
+          </button>
+        </div>
+      </div>
+    </section>
   );
 };
 
 export default Page;
-{/* <div className="w-full p-5 grid grid-cols-2 gap-8">
+{
+  /* <div className="w-full p-5 grid grid-cols-2 gap-8">
       <div>
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -217,7 +224,8 @@ export default Page;
           <p className="text-lg text-gray-600">{cDetails}</p>
         </div>
       </div>
-    </div> */}
+    </div> */
+}
 //     <div className="w-full p-5 grid grid-cols-2 gap-8">
 //   <div>
 //     <div className="mb-8">

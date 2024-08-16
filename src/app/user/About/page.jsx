@@ -1,48 +1,47 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Contact from "../Contact/page";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 
+
 function About() {
   const [location, setLocation] = useState({
     lat: 30.475815373448597,
-    lng: 31.197868152742487
+    lng: 31.197868152742487,
   });
   const containerStyle = {
     width: '50vw',
-    height: '50vh'
+    height: '50vh',
   };
   let center = location;
   const handleLocation = (eventData) => {
     if (eventData.target.value == "Benha") {
       setLocation({
         lat: 30.475815373448597,
-        lng: 31.197868152742487
+        lng: 31.197868152742487,
       });
     } else if (eventData.target.value == "Alex") {
       setLocation({
         lat: 31.19278681868581,
-        lng: 29.90618575462181
+        lng: 29.90618575462181,
       });
     } else if (eventData.target.value == "smart") {
       setLocation({
         lat: 30.07126053127538,
-        lng: 31.020813403005693
+        lng: 31.020813403005693,
       });
     } else if (eventData.target.value == "Menoufia") {
       setLocation({
         lat: 30.558084283809457,
-        lng: 31.0189111305105
+        lng: 31.0189111305105,
       });
     }
-  }
+  };
   return (
     <>
-      <div className="text-blue-700 text-5xl mt-5 text-center">
-        About Us
-      </div>
+      <div className="text-blue-700 text-5xl mt-5 text-center">About Us</div>
       <div className="grid grid-cols-4 gap-2 mt-5 mb-5 place-items-center pl-20">
         <div className="col-span-2 text-2xl container">
           At E-learning, we believe that learning should be accessible, engaging, and empowering for everyone, no matter where they are in the world. Our e-learning platform is designed to provide you with high-quality educational content that fits into your life, helping you achieve your goals at your own pace.
@@ -86,6 +85,7 @@ function About() {
       </div>
       <div className="mt-10 text-center flex justify-center items-center">
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
@@ -96,7 +96,9 @@ function About() {
         </LoadScript>
       </div>
     </>
-  )
+  );
 }
 
+
 export default About;
+
