@@ -24,7 +24,7 @@ const BuyerNavbar2 = () => {
     >
       <li className="mr-20">
         <Link
-          href="/"
+          href="/buyer"
           onClick={() => handleActiveLink('home')}
           className={getLinkClassName('home')}
         >
