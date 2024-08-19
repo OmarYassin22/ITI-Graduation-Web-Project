@@ -10,39 +10,41 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 export async function GET(request) {
-  let imagesRef = ref(storage, "images/students/");
-  let imageUrls = [];
-  let res = await listAll(imagesRef).then((response) =>
-    response.items.forEach((item) =>
-      getDownloadURL(item).then((url) => imageUrls.push(url))
-    )
-  );
+  // let imagesRef = ref(storage, "images/students/");
+  // let imageUrls = [];
+  // let res = await listAll(imagesRef).then((response) =>
+  //   response.items.forEach((item) =>
+  //     getDownloadURL(item).then((url) => imageUrls.push(url))
+  //   )
+  // );
 
-  console.log(imageUrls);
+  // console.log(imageUrls);
   const querySnapshot = await getDocs(collection(db, "students"));
   let docs = [];
   querySnapshot.forEach((doc) => {
     docs.push({
       id: doc.id,
       data: doc.data(),
-      image: imageUrls.find((url) => url.includes(doc.data().imgPath)),
+      // image: imageUrls.find((url) => url.includes(doc.data().imgPath)),
     });
   });
   return NextResponse.json(docs);
 }
 
 export async function POST(request) {
-  const { title, price, image, details, instructor, imgPath } =
+  const { fname, lname, email, number, type, uid , field ,degree} =
     await request.json();
 
   try {
     const docRef = await addDoc(collection(db, "students"), {
-      title: title,
-      price: price,
-      image: image,
-      details: details,
-      instructor: instructor,
-      imgPath: imgPath,
+      fname: fname,
+      lname: lname,
+      email: email,
+      number: number,
+      type: type,
+      uid: uid,
+      field:field,
+      degree:degree
     });
 
     console.log("Document written with ID: ", docRef.id);
