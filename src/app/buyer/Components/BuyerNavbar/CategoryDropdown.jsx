@@ -1,93 +1,61 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { useState, useRef, useEffect, useContext } from "react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { db } from "../../../firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
-// const CategoryDropdown = () => {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const dropdownRef = useRef(null);
-//   const overlayRef = useRef(null);
-
-//   useEffect(() => {
-//     if (isOpen) {
-//       document.body.classList.add('overlay-active');
-//     } else {
-//       document.body.classList.remove('overlay-active');
-//     }
-
-//     return () => {
-//       document.body.classList.remove('overlay-active');
-//     };
-//   }, [isOpen]);
-
-//   useEffect(() => {
-//     const handleClickOutside = (event) => {
-//       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-//         setIsOpen(false);
-//       }
-//     };
-
-//     document.addEventListener('mousedown', handleClickOutside);
-//     return () => {
-//       document.removeEventListener('mousedown', handleClickOutside);
-//     };
-//   }, []);
-
-//   const toggleDropdown = () => {
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//     <div ref={dropdownRef} className="relative">
-//       <div
-//         className="flex items-center text-primary border-2 border-primary px-4 py-2 rounded cursor-pointer"
-//         onClick={toggleDropdown}
-//       >
-//         <button className="font-bold text-lg">Categories</button>
-//         <IoIosArrowDown size={30} />
-//       </div>
-
-//       {isOpen && (
-//         <>
-//           <div
-//             ref={overlayRef}
-//             className="fixed inset-0 bg-black bg-opacity-50 z-40"
-//             style={{ pointerEvents: 'none' }}
-//           ></div>
-//           <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded shadow-lg z-50">
-//             {/* Add your dropdown content here */}
-//             <div className="p-4">
-//               <h3 className="font-bold mb-2">Category List</h3>
-//               <ul>
-//                 <li>Category 1</li>
-//                 <li>Category 2</li>
-//                 <li>Category 3</li>
-//                 {/* Add more categories as needed */}
-//               </ul>
-//             </div>
-//           </div>
-//         </>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CategoryDropdown;
-
-const CategoryDropdown = () => {
+const CategoryDropdown = ({ handleCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useState(null);
+  // const { courseBuyer, setCourseBuyer } = useContext(CourseBuyerContext);
 
+  const categoryCourse = async (e) => {
+    const selectedCategory = e.target.getAttribute("value");
+    setCategory(selectedCategory);
+    toggleDropdown();
+    const courses = await getQuery(selectedCategory);
+    handleCategory(courses);
+    console.log(courses);
+  };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+  async function getQuery(selectedCategory) {
+    console.log(selectedCategory);
+    // try {
+    const q = query(
+      collection(db, "courses"),
+      where("category", "==", selectedCategory)
+    );
 
+    const queryCourse = await getDocs(q);
+
+    if (queryCourse.empty) {
+      console.log("No matching documents.");
+      return [];
+    }
+
+    const coursesData = queryCourse.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    console.log("Courses data:", coursesData);
+    return coursesData;
+    // } catch (error) {
+    //   console.error("Error in getQuery:", error);
+    //   throw error;
+    // }
+  }
+  useEffect(() => console.log(category), [category]);
   return (
     <div className="relative">
       <div
-        className="flex items-center text-primary border-2 border-primary px-4 py-2 rounded cursor-pointer"
+        className="flex items-center text-color border-2  px-4 py-2 rounded cursor-pointer"
         onClick={toggleDropdown}
       >
-        <button className="font-bold text-lg">Categories</button>
+        <button className="font-bold text-lg text-color">Categories</button>
         {isOpen ? <IoIosArrowUp size={30} /> : <IoIosArrowDown size={30} />}
       </div>
 
@@ -97,16 +65,33 @@ const CategoryDropdown = () => {
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
             onClick={toggleDropdown}
           ></div>
-          <div
-            className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded shadow-lg z-50"
-          >
+          <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded shadow-lg z-50">
             {/* Add your dropdown content here */}
-            <div className="p-4">
+            <div className="p-4 text-color cardesbackground">
               <h3 className="font-bold mb-2">Category List</h3>
               <ul>
-                <li>Category 1</li>
-                <li>Category 2</li>
-                <li>Category 3</li>
+                <li
+                  value="backend"
+                  className="cursor-pointer"
+                  onClick={categoryCourse}
+                >
+                  Back-End
+                </li>
+                <li
+                  value="frontend"
+                  className="cursor-pointer"
+                  onClick={categoryCourse}
+                >
+                  Front-End
+                </li>
+
+                <li
+                  value="mobileapp"
+                  className="cursor-pointer"
+                  onClick={categoryCourse}
+                >
+                  Mobile-App
+                </li>
                 {/* Add more categories as needed */}
               </ul>
             </div>

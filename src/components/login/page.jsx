@@ -6,12 +6,16 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
 import { TbLoader3 } from "react-icons/tb";
+import { IoEyeOffOutline, GoEye } from "react-icons/io5";
 
 function Page() {
   let router = useRouter();
   let [loading, setLoading] = useState(false);
   let [errorMsg, setErrorMsg] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   async function login(values) {
     try {
       setLoading(true);
@@ -83,18 +87,34 @@ function Page() {
             {formik.touched.email && formik.errors.email ? (
               <div className="text-sm text-red-600">{formik.errors.email}</div>
             ) : null}
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pr-10"
+                placeholder="Password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center pr-3"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <GoEye className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                )}
+              </button>
+            </div>
             {formik.touched.password && formik.errors.password ? (
               <div className="text-sm text-red-600">
                 {formik.errors.password}
