@@ -8,7 +8,6 @@ import { db } from "../../../firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import Variants from "../../../Spinner";
-
 const AcceptStudents = () => {
   const [brandData, setBrandData] = useState([]);
   const [selectedField, setSelectedField] = useState({});
@@ -46,7 +45,7 @@ const AcceptStudents = () => {
   }, [searchTerm, brandData]);
   const handleAccept = async (applicant) => {
     try {
-      // if (selectedOption[applicant.id] === "accepted") {
+      if(selectedOption[applicant.id]==="accepted"){
       const newStudent = {
         fname: applicant.fname,
         lname: applicant.lname,
@@ -59,12 +58,29 @@ const AcceptStudents = () => {
       await setDoc(doc(db, "students", applicant.id), newStudent);
       setBrandData(brandData.filter((item) => item.id !== applicant.id));
       setSuccess(true);
-    // } else {
-    //   alert("Please select 'accepted' or 'rejected' before confirming");
-    // }
-    } catch (error) {
-      console.error("Error accepting student: ", error);
-      alert("Failed to accept student");
+      } else if (selectedOption[applicant.id]==="rejected") {
+      await updateDoc(doc(db, "UserData", applicant.id), {
+        type: "buyer",
+      });
+      setBrandData(brandData.filter((item) => item.id !== applicant.id));
+      } else {
+        const newStudent = {
+          fname: applicant.fname,
+          lname: applicant.lname,
+          email: applicant.email,
+          number: applicant.number,
+          uid: applicant.uid, // Copy uid from applicant
+          field: selectedField[applicant.id] ||"frontend", // Default value
+          degree: 0, // Default value
+        };
+        await setDoc(doc(db, "students", applicant.id), newStudent);
+        setBrandData(brandData.filter((item) => item.id !== applicant.id));
+        setSuccess(true);
+      }
+    }
+    catch (error) {
+      console.error("Error processing student: ", error);
+      alert("Failed to process student");
     }
   };
   const  handleOptionChange = (id,value) => {
