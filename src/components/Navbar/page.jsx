@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 import { signOut, useSession } from "next-auth/react";
 import { avatarClasses, Avatar } from "@mui/material";
-import ThemeToggel from "./ThemeToggel";
+import ThemeToggel from "./ThemeToggle";
 
 function Navbar() {
   let router = useRouter();
