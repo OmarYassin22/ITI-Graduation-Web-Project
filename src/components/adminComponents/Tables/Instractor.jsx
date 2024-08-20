@@ -5,6 +5,7 @@ import { db } from "../../../app/firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 
+
 const Instructor = () => {
   const [brandData, setBrandData] = useState([]);
   const [selectedInstructor, setSelectedInstructor] = useState(null);
@@ -118,7 +119,7 @@ const Instructor = () => {
           <input
             type="text"
             placeholder="search about name..."
-            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5 bg-transparent text-white"
+            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5 bg-transparent text-black  dark:text-white"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -128,7 +129,7 @@ const Instructor = () => {
           <input
             type="text"
             placeholder="search about field..."
-            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5 bg-transparent text-white"
+            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5 bg-transparent text-black  dark:text-white"
             value={searchFieldTerm}
             onChange={(e) => setSearchFieldTerm(e.target.value)}
           />
@@ -137,7 +138,7 @@ const Instructor = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-6 gap-2 p-2.5 bg-gray-2 dark:bg-meta-4 text-white">
+        <div className="grid grid-cols-6 gap-2 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
           <h5 className="text-sm text-center font-medium uppercase xsm:text-base">
             Name
           </h5>

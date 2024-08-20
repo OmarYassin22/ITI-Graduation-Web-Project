@@ -1,9 +1,9 @@
-'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
 
 const BuyerNavbar2 = () => {
-  const [activeLink, setActiveLink] = useState('home');
+  const [activeLink, setActiveLink] = useState("home");
 
   const handleActiveLink = (link) => {
     setActiveLink(link);
@@ -12,21 +12,21 @@ const BuyerNavbar2 = () => {
   const getLinkClassName = (linkName) => {
     return `py-3 ${
       activeLink === linkName
-        ? 'text-primary border-b-4 border-primary font-bold'
-        : 'text-gray-700 hover:text-primary transition-colors duration-200'
+        ? "text-primary border-b-4 border-primary font-bold"
+        : "text-gray-700 hover:text-primary transition-colors duration-200"
     }`;
   };
 
   return (
     <ul
-      className="flex items-center px-20 py-3 border-b-2 text-lg"
-      style={{ position: 'relative', top: '-68px', backgroundColor: 'white' }}
+      className="flex items-center px-20 py-3 border-b-2 text-lg cardesbackground"
+      style={{ position: "relative", top: "-68px" }}
     >
       <li className="mr-20">
         <Link
           href="/buyer"
-          onClick={() => handleActiveLink('home')}
-          className={getLinkClassName('home')}
+          onClick={() => handleActiveLink("home")}
+          className={getLinkClassName("home")}
         >
           Home
         </Link>
@@ -34,8 +34,8 @@ const BuyerNavbar2 = () => {
       <li>
         <Link
           href="/buyer/learning"
-          onClick={() => handleActiveLink('learning')}
-          className={getLinkClassName('learning')}
+          onClick={() => handleActiveLink("learning")}
+          className={getLinkClassName("learning")}
         >
           My Learning
         </Link>

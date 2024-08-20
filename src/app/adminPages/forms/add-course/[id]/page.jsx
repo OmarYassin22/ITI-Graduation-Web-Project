@@ -66,7 +66,7 @@ const Page = ({ params }) => {
       }),
     });
     const data = await response.json();
-    if (data.message !== null){push("/forms/add-course");} 
+    if (data.message !== null){push("/adminPages/forms/add-course");} 
   };
 
   if (loading)

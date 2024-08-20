@@ -42,7 +42,7 @@ const Page = () => {
   }, []);
 
   const handleCourseDetails = async (id) => {
-    push(`/forms/add-course/${id}`);
+    push(`/adminPages/forms/add-course/${id}`);
   };
   const [cTitle, setCTitle] = useState("");
   const [cPrice, setCPrice] = useState(0);
