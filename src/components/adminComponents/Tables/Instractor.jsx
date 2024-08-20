@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig"; 
 import { FiSearch } from "react-icons/fi";
-import { IoMdClose } from "react-icons/io";const Instructor = () => {
+import { IoMdClose } from "react-icons/io";
+
+const Instructor = () => {
   const [brandData, setBrandData] = useState([]);
   const [selectedInstructor, setSelectedInstructor] = useState(null);
   const [instructorName, setInstructorName] = useState("");
@@ -11,6 +13,7 @@ import { IoMdClose } from "react-icons/io";const Instructor = () => {
   const [instructorPhone, setInstructorPhone] = useState("");
   const [instructorFields, setInstructorFields] = useState("");
   const [fieldsList, setFieldsList] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
@@ -29,7 +32,22 @@ import { IoMdClose } from "react-icons/io";const Instructor = () => {
         console.error("Error fetching instructors: ", error);
       }
     };
+
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("/api/courses");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        setCourses(result);
+      } catch (error) {
+        console.error("Error fetching courses: ", error);
+      }
+    };
+
     fetchInstructors();
+    fetchCourses(); // Fetch courses when component mounts
   }, []);
 
   useEffect(() => {
@@ -80,7 +98,7 @@ import { IoMdClose } from "react-icons/io";const Instructor = () => {
   };
 
   const handleAddField = () => {
-    if (instructorFields.trim()) {
+    if (instructorFields.trim() && !fieldsList.includes(instructorFields)) {
       setFieldsList([...fieldsList, instructorFields]);
       setInstructorFields("");
     }
@@ -161,6 +179,7 @@ import { IoMdClose } from "react-icons/io";const Instructor = () => {
                     <option
                       key={index}
                       value={field}
+                      onClick={handleAddField}
                       className="bg-transparent text-black"
                     >
                       {field}
@@ -185,90 +204,130 @@ import { IoMdClose } from "react-icons/io";const Instructor = () => {
       </div>
 
       {selectedInstructor && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+        <div className="fixed inset-0 flex z-99 items-center justify-center bg-gray-700 bg-opacity-50 ">
           <div className="bg-white p-5 rounded-lg shadow-lg max-w-md">
             <h3 className="text-xl font-semibold mb-4">Update Instructor</h3>
             <form className="max-w-sm" onSubmit={handleSubmitUpdate}>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 block text-black text-sm font-medium  my-1">
                   Instructor Name
                 </label>
                 <input
                   type="text"
                   placeholder="Instructor Name"
-                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={instructorName}
                   onChange={(e) => setInstructorName(e.target.value)}
+                  required
                 />
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                  Instructor Email
+                <label className="mb-3 block text-sm font-medium text-black my-1">
+                  Email
                 </label>
                 <input
                   type="email"
                   placeholder="Instructor Email"
-                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={instructorEmail}
                   onChange={(e) => setInstructorEmail(e.target.value)}
+                  required
                 />
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                  Instructor Phone
+                <label className="mb-3 block text-sm font-medium text-black  my-1">
+                  Phone
                 </label>
                 <input
                   type="text"
                   placeholder="Instructor Phone"
-                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={instructorPhone}
                   onChange={(e) => setInstructorPhone(e.target.value)}
+                  required
                 />
               </div>
+
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                  Instructor Fields
-                </label>
-                <input
-                  type="text"
-                  placeholder="Instructor Fields"
-                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  value={instructorFields}
-                  onChange={(e) => setInstructorFields(e.target.value)}
-                />
-                <button
-                  className="inline-flex items-center justify-center w-full mt-4 text-sm font-medium rounded-lg h-10 text-white hover:shadow-1 bg-primary border-stroke transition"
-                  onClick={handleAddField}
-                  type="button"
-                >
+                <label className="mb-3 block text-sm font-medium text-black ">
                   Add Field
-                </button>
-                {fieldsList.length > 0 && (
-                  <ul className="mt-3 list-disc pl-5">
-                    {fieldsList.map((field, index) => (
-                      <li key={index} className="flex justify-between items-center">
-                        {field}
-                        <button
-                          type="button"
-                          className="ml-2 text-white p-1 rounded-md mb-1 bg-rose-600 hover:bg-rose-900"
-                          onClick={() => handleDeleteItem(index)}
-                        >
-                         <IoMdClose />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="Add field"
+                    className="flex-grow rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    value={instructorFields}
+                    onChange={(e) => setInstructorFields(e.target.value)}
+                  /></div>
+                  <div>
+                <label className="mb-3 block text-sm font-medium text-black my-1">
+                  Select Course
+                </label>
+                <select
+                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
+                >
+                  <option value="" disabled selected>
+                    Select a course
+                  </option>
+                  {courses.map((course) => (
+                    <option key={course.id} value={course.data.title}>
+                      {course.data.title}
+                    </option>
+                  ))}
+                </select>
+              </div> 
+                <ul className="mt-3">
+                  {fieldsList.map((field, index) => (
+                    <li key={index} className="flex justify-between items-center text-black hover:bg-black hover:text-white duration-500 p-1">
+                      <span>{field}</span>
+                      <button
+                        type="button"
+                        className="text-red-500"
+                        onClick={() => handleDeleteItem(index)}
+                      >
+                        <IoMdClose className="text-white bg-rose-600 text-xl cursor-pointer" />
+                      </button>
+                    </li>
+                        
+                  ))}
+                </ul>
               </div>
-              <div className=" flex items-center justify-between mt-3">
-              <button
-                className=" w-fit text-sm font-medium rounded-lg p-2 text-white hover:shadow-1 bg-primary border-stroke transition"
-                type="submit"
-              >
-                Update
-              </button>
-              <button  onClick={() => setSelectedInstructor(null)}
-               className=" w-fit text-sm font-medium rounded-lg p-2 text-white hover:shadow-1 bg-primary border-stroke transition">Cancel</button>
+
+              {/* <div>
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                  Select Course
+                </label>
+                <select
+                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
+                >
+                  <option value="" disabled selected>
+                    Select a course
+                  </option>
+                  {courses.map((course) => (
+                    <option key={course.id} value={course.data.category}>
+                      {course.data.category}
+                    </option>
+                  ))}
+                </select>
+              </div> */}
+
+              <div className="mt-4 flex justify-between">
+                <button
+                  type="submit"
+                  className=" rounded-lg bg-primary text-white w-fit p-2"
+                >
+                  Update 
+                </button>
+                <button
+                  onClick={() => setSelectedInstructor(null)}
+                  className="w-fit rounded-lg bg-primary  text-white p-2"
+                >
+                 Cancel
+                </button>
+
               </div>
             </form>
           </div>

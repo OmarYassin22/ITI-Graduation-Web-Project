@@ -23,6 +23,8 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const response = await fetch("/api/courses");
+        // console.log(response);
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -263,10 +265,10 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={
-                      course.image ||
-                      "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
-                    }
+                    // src={
+                    //   course.image ||
+                    //   "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
+                    // }
                     alt={course.data.title}
                     width={100}
                     height={100}
