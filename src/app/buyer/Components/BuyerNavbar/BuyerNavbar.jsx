@@ -40,7 +40,7 @@ const NavIcons = () => {
   );
 };
 
-const BuyerNavbar = ({ onSearch, handleCategory }) => {
+const BuyerNavbar = ({ handleRouteChange }) => {
   return (
     <nav
       className="flex items-center cardesbackground justify-between px-20 py-7"
@@ -49,9 +49,28 @@ const BuyerNavbar = ({ onSearch, handleCategory }) => {
     >
       <div className="flex items-center cardesbackground ">
         <Logo />
-        <CategoryDropdown handleCategory={handleCategory} />
       </div>
-      <SearchBar onSearch={onSearch} />
+      <ul className="flex items-center space-x-5">
+        <li
+          className="cursor-pointer"
+          onClick={() => handleRouteChange("courses")}
+        >
+          Courses
+        </li>
+        <li
+          className="cursor-pointer"
+          onClick={() => handleRouteChange("MyLearning")}
+        >
+          MyLearning
+        </li>
+        <li
+          className="cursor-pointer"
+          onClick={() => handleRouteChange("MyCart")}
+        >
+          MyCart
+        </li>
+      </ul>
+
       <div className="flex items-center space-x-5">
         <NavIcons />
         <UserProfile />

@@ -3,10 +3,11 @@ import "./globals.css";
 import Navbar from "../components/Navbar/page"; // Updated file location
 import Footer from "../components/footer/page";
 import NextAuthProviderWraper from "./NextAuthProviderWraper";
+import CourseBuyerProvider from "./BuyerContext";
 
 // import ProtectedRoute from "./ProtectedRoute/page";
 import "../css/satoshi.css"; // styles of admin page
-import "../css/style.css";  // styles of admin page
+import "../css/style.css"; // styles of admin page
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProviderWraper>
-          <Navbar />
+        <Navbar />
+          <CourseBuyerProvider>
           {children}
+          </CourseBuyerProvider>
           <Footer />
+
         </NextAuthProviderWraper>
       </body>
     </html>
