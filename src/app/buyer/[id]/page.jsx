@@ -68,15 +68,11 @@ const Page = ({ params }) => {
         showConfirmButton: false,
         timer: 1500,
       });
-      localStorage.setItem(
-        "courseBuyerCart",
-        JSON.stringify([...courseBuyerCart, courses])
-      );
-      push(`/buyer`);
     } else {
-      setCourseBuyerCart((prevCart) => [...prevCart, courses]);
+      const updatedCart = [...courseBuyerCart, courses];
+      setCourseBuyerCart(updatedCart);
 
-      console.log(courseBuyerCart);
+      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCart));
 
       Swal.fire({
         position: "center-center",
@@ -88,12 +84,13 @@ const Page = ({ params }) => {
     }
     push(`/buyer`);
   }
+
   function addCourseWish() {
-    const isAlreadyInCart = courseBuyerWish.some(
+    const isAlreadyInWish = courseBuyerWish.some(
       (item) => item.id === courses.id
     );
 
-    if (isAlreadyInCart) {
+    if (isAlreadyInWish) {
       Swal.fire({
         position: "center-center",
         icon: "info",
@@ -101,15 +98,11 @@ const Page = ({ params }) => {
         showConfirmButton: false,
         timer: 1500,
       });
-      localStorage.setItem(
-        "courseBuyerWish",
-        JSON.stringify([...courseBuyerWish, courses])
-      );
-      push(`/buyer`);
     } else {
-      setCourseBuyerWish((prevCart) => [...prevCart, courses]);
+      const updatedWish = [...courseBuyerWish, courses];
+      setCourseBuyerWish(updatedWish);
 
-      console.log(courseBuyerWish);
+      localStorage.setItem("courseBuyerWish", JSON.stringify(updatedWish));
 
       Swal.fire({
         position: "center-center",

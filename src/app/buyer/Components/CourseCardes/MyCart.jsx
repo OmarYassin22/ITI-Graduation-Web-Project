@@ -85,15 +85,15 @@ const Coursess = () => {
                   <p className="text-3xl text-color mb-4">{`Price: ${course.price}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
-                  <button className="flex h-15 w-40 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800">
+                  <button className="flex rounded-md h-12 w-45 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800 p-2">
                     <HiOutlineShoppingCart className="text-3xl mr-2" />
                     Buy Course
                   </button>
                   <button
                     onClick={() => deleteCourse(course.id)}
-                    className="flex h-15 w-40 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300"
+                    className="flex rounded-md h-12 w-45 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
                   >
-                    <MdDeleteSweep className="text-3xl mr-2" />
+                    <MdDeleteSweep className="text-3xl mr-2 " />
                     Delete Course
                   </button>
                 </div>
