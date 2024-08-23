@@ -9,12 +9,19 @@ const Table = () => {
   const [dataFetched, setDataFetched] = useState(false);
   const [gradeInputs, setGradeInputs] = useState({});
 
-  const handleGradeInputChange = (studentId, value) => {
-    setGradeInputs(prev => ({ ...prev, [studentId]: value }));
+  // const handleGradeInputChange = (studentId, value) => {
+  //   setGradeInputs(prev => ({ ...prev, [studentId]: value }));
+  // };
+
+  const handleGradeInputChange = (studentId, courseName, value) => {
+    setGradeInputs(prev => ({ ...prev, [`${studentId}-${courseName}`]: value }));
   };
 
   const handleEditGrade = async (studentId, courseName) => {
-    const newGrade = gradeInputs[studentId];
+    // const newGrade = gradeInputs[studentId];
+    // if (!newGrade) return;
+
+    const newGrade = gradeInputs[`${studentId}-${courseName}`];
     if (!newGrade) return;
   
     try {
@@ -39,7 +46,8 @@ const Table = () => {
           )
         );
 
-        setGradeInputs(prev => ({ ...prev, [studentId]: '' }));
+        // setGradeInputs(prev => ({ ...prev, [studentId]: '' }));
+        setGradeInputs(prev => ({ ...prev, [`${studentId}-${courseName}`]: '' }));
       } else {
         console.error("No such document!");
       }
@@ -70,7 +78,8 @@ const Table = () => {
             studentId: student.id,
             courseStudent: student.fname + " " + student.lname,
             courseName: course.course,
-            grade: course.grade || 0
+            grade: course.grade || 0,
+            field: student.field || "",
           }));
       });
 
@@ -118,26 +127,6 @@ const Table = () => {
     setSortConfig({ key, direction });
   };
 
-  // const sortData = (key) => {
-  //   let direction = 'ascending';
-  //   if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-  //     direction = 'descending';
-  //   }
-
-  //   const sortedData = [...courseData].sort((a, b) => {
-  //     if (a[key] < b[key]) {
-  //       return direction === 'ascending' ? -1 : 1;
-  //     }
-  //     if (a[key] > b[key]) {
-  //       return direction === 'ascending' ? 1 : -1;
-  //     }
-  //     return 0;
-  //   });
-
-  //   setCourseData(sortedData);
-  //   setSortConfig({ key, direction });
-  // };
-
   const getSortDirection = (key) => {
     if (sortConfig.key === key) {
       return sortConfig.direction === 'ascending' ? '▲' : '▼';
@@ -146,9 +135,9 @@ const Table = () => {
   };
 
   return (
-    <div className="rounded-sm w-2/3 mx-auto border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm w-3/4 mx-auto border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex flex-col">
-        <div className="grid grid-cols-4 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-4">
+        <div className="grid grid-cols-5 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 
               className="text-sm uppercase xsm:text-base cursor-pointer"
@@ -175,6 +164,15 @@ const Table = () => {
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 
+              className="text-sm uppercase xsm:text-base cursor-pointer"
+              onClick={() => sortData('field')}
+              >
+              Field 
+              {getSortDirection('field')}
+            </h5>
+          </div>
+          <div className="p-2.5 text-center xl:p-5">
+            <h5 
               className="text-sm uppercase xsm:text-base"
               >
               Add Grade 
@@ -183,7 +181,7 @@ const Table = () => {
         </div>
         {courseData.map((course, key) => (
           <div
-            className={`grid grid-cols-4 sm:grid-cols-4 ${
+            className={`grid grid-cols-5 sm:grid-cols-5 ${
               key === courseData.length - 1
                 ? ""
                 : "border-b border-stroke dark:border-strokedark"
@@ -199,12 +197,15 @@ const Table = () => {
             <div className="flex items-center justify-center p-2.5 xl:p-5">
               <p className="text-black dark:text-white">{course.grade}</p>
             </div>
+            <div className="flex items-center justify-center p-2.5 xl:p-5">
+              <p className="text-black dark:text-white">{course.field}</p>
+            </div>
             <div className="flex items-center justify-between p-2.5 xl:p-5">
               <input 
                 type="number" 
                 className="w-2/4 border outline-none" 
-                value={gradeInputs[course.studentId] || course.grade}
-                onChange={(e) => handleGradeInputChange(course.studentId, e.target.value)}
+                value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
+                onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
               />
               <button 
                 className="bg-sky-500 text-white px-3 py-1 rounded-lg"
@@ -213,6 +214,20 @@ const Table = () => {
                 {course.grade === '0' ? 'Add' : 'Edit'}
               </button>
             </div>
+            {/* <div className="flex items-center justify-between p-2.5 xl:p-5">
+              <input 
+                type="number" 
+                className="w-2/4 border outline-none" 
+                value={gradeInputs[course.studentId]}
+                onChange={(e) => handleGradeInputChange(course.studentId, e.target.value)}
+              />
+              <button 
+                className="bg-sky-500 text-white px-3 py-1 rounded-lg"
+                onClick={() => handleEditGrade(course.studentId, course.courseName)}
+              >
+                {course.grade === '0' ? 'Add' : 'Edit'}
+              </button>
+            </div> */}
           </div>
         ))}
       </div>
