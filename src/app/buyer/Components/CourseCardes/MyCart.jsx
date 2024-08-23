@@ -60,8 +60,8 @@ const Coursess = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         {courses?.map((course) => console.log(course))}
         {filteredCourses?.map((course, i) => (
-          <div key={i} className="mx-3 text-color cardesbackgroundcourse my-5">
-            <div className="card-body cardesbackgroundcourse p-0 h-full flex flex-col justify-between">
+          <div key={i} className="mx-3 text-color  my-5">
+            <div className="card-body  p-0 h-full flex flex-col justify-between">
               <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
                 <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
