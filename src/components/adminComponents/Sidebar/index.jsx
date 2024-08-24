@@ -47,7 +47,7 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "#",
-        children: [{ label: "Home", route: "/adminPages/adminHonePage" }],
+        children: [{ label: "Home", route: "/admin/home" }],
       },
       {
         icon: (
@@ -66,7 +66,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Calendar",
-        route: "/adminPages/calendar",
+        route: "/admin/calendar",
       },
       {
         icon: (
@@ -89,7 +89,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Profile",
-        route: "/adminPages/profile",
+        route: "/admin/profile",
       },
       {
         icon: (
@@ -126,9 +126,9 @@ const menuGroups = [
         label: "Forms",
         route: "#",
         children: [
-          { label: "Add new course", route: "/adminPages/forms/add-course" },
-          { label: "Add new instructor", route: "/adminPages/forms/add-instructor" },
-          { label: "Accept students", route: "/adminPages/forms/accept-students" },
+          { label: "Add new course", route: "/admin/forms/add-course" },
+          { label: "Add new instructor", route: "/admin/forms/add-instructor" },
+          { label: "Accept students", route: "/admin/forms/accept-students" },
         ],
       },
 
@@ -165,7 +165,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Settings",
-        route: "/adminPages/settings",
+        route: "/admin/settings",
       },
     ],
   },
@@ -201,7 +201,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Tables",
-        route: "/adminPages/tables",
+        route: "/admin/tables",
       },
       {
         icon: (
@@ -236,7 +236,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Chart",
-        route: "/adminPages/chart",
+        route: "/admin/chart",
       },
       {
         icon: (

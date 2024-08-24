@@ -30,7 +30,7 @@ function Footer() {
         </div>
         <p className="copy-right text-white">
           Copy Right 2018 © By{" "}
-          <span className="text-cyan-600">Friends Team</span> All Rights
+          <span className="text-cyan-600">Team 5aleha 3al alah</span> All Rights
           Reserved
         </p>
       </footer>
