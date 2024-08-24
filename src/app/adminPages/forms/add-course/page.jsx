@@ -49,10 +49,10 @@ const Page = () => {
   const [cDuration, setCDuration] = useState("");
   const [cInstructor, setCInstructor] = useState("");
   const [image, setImage] = useState();
-  
+
   const handleCreate = async (event) => {
     event.preventDefault();
-    console.log(cTitle, cDetails, image?.name, cInstructor,cDuration);
+    console.log(cTitle, cDetails, image?.name, cInstructor, cDuration);
     let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
@@ -64,7 +64,7 @@ const Page = () => {
         price: cPrice,
         details: cDetails,
         instructor: cInstructor,
-        duration:cDuration,
+        duration: cDuration,
         imgPath: imgPath,
       }),
     });
@@ -75,7 +75,7 @@ const Page = () => {
 
     if (image) {
       const imageRef = ref(storage, "images/courses/" + image.name + imgPath);
-      uploadBytes(imageRef, image).then(() => {});
+      uploadBytes(imageRef, image).then(() => { });
     }
 
     setCourses(result);
@@ -224,8 +224,8 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between pl-5 pt-7 mb-5">
-        <h2 className="text-5xl">All courses</h2>
+      <div className="flex flex-col sm:flex-row items-center justify-between pl-5 pt-7 mb-5">
+        <h2 className="text-5xl dark:text-white">All courses</h2>
         <div className="relative">
           <input
             type="text"

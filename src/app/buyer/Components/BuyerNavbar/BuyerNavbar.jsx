@@ -43,7 +43,7 @@ const NavIcons = () => {
 const BuyerNavbar = ({ onSearch, handleCategory }) => {
   return (
     <nav
-      className="flex items-center cardesbackground justify-between px-20 py-7"
+      className="flex items-center cardesbackground justify-between px-20 py-7 w-full"
       role="navigation"
       style={{ position: "relative", top: "-68px" }}
     >

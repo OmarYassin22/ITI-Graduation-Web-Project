@@ -44,7 +44,7 @@ const Page = () => {
     );
   return (
     <div>
-      <div className="flex items-center text-color justify-between pl-5 pt-7 mb-5">
+      <div className="flex flex-col sm:flex-row items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All courses</h2>
         <div className="relative">
           <input
