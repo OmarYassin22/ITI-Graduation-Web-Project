@@ -6,7 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import Variants from "../../Spinner";
 ///
-const Page = () => {
+const Coursess = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ const Page = () => {
     fetchData();
   }, []);
   const openCourseDetails = async (id) => {
-    push(`/user/Courses/${id}`);
+    push(`/buyer/${id}`);
   };
   const filteredCourses = courses?.filter((course) =>
     course.data.title?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -44,13 +44,13 @@ const Page = () => {
     );
   return (
     <div>
-      <div className="flex flex-col sm:flex-row items-center text-color justify-between pl-5 pt-7 mb-5">
+      <div className="flex items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All courses</h2>
         <div className="relative">
           <input
             type="text"
             placeholder="search about courses..."
-            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5"
+            className="border border-gray-300 rounded-lg pl-10 dark:text-black pr-4 py-2 w-72 mr-5"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -103,4 +103,4 @@ const Page = () => {
     </div>
   );
 };
-export default Page;
+export default Coursess;
