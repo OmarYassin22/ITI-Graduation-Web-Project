@@ -1,39 +1,41 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Link from "next/link";
 import { TbLoader3 } from "react-icons/tb";
-import { IoEyeOffOutline, GoEye } from "react-icons/io5";
+import {  signIn } from "next-auth/react";
+import { db, auth } from "../../app/firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-function Page() {
-  let router = useRouter();
+function Login() {
+  const router = useRouter();
   let [loading, setLoading] = useState(false);
   let [errorMsg, setErrorMsg] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleSet = (value) => {
+    setUser(value);
   };
   async function login(values) {
-    try {
-      setLoading(true);
-      setErrorMsg("");
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        values
-      );
-      console.log(res.data.user.stsTokenManager.accessToken);
-      window.localStorage.setItem(
-        "token",
-        res.data.user.stsTokenManager.accessToken
-      );
-      router.push("/user");
-    } catch (error) {
-      setErrorMsg(error.response.data.error.code);
-      setLoading(false);
-    }
+    // try {
+
+    setLoading(true);
+    setErrorMsg("");
+    const dbuser = await signInWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password
+    );
+    const UserType = collection(db, "UserData");
+    const q = await query(UserType, where("uid", "==", dbuser.user.uid));
+    const result = await getDocs(q);
+    localStorage.setItem("type", result.docs[0].data().type);
+
+    const res = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+    });
   }
 
   const formik = useFormik({
@@ -87,34 +89,18 @@ function Page() {
             {formik.touched.email && formik.errors.email ? (
               <div className="text-sm text-red-600">{formik.errors.email}</div>
             ) : null}
-            <div className="relative">
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pr-10"
-                placeholder="Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 flex items-center pr-3"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? (
-                  <IoEyeOffOutline
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <GoEye className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                )}
-              </button>
-            </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+            />
             {formik.touched.password && formik.errors.password ? (
               <div className="text-sm text-red-600">
                 {formik.errors.password}
@@ -126,11 +112,11 @@ function Page() {
           </div>
           <div>
             <button
-              disabled={
-                loading ||
-                (formik.touched.email && formik.errors.email) ||
-                (formik.touched.password && formik.errors.password)
-              }
+              // disabled={
+              //   loading ||
+              //   (formik.touched.email && formik.errors.email) ||
+              //   (formik.touched.password && formik.errors.password)
+              // }
               type="submit"
               className="flex justify-center py-2 px-4 border border-transparent w-full text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
@@ -140,7 +126,7 @@ function Page() {
         </form>
         <div className="text-center mt-4">
           <p className="text-sm">
-            Don't have an account?{" "}
+            Do not have an account?{" "}
             <Link
               href="/signup"
               className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -154,4 +140,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Login;

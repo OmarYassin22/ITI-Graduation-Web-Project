@@ -54,7 +54,7 @@ function Navbar() {
           {status == "unauthenticated" && (
             <button
               onClick={() => {
-                router.push("api/auth/signin");
+                router.push("/api/auth/signin");
               }}
             >
               Login
