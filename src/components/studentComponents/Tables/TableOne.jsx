@@ -90,8 +90,8 @@ const TableOne = () => {
             </h4>
             <br></br>
             <div className="flex flex-col">
-                <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
-                    <div className="p-2.5 xl:p-5">
+                <div className="grid grid-cols-1 rounded-sm bg-gray-2 dark:bg-meta-4 lg:grid-cols-4">
+                    <div className="p-2.5 text-center xl:p-5">
                         <h5 className="text-sm font-medium uppercase xsm:text-base">
                             Name
                         </h5>
@@ -114,17 +114,14 @@ const TableOne = () => {
                 </div>
                 {courseData.map((course, key) => (
                     <div
-                        className={`grid grid-cols-3 sm:grid-cols-5 ${key === courseData.length - 1
+                        className={`grid grid-cols-1 lg:grid-cols-4 ${key === courseData.length - 1
                             ? ""
                             : "border-b border-stroke dark:border-strokedark"
                             }`}
                         key={key}
                     >
-                        <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                            {/* <div className="flex-shrink-0">
-                <Image src={brand.logo} alt="Brand" width={48} height={48} />
-              </div> */}
-                            <p className="hidden text-black dark:text-white sm:block">
+                        <div className="flex items-center justify-center gap-3 p-2.5 xl:p-5">
+                            <p className="text-black dark:text-white sm:block">
                                 {course.name}
                             </p>
                         </div>
