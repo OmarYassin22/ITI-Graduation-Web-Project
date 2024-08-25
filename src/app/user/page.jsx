@@ -13,7 +13,7 @@ function UserPage() {
 
   useEffect(() => {
     axios
-      .get("/api/courses") 
+      .get("/api/courses")
       .then((response) => {
         if (response.data) {
           setCourses(response.data);
@@ -31,8 +31,8 @@ function UserPage() {
           (a.data.students?.length || 0) > (b.data.students?.length || 0)
             ? -1
             : (a.data.students?.length || 0) < (b.data.students?.length || 0)
-            ? 1
-            : 0
+              ? 1
+              : 0
         )
       );
     }
@@ -74,7 +74,7 @@ function UserPage() {
         </div>
       </div>
 
-      <BackgroundSection/>
+      <BackgroundSection />
 
       {/* Popular Courses Section */}
       <div className="my-20">

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 // <<<<<<< HEAD
 // import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import { signOut, useSession } from "next-auth/react";
 import { avatarClasses, Avatar } from "@mui/material";
 import ThemeToggel from "./ThemeToggle";
 import styles from "./navbar.module.css";
+import { usePathname } from "next/navigation";
 
 function Navbar() {
   let router = useRouter();
@@ -21,6 +22,8 @@ function Navbar() {
   const handleClick = () => {
     router.push("/");
   };
+  const pathName = usePathname();
+  console.log(pathName);
   return (
     <nav className="flex  justify-between cardesbackground dark:text-white bg-blue-900 text-white p-4">
       <div className="container flex  justify-between items-center">
@@ -30,20 +33,20 @@ function Navbar() {
         </h1>
         <ul className="flex  gap-x-3">
           <li className="text-sm sm:text-base group">
-            <Link href="/">Home</Link>
+            <Link href="/" className={`${((pathName == "" || pathName == "/") ? `text-warning` : `text-white`)} `}>Home</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
 
           <li className="text-sm sm:text-base group">
-            <Link href="/user/About">About</Link>
+            <Link href="/user/About" className={`${(pathName == "/user/About" ? `text-warning` : `text-white`)}`}>About</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
           <li className="text-sm sm:text-base group">
-            <Link href="/user/Courses">Courses</Link>
+            <Link href="/user/Courses" className={`${(pathName == "/user/Courses" ? `text-warning` : `text-white`)}`}>Courses</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
           <li className="text-sm sm:text-base group">
-            <Link href="/user/Contact">Contact Us</Link>
+            <Link href="/user/Contact" className={`${(pathName == "/user/Contact" ? `text-warning` : `text-white`)}`}>Contact Us</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
         </ul>

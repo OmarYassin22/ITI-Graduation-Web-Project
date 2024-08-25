@@ -21,12 +21,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProviderWraper>
-        <Navbar />
+          <Navbar />
           <CourseBuyerProvider>
-          {children}
+            {children}
           </CourseBuyerProvider>
           <Footer />
-
         </NextAuthProviderWraper>
       </body>
     </html>

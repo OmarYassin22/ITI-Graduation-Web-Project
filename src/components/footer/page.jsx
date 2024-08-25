@@ -7,7 +7,7 @@ function Footer() {
       className="cardesbackground"
       style={{ position: "relative", bottom: "0" }}
     >
-      <footer className="footer cardesbackground mt-7 py-10 flex justify-center items-center flex-col max-w-full">
+      <footer className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">
         <div className="footer-icon">
           <ul className="flex space-x-4 mb-4 text-cyan-700 ">
             <li className="hover:text-white duration-300">

@@ -10,14 +10,24 @@ import { db } from "../firebaseConfig";
 
 // import { TbLoader3 } from "react-icons/tb";
 // import { IoEyeOffOutline, GoEye } from "react-icons/io5";
+import { Icon } from 'react-icons-kit';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import { eye } from 'react-icons-kit/feather/eye';
 
 function Page() {
   let router = useRouter();
   let [loading, setLoading] = useState(false);
   let [errorMsg, setErrorMsg] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [icon, setIcon] = useState(eye);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+    if (showPassword == false) {
+      setIcon(eyeOff);
+    }
+    else {
+      setIcon(eye);
+    }
   };
   async function register(values) {
     try {
@@ -85,10 +95,10 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.email && formik.errors.email ? (
-            <div className="text-sm text-red-600">{formik.errors.email}</div>
+            <div className="text-sm text-red-600 dark:text-red-600">{formik.errors.email}</div>
           ) : null}
           <div className="relative">
             <input
@@ -97,7 +107,7 @@ function Page() {
               type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               required
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pr-10"
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-black dark:text-black rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pr-10"
               placeholder="Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -116,14 +126,15 @@ function Page() {
               ) : (
                 <GoEye className="h-5 w-5 text-gray-400" aria-hidden="true" />
               )} */}
+              <Icon className="text-black" icon={icon}></Icon>
             </button>
           </div>
           {formik.touched.password && formik.errors.password ? (
-            <div className="text-sm text-red-600">{formik.errors.password}</div>
+            <div className="text-sm text-red-600 dark:text-red-600">{formik.errors.password}</div>
           ) : null}
 
           {errorMsg ? (
-            <div className="text-sm text-red-600">{errorMsg}</div>
+            <div className="text-sm text-red-600 dark:text-red-600">{errorMsg}</div>
           ) : null}
           <button
             disabled={
@@ -132,13 +143,14 @@ function Page() {
               (formik.touched.password && formik.errors.password)
             }
             type="submit"
-            className="w-full text-center flex items-center justify-center bg-blue-500 mt-3 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
+            className="cursor-pointer w-full h-10 text-center flex items-center justify-center bg-blue-500 mt-3 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
           >
             {/* {loading ? <TbLoader3 /> : "Sign Up"} */}
+            Sign Up
           </button>
           <p className="text-center mt-4 text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700">
-            Already have an account?{" "}
-            <Link href="/login" className="text-blue-500 hover:underline">
+            Already have an account?
+            <Link href="/login" className="text-black ml-5 hover:underline">
               Log In
             </Link>
           </p>
