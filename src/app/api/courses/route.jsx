@@ -17,21 +17,24 @@ export async function GET(request) {
       getDownloadURL(item).then((url) => imageUrls.push(url))
     )
   );
-
+  console.log("================================================");
+  console.log(res);
+  console.log("================================================");
   const querySnapshot = await getDocs(collection(db, "courses"));
   let docs = [];
-  querySnapshot.forEach( (doc) => {
+  querySnapshot.forEach((doc) => {
     docs.push({
       id: doc.id,
       data: doc.data(),
-      image:  imageUrls.filter((url, i) => url.includes(doc.data().imgPath)),
+      image: imageUrls.filter((url, i) => url.includes(doc.data().imgPath)),
     });
   });
 
-  return NextResponse.json( docs );
+  return NextResponse.json(docs);
 }
 export async function POST(request) {
-  const { title, price, details, duration , instructor, imgPath } = await request.json();
+  const { title, price, details, duration, instructor, imgPath } =
+    await request.json();
 
   try {
     console.log(imgPath);

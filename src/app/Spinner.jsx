@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 
 export default function Variants() {
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} sx={{ margin: ".5rem" }}>
       {/* For variant="text", adjust the height via font-size */}
       <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
 
