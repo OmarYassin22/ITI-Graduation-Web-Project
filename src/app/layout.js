@@ -8,7 +8,11 @@ import CourseBuyerProvider from "./BuyerContext";
 // import ProtectedRoute from "./ProtectedRoute/page";
 import "../css/satoshi.css"; // styles of admin page
 import "../css/style.css"; // styles of admin page
+import { lazy } from "react";
 
+const CourseContextProvider = lazy(() =>
+  import("./Contexts/Courses/CourseContextProvider")
+);
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -21,11 +25,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProviderWraper>
-          <Navbar />
-          <CourseBuyerProvider>
-            {children}
-          </CourseBuyerProvider>
-          <Footer />
+          <CourseContextProvider>
+            <Navbar />
+            <CourseBuyerProvider>{children}</CourseBuyerProvider>
+            <Footer />
+          </CourseContextProvider>
         </NextAuthProviderWraper>
       </body>
     </html>

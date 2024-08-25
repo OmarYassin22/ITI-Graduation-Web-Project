@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 ///
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import Variants from "../../Spinner";
+import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
 ///
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -12,22 +13,10 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const { localCourse, setLocalCourse } = useContext(courseContext);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/courses");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setCourses(result);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    setCourses(localCourse);
   }, []);
   const openCourseDetails = async (id) => {
     push(`/user/Courses/${id}`);
@@ -38,8 +27,11 @@ const Page = () => {
 
   if (!courses)
     return (
-      <div className="max-h-full">
-        <Variants></Variants>;
+      <div className="max-h-full flex flex-row flex-wrap">
+        <Variants></Variants>
+        <Variants></Variants>
+        <Variants></Variants>
+        <Variants></Variants>
       </div>
     );
   return (
@@ -71,7 +63,12 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={course.image}
+                    src={`${
+                      course.image !== null
+                        ? course.image
+                        : "images/defaultCourse.jpeg"
+                    }`}
+                    // src="/images/13.jpg"
                     alt={course.data.title}
                     width={100}
                     height={100}

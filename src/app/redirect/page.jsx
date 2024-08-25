@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useContext } from "react";
+import React from "react";
 
 import { useRouter } from "next/navigation";
 import "./test.css";
 
+const type = localStorage.getItem("type");
 const Redirect = (props) => {
-  const type = localStorage.getItem("type");
-
   const router = useRouter();
   console.log(type);
   if (type == "admin") router.push(`/admin/home`);
@@ -28,7 +27,7 @@ const Redirect = (props) => {
           <div className="break dot3" />
         </div>
         <p>
-          We're redirecting you to our new site... Not working?{" "}
+          We are redirecting you to our new site... Not working?{" "}
           <a href="#0">Click here.</a>
         </p>
       </div>
