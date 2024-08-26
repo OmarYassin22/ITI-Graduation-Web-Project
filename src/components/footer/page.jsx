@@ -1,10 +1,9 @@
-"use client";
 import { doc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
-  const [isHasScrollBar, setIsHasScrollBar] = useState(false);
+  // const [isHasScrollBar, setIsHasScrollBar] = useState(false);
   // useEffect(() => {
   //   if (document.body.scrollHeight > document.body.clientHeight) {
   //     setIsHasScrollBar(true);
