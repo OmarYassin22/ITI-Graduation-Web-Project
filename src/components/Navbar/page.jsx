@@ -18,7 +18,6 @@ function Navbar() {
     router.push("/");
   };
   const pathName = usePathname();
-  console.log(pathName);
   return (
     <nav
       className="flex  justify-between cardesbackground dark:text-white bg-blue-900 text-white p-4"
