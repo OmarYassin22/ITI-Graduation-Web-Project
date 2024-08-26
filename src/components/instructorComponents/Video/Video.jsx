@@ -21,24 +21,27 @@ const Video = () => {
   }, [dataFetched]);
 
   const fetchData = async () => {
+
     try {
       const querySnapshot = await getDocs(collection(db, "students"));
       const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
+    
+      const courseSet = new Set();
       const emadCourses = students.flatMap(student => {
         if (!student.courses || !Array.isArray(student.courses) || student.courses.length === 0) {
           return [];
         }
-
-        return student.courses
+    
+        student.courses
           .filter(course => course.instructor === 'Emad Elshplangy')
-          .map(course => ({
-            courseName: course.course,
-          }));
+          .forEach(course => courseSet.add(course.course));
+        return [];
       });
-
-      setCourseData(emadCourses);
-      console.log(emadCourses);
+    
+      const uniqueCourses = Array.from(courseSet).map(courseName => ({ courseName }));
+    
+      setCourseData(uniqueCourses);
+      console.log(uniqueCourses);
       setDataFetched(true);
     } catch (error) {
       console.error("Error fetching data: ", error);

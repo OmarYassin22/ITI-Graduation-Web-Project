@@ -8,18 +8,18 @@ const Table = () => {
   const [courseData, setCourseData] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
   const [gradeInputs, setGradeInputs] = useState({});
+  const [uniqueFieldsArray, setUniqueFieldsArray] = useState([]);
+  const [selectedField, setSelectedField] = useState('');
 
-  // const handleGradeInputChange = (studentId, value) => {
-  //   setGradeInputs(prev => ({ ...prev, [studentId]: value }));
-  // };
+  const filteredCourseData = 
+  selectedField ? courseData.filter(course => course.field === selectedField)
+  : courseData;
 
   const handleGradeInputChange = (studentId, courseName, value) => {
     setGradeInputs(prev => ({ ...prev, [`${studentId}-${courseName}`]: value }));
   };
 
   const handleEditGrade = async (studentId, courseName) => {
-    // const newGrade = gradeInputs[studentId];
-    // if (!newGrade) return;
 
     const newGrade = gradeInputs[`${studentId}-${courseName}`];
     if (!newGrade) return;
@@ -32,7 +32,7 @@ const Table = () => {
         const studentData = studentSnapshot.data();
         const updatedCourses = studentData.courses.map(course => 
           course.course === courseName
-            ? { ...course, grade: newGrade }
+            ? { ...course, degree: newGrade }
             : course
         );
 
@@ -41,12 +41,10 @@ const Table = () => {
         setCourseData(prevData => 
           prevData.map(course => 
             course.studentId === studentId && course.courseName === courseName
-              ? { ...course, grade: newGrade }
+              ? { ...course, degree: newGrade }
               : course
           )
         );
-
-        // setGradeInputs(prev => ({ ...prev, [studentId]: '' }));
         setGradeInputs(prev => ({ ...prev, [`${studentId}-${courseName}`]: '' }));
       } else {
         console.error("No such document!");
@@ -66,22 +64,26 @@ const Table = () => {
     try {
       const querySnapshot = await getDocs(collection(db, "students"));
       const students = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-      
+
       const emadCourses = students.flatMap(student => {
         if (!student.courses || !Array.isArray(student.courses) || student.courses.length === 0) {
           return []; 
         }
-        
+
         return student.courses
           .filter(course => course.instructor === 'Emad Elshplangy')
           .map(course => ({
             studentId: student.id,
             courseStudent: student.fname + " " + student.lname,
             courseName: course.course,
-            grade: course.grade || 0,
+            degree: course.degree || 0,
             field: student.field || "",
           }));
       });
+
+      const uniqueFields = new Set(emadCourses.map(course => course.field));
+
+      setUniqueFieldsArray(Array.from(uniqueFields));
 
       setCourseData(emadCourses);
       setDataFetched(true);
@@ -99,8 +101,7 @@ const Table = () => {
     }
   
     const sortedData = [...courseData].sort((a, b) => {
-      if (key === 'grade') {
-        // Convert grade strings to numbers for comparison
+      if (key === 'degree') {
         const aValue = parseFloat(a[key]);
         const bValue = parseFloat(b[key]);
         
@@ -112,7 +113,6 @@ const Table = () => {
         }
         return 0;
       } else {
-        // For other fields, use the existing comparison logic
         if (a[key] < b[key]) {
           return direction === 'ascending' ? -1 : 1;
         }
@@ -135,103 +135,196 @@ const Table = () => {
   };
 
   return (
-    <div className="rounded-sm w-3/4 mx-auto border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div className="flex flex-col">
-        <div className="grid grid-cols-5 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-5">
-          <div className="p-2.5 xl:p-5">
-            <h5 
-              className="text-sm uppercase xsm:text-base cursor-pointer"
-              onClick={() => sortData('courseStudent')}
-            >
-              Name {getSortDirection('courseStudent')}
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 
-              className="text-sm uppercase xsm:text-base cursor-pointer"
-              onClick={() => sortData('courseName')}
-              >
-              Course {getSortDirection('courseName')}
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 
-              className="text-sm uppercase xsm:text-base cursor-pointer"
-              onClick={() => sortData('grade')}
-              >
-              Grade {getSortDirection('grade')}
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 
-              className="text-sm uppercase xsm:text-base cursor-pointer"
-              onClick={() => sortData('field')}
-              >
-              Field 
-              {getSortDirection('field')}
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 
-              className="text-sm uppercase xsm:text-base"
-              >
-              Add Grade 
-            </h5>
-          </div>
-        </div>
-        {courseData.map((course, key) => (
-          <div
-            className={`grid grid-cols-5 sm:grid-cols-5 ${
-              key === courseData.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
-            }`}
-            key={key}
-          >
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">  
-              <p className="text-black dark:text-white sm:block">{course.courseStudent}</p>
-            </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{course.courseName}</p>
-            </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{course.grade}</p>
-            </div>
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{course.field}</p>
-            </div>
-            <div className="flex items-center justify-between p-2.5 xl:p-5">
-              <input 
-                type="number" 
-                className="w-2/4 border outline-none" 
-                value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
-                onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
-              />
-              <button 
-                className="bg-sky-500 text-white px-3 py-1 rounded-lg"
-                onClick={() => handleEditGrade(course.studentId, course.courseName)}
-              >
-                {course.grade === '0' ? 'Add' : 'Edit'}
-              </button>
-            </div>
-            {/* <div className="flex items-center justify-between p-2.5 xl:p-5">
-              <input 
-                type="number" 
-                className="w-2/4 border outline-none" 
-                value={gradeInputs[course.studentId]}
-                onChange={(e) => handleGradeInputChange(course.studentId, e.target.value)}
-              />
-              <button 
-                className="bg-sky-500 text-white px-3 py-1 rounded-lg"
-                onClick={() => handleEditGrade(course.studentId, course.courseName)}
-              >
-                {course.grade === '0' ? 'Add' : 'Edit'}
-              </button>
-            </div> */}
-          </div>
-        ))}
+    <>
+      <div className='w-80 m-auto'>
+        <label
+          htmlFor="countries"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Select The Field
+        </label>
+        <select
+          id="countries"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={(e) => setSelectedField(e.target.value)}
+        >
+          <option selected disabled>Choose a field</option>
+          {uniqueFieldsArray.map((field, key) => (
+            <option value={field} key={key} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:bg-gray cursor-pointer">
+              {field}
+              {/* ind */}
+            </option>
+          ))}
+        </select>
       </div>
-    </div>
+      <div className="rounded-sm w-3/4 mx-auto border border-stroke bg-white px-5 pb-6 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
+        <div className="flex flex-col">
+          <div className="grid grid-cols-5 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-5">
+            <div className="p-2.5 xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('courseStudent')}
+              >
+                Name {getSortDirection('courseStudent')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('courseName')}
+              >
+                Course {getSortDirection('courseName')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('degree')}
+              >
+                Grade {getSortDirection('degree')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('field')}
+              >
+                Field 
+                {getSortDirection('field')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base"
+              >
+                Add Grade 
+              </h5>
+            </div>
+          </div>
+          {filteredCourseData.map((course, key) => (
+            <div
+              className={`grid grid-cols-5 sm:grid-cols-5 ${
+                key === filteredCourseData.length - 1
+                  ? ""
+                  : "border-b border-stroke dark:border-strokedark"
+              }`}
+              key={key}
+            >
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">  
+                <p className="text-black dark:text-white sm:block">{course.courseStudent}</p>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{course.courseName}</p>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{course.degree}</p>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{course.field}</p>
+              </div>
+              <div className="flex items-center justify-between p-2.5 xl:p-5">
+                <input 
+                  type="number" 
+                  className="w-2/4 border outline-none" 
+                  value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
+                  onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
+                />
+                <button 
+                  className="bg-sky-500 text-white px-3 py-1 rounded-lg"
+                  onClick={() => handleEditGrade(course.studentId, course.courseName)}
+                >
+                  {course.degree === '0' ? 'Add' : 'Edit'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* <div className="rounded-sm w-3/4 mx-auto border border-stroke bg-white px-5 pb-6 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
+        <div className="flex flex-col">
+          <div className="grid grid-cols-5 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-5">
+            <div className="p-2.5 xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('courseStudent')}
+              >
+                Name {getSortDirection('courseStudent')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('courseName')}
+                >
+                Course {getSortDirection('courseName')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('degree')}
+                >
+                Grade {getSortDirection('degree')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base cursor-pointer"
+                onClick={() => sortData('field')}
+                >
+                Field 
+                {getSortDirection('field')}
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 
+                className="text-sm uppercase xsm:text-base"
+                >
+                Add Grade 
+              </h5>
+            </div>
+          </div>
+          {courseData.map((course, key) => (
+            <div
+              className={`grid grid-cols-5 sm:grid-cols-5 ${
+                key === courseData.length - 1
+                  ? ""
+                  : "border-b border-stroke dark:border-strokedark"
+              }`}
+              key={key}
+            >
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">  
+                <p className="text-black dark:text-white sm:block">{course.courseStudent}</p>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{course.courseName}</p>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{course.degree}</p>
+              </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{course.field}</p>
+              </div>
+              <div className="flex items-center justify-between p-2.5 xl:p-5">
+                <input 
+                  type="number" 
+                  className="w-2/4 border outline-none" 
+                  value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
+                  onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
+                />
+                <button 
+                  className="bg-sky-500 text-white px-3 py-1 rounded-lg"
+                  onClick={() => handleEditGrade(course.studentId, course.courseName)}
+                >
+                  {course.degree === '0' ? 'Add' : 'Edit'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div> */}
+    </>
   );
 };
 
