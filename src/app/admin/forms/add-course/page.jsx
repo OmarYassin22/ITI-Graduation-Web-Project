@@ -41,7 +41,7 @@ const Page = () => {
   }, []);
 
   const handleCourseDetails = async (id) => {
-    push(`/adminPages/forms/add-course/${id}`);
+    push(`/admin/forms/add-course/${id}`);
   };
   const [cTitle, setCTitle] = useState("");
   const [cPrice, setCPrice] = useState(0);

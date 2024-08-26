@@ -9,6 +9,7 @@ import {
   list,
   getDownloadURL,
 } from "firebase/storage";
+
 export async function GET(request) {
   let imagesRef = ref(storage, "images/instructors/");
   let imageUrls = [];
