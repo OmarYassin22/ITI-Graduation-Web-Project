@@ -45,7 +45,12 @@ const BuyerNavbar = ({ handleRouteChange }) => {
     <nav
       className="flex items-center cardesbackground justify-between px-20 py-7 w-full"
       role="navigation"
-      style={{ position: "relative", top: "-68px" }}
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 1000, // Ensure the navbar is above other content
+        // A white background to overlay on content
+      }}
     >
       <div className="flex items-center cardesbackground ">
         <Logo />

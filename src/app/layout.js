@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import NavbarWrapper from "./NavbarWrapper";
 import "./globals.css";
 import Navbar from "../components/Navbar/page"; // Updated file location
 import Footer from "../components/footer/page";
@@ -13,6 +14,7 @@ import { lazy } from "react";
 const CourseContextProvider = lazy(() =>
   import("./Contexts/Courses/CourseContextProvider")
 );
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -26,7 +28,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <NextAuthProviderWraper>
           <CourseContextProvider>
-            <Navbar />
+            <NavbarWrapper />
             <CourseBuyerProvider>{children}</CourseBuyerProvider>
             <Footer />
           </CourseContextProvider>
