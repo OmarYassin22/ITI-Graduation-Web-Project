@@ -48,7 +48,7 @@ const Instructor = () => {
     };
 
     fetchInstructors();
-    fetchCourses(); // Fetch courses when component mounts
+    fetchCourses(); 
   }, []);
 
   useEffect(() => {
@@ -138,23 +138,23 @@ const Instructor = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-6 gap-2 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-          <h5 className="text-sm text-center font-medium uppercase xsm:text-base">
+        <div className="grid grid-cols-6  p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
+          <h5 className="text-sm text-center font-medium xsm:text-base">
             Name
           </h5>
-          <h5 className="text-sm font-medium text-center uppercase xsm:text-base">
+          <h5 className="text-sm font-medium text-center  xsm:text-base">
             Phone
           </h5>
-          <h5 className="text-sm font-medium text-center uppercase xsm:text-base">
+          <h5 className="text-sm font-medium text-center  xsm:text-base">
             Email
           </h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
+          <h5 className="hidden sm:block text-sm text-center font-medium  xsm:text-base">
             Field
           </h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
+          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">
             Delete
           </h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
+          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">
             Update
           </h5>
         </div>

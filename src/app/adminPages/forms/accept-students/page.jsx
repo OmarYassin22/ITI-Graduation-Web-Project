@@ -51,9 +51,9 @@ const AcceptStudents = () => {
         lname: applicant.lname,
         email: applicant.email,
         number: applicant.number,
-        uid: applicant.uid, // Copy uid from applicant
-        field: selectedField[applicant.id] ||"frontend", // Default value
-        degree: 0, // Default value
+        uid: applicant.uid, 
+        field: selectedField[applicant.id] ||"frontend",
+        // degree: 0, 
       };
       await setDoc(doc(db, "students", applicant.id), newStudent);
       setBrandData(brandData.filter((item) => item.id !== applicant.id));
@@ -71,7 +71,7 @@ const AcceptStudents = () => {
           number: applicant.number,
           uid: applicant.uid, // Copy uid from applicant
           field: selectedField[applicant.id] ||"frontend", // Default value
-          degree: 0, // Default value
+          // degree: 0, // Default value
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
         setBrandData(brandData.filter((item) => item.id !== applicant.id));

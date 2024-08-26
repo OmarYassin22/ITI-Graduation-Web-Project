@@ -19,7 +19,7 @@ function Navbar() {
   // >>>>>>> 5f81df541979e0781e214db42b9a76802f8c0d9e:src/components/Navbar/page.jsx
 
   return (
-    <nav className="flex  justify-between cardesbackground dark:text-white bg-blue-900 text-white p-4">
+    <nav className="flex justify-between cardesbackground dark:text-white bg-blue-900 text-white p-4">
       <div className="container flex  justify-between items-center">
         <h1>
           <span className="text-3xl"> E-L</span>
