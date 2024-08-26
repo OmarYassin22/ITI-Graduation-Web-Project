@@ -10,9 +10,9 @@ import { db } from "../firebaseConfig";
 
 // import { TbLoader3 } from "react-icons/tb";
 // import { IoEyeOffOutline, GoEye } from "react-icons/io5";
-import { Icon } from 'react-icons-kit';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye';
+import { Icon } from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
 
 function Page() {
   let router = useRouter();
@@ -24,8 +24,7 @@ function Page() {
     setShowPassword(!showPassword);
     if (showPassword == false) {
       setIcon(eyeOff);
-    }
-    else {
+    } else {
       setIcon(eye);
     }
   };
@@ -53,18 +52,20 @@ function Page() {
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .required("email is required and  writen  as moh.eha@gmail.com")
+        .required(
+          "email is required and  writen  as moh.eha or o.y.sllem or omaryasyn@gmail.com"
+        )
         .matches(
-          /^\w{3,}.?\w{3,}?@(\w{3,}).(\w{3,})$/i,
-          "email is required and  writen  as moh.eha@gmail.com"
+          /^.{4,}@(\w{3,}).(\w{3,})$/i,
+          "email is required and  writen  as moh.eha or o.y.sllem or omaryasyn@gmail.com"
         ),
       password: Yup.string()
         .required(
           "password is required and sould have from 6-10 number and capital &small liter"
         )
         .matches(
-          /^\d{6,10}[A-Z]{1}[a-z]{1}$/i,
-          "password sould have from 6-10 number and capital &small liter"
+          /^(?=(.*\d){6,})(?=(.*[A-Z]){1})(?=(.*[a-z]){1})(?=(.*\W){1}).{9,}$/i,
+          "password sould have at least 6 number and capital & small liter and have at least special characters"
         ),
     }),
     onSubmit: register,
@@ -98,7 +99,9 @@ function Page() {
             className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.email && formik.errors.email ? (
-            <div className="text-sm text-red-600 dark:text-red-600">{formik.errors.email}</div>
+            <div className="text-sm text-red-600 dark:text-red-600">
+              {formik.errors.email}
+            </div>
           ) : null}
           <div className="relative">
             <input
@@ -130,11 +133,15 @@ function Page() {
             </button>
           </div>
           {formik.touched.password && formik.errors.password ? (
-            <div className="text-sm text-red-600 dark:text-red-600">{formik.errors.password}</div>
+            <div className="text-sm text-red-600 dark:text-red-600">
+              {formik.errors.password}
+            </div>
           ) : null}
 
           {errorMsg ? (
-            <div className="text-sm text-red-600 dark:text-red-600">{errorMsg}</div>
+            <div className="text-sm text-red-600 dark:text-red-600">
+              {errorMsg}
+            </div>
           ) : null}
           <button
             disabled={

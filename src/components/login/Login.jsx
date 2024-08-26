@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -9,9 +9,9 @@ import { signIn } from "next-auth/react";
 import { db, auth } from "../../app/firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Icon } from 'react-icons-kit';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye';
+import { Icon } from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
 
 function Login() {
   const router = useRouter();
@@ -23,8 +23,7 @@ function Login() {
     setShowPassword(!showPassword);
     if (showPassword == false) {
       setIcon(eyeOff);
-    }
-    else {
+    } else {
       setIcon(eye);
     }
   };
@@ -61,16 +60,16 @@ function Login() {
       email: Yup.string()
         .required("email is required and  writen  as moh.eha@gmail.com")
         .matches(
-          /^\w{3,}.?\w{3,}?@(\w{3,}).(\w{3,})$/i,
-          "email is required and  writen  as moh.eha@gmail.com"
+          /^.{4,}@(\w{3,}).(\w{3,})$/i,
+          "email is required and  writen  as moh.ehab or o.y.sliem or omaryasyn"
         ),
       password: Yup.string()
         .required(
           "password is required and sould have from 6-10 number and capital &small liter"
         )
         .matches(
-          /^\d{6,10}[A-Z]{1}[a-z]{1}$/i,
-          "password sould have from 6-10 number and capital &small liter"
+          /^(?=(.*\d){6,})(?=(.*[A-Z]){1})(?=(.*[a-z]){1})(?=(.*\W){1}).{9,}$/i,
+          "password sould have at least 6 number and capital & small liter and have at least special characters"
         ),
     }),
     onSubmit: login,
@@ -101,7 +100,9 @@ function Login() {
               value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email ? (
-              <div className="text-sm text-red dark:text-red">{formik.errors.email}</div>
+              <div className="text-sm text-red dark:text-red">
+                {formik.errors.email}
+              </div>
             ) : null}
             <div className="relative">
               <input
