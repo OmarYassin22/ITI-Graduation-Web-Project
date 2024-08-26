@@ -17,7 +17,7 @@ const Page = () => {
 
   useEffect(() => {
     setCourses(localCourse);
-  }, []);
+  }, [localCourse]);
   const openCourseDetails = async (id) => {
     push(`/user/Courses/${id}`);
   };

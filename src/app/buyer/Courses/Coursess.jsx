@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 ///
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import Variants from "../../Spinner";
+import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
 ///
 const Coursess = () => {
   const [courses, setCourses] = useState(null);
@@ -12,23 +13,14 @@ const Coursess = () => {
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const { localCourse, setLocalCourse } = useContext(courseContext);
+  console.log(localCourse);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/courses");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setCourses(result);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    setCourses(localCourse);
+  }, [localCourse]);
+
+  console.log(courses);
   const openCourseDetails = async (id) => {
     push(`/buyer/${id}`);
   };

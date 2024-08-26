@@ -84,6 +84,7 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.fname}
+            style={{color:'black'}}
             className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.fname && formik.errors.fname ? (

@@ -1,10 +1,14 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { createContext } from "react";
 export const courseContext = createContext();
+const func=()=>{
+  console.log('func called');
+}
 const CourseContextProvider = ({ children }) => {
-  const [localCourse, setLocalCourse] = useState([]);
+  console.log("course context provider");
+  const [localCourse, setLocalCourse] = useState();
   useEffect(() => {
     axios
       .get("/api/courses")
@@ -23,7 +27,7 @@ const CourseContextProvider = ({ children }) => {
       localCourse,
       setLocalCourse,
     }),
-    [localCourse]   
+    [localCourse]
   );
 
   return (
@@ -31,4 +35,4 @@ const CourseContextProvider = ({ children }) => {
   );
 };
 
-export default CourseContextProvider;
+export default memo(CourseContextProvider);
