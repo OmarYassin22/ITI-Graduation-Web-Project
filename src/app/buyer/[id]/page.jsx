@@ -7,8 +7,10 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
 import ReactImageGallery from "react-image-gallery";
 import Rater from "react-rater";
+import BuyerNavbar from "./../Components/BuyerNavbar/BuyerNavbar";
 
 import { CourseBuyerContext } from "./../../BuyerContext";
+
 const Page = ({ params }) => {
   let {
     courseBuyerCart,
@@ -145,6 +147,7 @@ const Page = ({ params }) => {
   ///////////////////////////////////////////
   return (
     <>
+      <BuyerNavbar />
       <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
         {/* image gallery */}
         <div className="container mx-auto px-4">

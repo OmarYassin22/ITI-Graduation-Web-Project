@@ -46,7 +46,7 @@ const Calendar = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-7xl" id="content">
       <Breadcrumb pageName="Schedule" />
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <table className="w-full">
@@ -59,7 +59,7 @@ const Calendar = () => {
               {Array.from({ length: 31 }, (_, i) => (
                 <td
                   key={i + 1}
-                  className="ease relative h-20 border border-stroke p-2 transition duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31"
+                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${(events[i + 1] != undefined ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600` : `transition`)}`}
                 >
                   <span className="font-medium text-black dark:text-white">
                     {i + 1}

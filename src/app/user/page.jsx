@@ -12,19 +12,20 @@ function UserPage() {
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { localCourse, setLocalCourse } = useContext(courseContext);
-
+console.log(courses);
   useEffect(() => {
-    axios
-      .get("/api/courses")
-      .then((response) => {
-        if (response.data) {
-          setCourses(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching courses:", error);
-      });
-  }, []);
+    // axios
+    //   .get("/api/courses")
+    //   .then((response) => {
+    //     if (response.data) {
+    //       setCourses(response.data);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching courses:", error);
+    //   });
+    setCourses(localCourse);
+  }, [localCourse]);
 
   useEffect(() => {
     if (courses.length > 0) {
@@ -34,14 +35,13 @@ function UserPage() {
             (a.data.students?.length || 0) > (b.data.students?.length || 0)
               ? -1
               : (a.data.students?.length || 0) < (b.data.students?.length || 0)
-                ? 1
-                : 0
+              ? 1
+              : 0
           )
         );
       }
     }
   }, []);
-
 
   return (
     <div className="container text-color mx-auto px-4">
@@ -77,8 +77,8 @@ function UserPage() {
       <div className="my-20">
         <h2 className="font-bold text-4xl mb-5">Most Popular Courses</h2>
         <div className="cards-course text-white grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
-          {localCourse.length > 0 ? (
-            localCourse.map((course) => (
+          {courses?.length > 0 ? (
+            courses.map((course) => (
               <div
                 key={course.id}
                 onClick={() => {

@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Sidebar from "../Sidebar";
+import { useSidebar } from "../../SidebarContext";
 
 export default function DefaultLayout({ children }) {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const {sidebarOpen, setSidebarOpen} = useSidebar();
 
     return (
         <>
@@ -11,7 +12,6 @@ export default function DefaultLayout({ children }) {
             <div className="flex">
                 {/* <!-- ===== Sidebar Start ===== --> */}
                 <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
                 {/* <!-- ===== Sidebar End ===== --> */}
 
                 {/* <!-- ===== Content Area Start ===== --> */}
