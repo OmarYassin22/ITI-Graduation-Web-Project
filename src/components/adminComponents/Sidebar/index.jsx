@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -7,12 +6,10 @@ import Image from "next/image";
 import SidebarItem from "./SidebarItem";
 import useLocalStorage from "../../../hooks/useLocalStorage"
 import ClickOutside from "../ClickOutside";
-
 // interface SidebarProps {
 //   sidebarOpen: boolean;
 //   setSidebarOpen: (arg: boolean) => void;
 // }
-
 const menuGroups = [
   {
     name: "MENU",
@@ -47,7 +44,7 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "#",
-        children: [{ label: "Home", route: "/adminPages/adminHonePage" }],
+        children: [{ label: "Home", route: "/admin/home" }],
       },
       {
         icon: (
@@ -66,7 +63,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Calendar",
-        route: "/adminPages/calendar",
+        route: "/admin/calendar",
       },
       {
         icon: (
@@ -89,7 +86,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Profile",
-        route: "/adminPages/profile",
+        route: "/admin/profile",
       },
       {
         icon: (
@@ -126,9 +123,9 @@ const menuGroups = [
         label: "Forms",
         route: "#",
         children: [
-          { label: "Add new course", route: "/adminPages/forms/add-course" },
-          { label: "Add new instructor", route: "/adminPages/forms/add-instructor" },
-          { label: "Accept students", route: "/adminPages/forms/accept-students" },
+          { label: "Add new course", route: "/admin/forms/add-course" },
+          { label: "Add new instructor", route: "/admin/forms/add-instructor" },
+          { label: "Accept students", route: "/admin/forms/accept-students" },
         ],
       },
 
@@ -165,7 +162,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Settings",
-        route: "/adminPages/settings",
+        route: "/admin/settings",
       },
     ],
   },
@@ -201,7 +198,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Tables",
-        route: "/adminPages/tables",
+        route: "/admin/tables",
       },
       {
         icon: (
@@ -236,7 +233,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Chart",
-        route: "/adminPages/chart",
+        route: "/admin/chart",
       },
       {
         icon: (
@@ -281,28 +278,19 @@ const menuGroups = [
   },
 ];
 
+
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
   return (
-    <ClickOutside onClick={() => setSidebarOpen(false)}>
-
-      <aside
-        className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+    <ClickOutside onClick={() => setSidebarOpen(false)}
+    >
+<aside
+        className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-          <Link href="/">
-            {/* <Image
-              width={176}
-              height={32}
-              src={"src/app/favicon.ico"}
-              alt="Logo"
-              priority
-            /> */}
-          </Link>
-
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-controls="sidebar"
@@ -324,7 +312,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </button>
         </div>
         {/* <!-- SIDEBAR HEADER --> */}
-
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
@@ -333,7 +320,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
                   {group.name}
                 </h3>
-
                 <ul className="mb-6 flex flex-col gap-1.5">
                   {group.menuItems.map((menuItem, menuIndex) => (
                     <SidebarItem
@@ -342,17 +328,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       pageName={pageName}
                       setPageName={setPageName}
                     />
-
                   ))}
                 </ul>
               </div>
             ))}
           </nav>
-          {/* <!-- Sidebar Menu --> */}
         </div>
       </aside>
     </ClickOutside>
   );
 };
-
 export default Sidebar;

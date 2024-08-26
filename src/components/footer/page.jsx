@@ -1,13 +1,31 @@
+import { doc } from "firebase/firestore";
 import React from "react";
 import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
+  // const [isHasScrollBar, setIsHasScrollBar] = useState(false);
+  // useEffect(() => {
+  //   if (document.body.scrollHeight > document.body.clientHeight) {
+  //     setIsHasScrollBar(true);
+  //   } else {
+  //     setIsHasScrollBar(false);
+  //   }
+  // }, []);
+  // const handleScrollbar = () => {
+  //   if (document.body.scrollHeight > document.body.clientHeight) {
+  //     setIsHasScrollBar(true);
+  //   } else {
+  //     setIsHasScrollBar(false);
+  //   }
+  //   return (isHasScrollBar);
+  // };
+  // console.log(document.body.scrollHeight > document.body.clientHeight);
   return (
     <div
-      className="cardesbackground"
+      className="cardesbackground w-full"
       style={{ position: "relative", bottom: "0" }}
     >
-      <footer className="footer cardesbackground mt-7 py-10 flex justify-center items-center flex-col max-w-full">
+      <footer className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">
         <div className="footer-icon">
           <ul className="flex space-x-4 mb-4 text-cyan-700 ">
             <li className="hover:text-white duration-300">
@@ -30,7 +48,7 @@ function Footer() {
         </div>
         <p className="copy-right text-white">
           Copy Right 2018 © By{" "}
-          <span className="text-cyan-600">Friends Team</span> All Rights
+          <span className="text-cyan-600">Team 5aleha 3al alah</span> All Rights
           Reserved
         </p>
       </footer>
@@ -38,4 +56,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default Footer;

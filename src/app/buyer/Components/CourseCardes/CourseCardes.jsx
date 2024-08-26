@@ -20,12 +20,12 @@ function CourseCardes({ key, data }) {
           <h6>Instructor :{data.instructor}</h6>
           <p>Duration : {data.duration} hrs</p>
           <p>Price : {data.price} EG</p>
-          <div className="flex justify-center item">
-          <Link href={`/buyer/${data.id}`}>
-            <button className="btn btn-primary mx-auto p-3 w-50 my-3 text-white bg-blue-600 rounded-full">
-              View Course
-            </button>
-          </Link>
+          <div className="flex justify-center items-center">
+            <Link href={`buyer/${data.id}`}>
+              <button className="btn btn-primary mx-auto p-3 w-50 my-3 text-white bg-blue-600 rounded-full">
+                View Course
+              </button>
+            </Link>
           </div>
           {/* <div className="flex items-center mb-3">
             <span className="mr-1">4.5</span>

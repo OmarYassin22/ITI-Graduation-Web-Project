@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 ///
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import Variants from "../../Spinner";
+import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
 ///
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -12,23 +13,11 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const { localCourse, setLocalCourse } = useContext(courseContext);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/courses");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setCourses(result);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    setCourses(localCourse);
+  }, [localCourse]);
   const openCourseDetails = async (id) => {
     push(`/user/Courses/${id}`);
   };
@@ -38,13 +27,16 @@ const Page = () => {
 
   if (!courses)
     return (
-      <div className="max-h-full">
-        <Variants></Variants>;
+      <div className="max-h-full flex flex-row flex-wrap">
+        <Variants></Variants>
+        <Variants></Variants>
+        <Variants></Variants>
+        <Variants></Variants>
       </div>
     );
   return (
     <div>
-      <div className="flex items-center text-color justify-between pl-5 pt-7 mb-5">
+      <div className="flex flex-col sm:flex-row items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All courses</h2>
         <div className="relative">
           <input
@@ -60,8 +52,8 @@ const Page = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
         {courses?.map((course) => console.log(course))}
         {filteredCourses?.map((course, i) => (
-          <div key={i} className="mx-3 text-color cardesbackgroundcourse my-5">
-            <div className="card-body cardesbackgroundcourse p-0 h-full flex flex-col justify-between">
+          <div key={i} className="mx-3 text-color  my-5">
+            <div className="card-body  p-0 h-full flex flex-col justify-between">
               <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
                 <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -71,7 +63,12 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={course.image}
+                    src={`${
+                      course.image !== null
+                        ? course.image
+                        : "images/defaultCourse.jpeg"
+                    }`}
+                    // src="/images/13.jpg"
                     alt={course.data.title}
                     width={100}
                     height={100}

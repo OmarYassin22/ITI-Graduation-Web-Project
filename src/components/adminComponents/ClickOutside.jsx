@@ -1,8 +1,6 @@
 import React, { useRef, useEffect } from "react";
-
 const ClickOutside = ({ children, exceptionRef, onClick, className }) => {
   const wrapperRef = useRef(null);
-
   useEffect(() => {
     const handleClickListener = (event) => {
       let clickedInside = false;
@@ -25,12 +23,10 @@ const ClickOutside = ({ children, exceptionRef, onClick, className }) => {
       document.removeEventListener("mousedown", handleClickListener);
     };
   }, [exceptionRef, onClick]);
-
   return (
     <div ref={wrapperRef} className={`${className || ""}`}>
       {children}
     </div>
   );
 };
-
 export default ClickOutside;

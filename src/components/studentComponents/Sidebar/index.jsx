@@ -33,8 +33,8 @@ const menuGroups = [
                         />
                     </svg>
                 ),
-                label: "Calendar",
-                route: "/studentPages/calendar",
+                label: "Schedule",
+                route: "/student",
             },
             {
                 icon: (
@@ -65,7 +65,7 @@ const menuGroups = [
                     </svg>
                 ),
                 label: "Table",
-                route: "/studentPages/table",
+                route: "/student/table",
             },
             {
                 icon: (
@@ -100,7 +100,7 @@ const menuGroups = [
                     </svg>
                 ),
                 label: "Courses",
-                route: "/studentPages/courses",
+                route: "/student/courses",
             },
         ],
     },

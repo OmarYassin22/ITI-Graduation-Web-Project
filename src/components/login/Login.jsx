@@ -3,37 +3,52 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Link from "next/link";
 import { TbLoader3 } from "react-icons/tb";
-import { IoEyeOffOutline, GoEye } from "react-icons/io5";
+import { signIn } from "next-auth/react";
+import { db, auth } from "../../app/firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Icon } from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
 
-function Page() {
-  let router = useRouter();
+function Login() {
+  const router = useRouter();
   let [loading, setLoading] = useState(false);
   let [errorMsg, setErrorMsg] = useState("");
+  const [icon, setIcon] = useState(eye);
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+    if (showPassword == false) {
+      setIcon(eyeOff);
+    } else {
+      setIcon(eye);
+    }
+  };
+  const handleSet = (value) => {
+    setUser(value);
   };
   async function login(values) {
-    try {
-      setLoading(true);
-      setErrorMsg("");
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        values
-      );
-      console.log(res.data.user.stsTokenManager.accessToken);
-      window.localStorage.setItem(
-        "token",
-        res.data.user.stsTokenManager.accessToken
-      );
-      router.push("/user");
-    } catch (error) {
-      setErrorMsg(error.response.data.error.code);
-      setLoading(false);
-    }
+    // try {
+
+    setLoading(true);
+    setErrorMsg("");
+    const dbuser = await signInWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password
+    );
+    const UserType = collection(db, "UserData");
+    const q = await query(UserType, where("uid", "==", dbuser.user.uid));
+    const result = await getDocs(q);
+    localStorage.setItem("type", result.docs[0].data().type);
+
+    const res = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+    });
   }
 
   const formik = useFormik({
@@ -45,16 +60,16 @@ function Page() {
       email: Yup.string()
         .required("email is required and  writen  as moh.eha@gmail.com")
         .matches(
-          /^\w{3,}.?\w{3,}?@(\w{3,}).(\w{3,})$/i,
-          "email is required and  writen  as moh.eha@gmail.com"
+          /^.{4,}@(\w{3,}).(\w{3,})$/i,
+          "email is required and  writen  as moh.ehab or o.y.sliem or omaryasyn"
         ),
       password: Yup.string()
         .required(
           "password is required and sould have from 6-10 number and capital &small liter"
         )
         .matches(
-          /^\d{6,10}[A-Z]{1}[a-z]{1}$/i,
-          "password sould have from 6-10 number and capital &small liter"
+          /^(?=(.*\d){6,})(?=(.*[A-Z]){1})(?=(.*[a-z]){1})(?=(.*\W){1}).{9,}$/i,
+          "password sould have at least 6 number and capital & small liter and have at least special characters"
         ),
     }),
     onSubmit: login,
@@ -65,10 +80,7 @@ function Page() {
       <div className="bg-white text-gray-900 rounded-2xl shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
           {/* <img className='w-16 mx-auto' src="src/logo.jpeg" alt="logo" /> */}
-          <h2 className="text-3xl font-extrabold text-gray-800">Hello!</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Welcome to Courses, Please log in.
-          </p>
+          <h2 className="text-3xl font-extrabold text-black dark:text-black">Hello!</h2>
         </div>
         <form className="space-y-6" onSubmit={formik.handleSubmit}>
           <div className="space-y-4">
@@ -78,14 +90,16 @@ function Page() {
               type="email"
               autoComplete="email"
               required
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-black dark:text-black rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Email address"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email ? (
-              <div className="text-sm text-red-600">{formik.errors.email}</div>
+              <div className="text-sm text-red dark:text-red">
+                {formik.errors.email}
+              </div>
             ) : null}
             <div className="relative">
               <input
@@ -94,7 +108,7 @@ function Page() {
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pr-10"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-black dark:text-black rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -105,32 +119,26 @@ function Page() {
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? (
-                  <IoEyeOffOutline
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <GoEye className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                )}
+                <Icon className="text-black" icon={icon}></Icon>
               </button>
             </div>
+
             {formik.touched.password && formik.errors.password ? (
-              <div className="text-sm text-red-600">
+              <div className="text-sm text-red dark:text-red">
                 {formik.errors.password}
               </div>
             ) : null}
             {errorMsg ? (
-              <div className="text-sm text-red-600">{errorMsg}</div>
+              <div className="text-sm text-red dark:text-red">{errorMsg}</div>
             ) : null}
           </div>
           <div>
             <button
-              disabled={
-                loading ||
-                (formik.touched.email && formik.errors.email) ||
-                (formik.touched.password && formik.errors.password)
-              }
+              // disabled={
+              //   loading ||
+              //   (formik.touched.email && formik.errors.email) ||
+              //   (formik.touched.password && formik.errors.password)
+              // }
               type="submit"
               className="flex justify-center py-2 px-4 border border-transparent w-full text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
@@ -139,11 +147,11 @@ function Page() {
           </div>
         </form>
         <div className="text-center mt-4">
-          <p className="text-sm">
-            Don't have an account?{" "}
+          <p className="text-sm text-black dark:text-black">
+            Do not have an account?
             <Link
               href="/signup"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-indigo-600 hover:text-indigo-500 ml-5"
             >
               Sign up
             </Link>
@@ -154,4 +162,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Login;

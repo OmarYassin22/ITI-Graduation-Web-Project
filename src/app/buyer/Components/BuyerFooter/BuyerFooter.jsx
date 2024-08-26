@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
   return (
-    <div style={{ position: "relative", bottom: "0" }}>
+    <div style={{ position: "relative", bottom: "0", zIndex: 22 }}>
       <footer className="footer bg-primary py-10 flex justify-center items-center flex-col max-w-full">
         <div className="footer-icon">
           <ul className="flex space-x-4 mb-4 text-cyan-300 ">
@@ -26,8 +26,8 @@ function Footer() {
         </div>
         <p className="copy-right text-white">
           Copy Right 2024 © By{" "}
-          <span className="text-cyan-300 font-bold text-xl">E-Learning</span> All Rights
-          Reserved
+          <span className="text-cyan-300 font-bold text-xl">E-Learning</span>{" "}
+          All Rights Reserved
         </p>
       </footer>
     </div>

@@ -10,7 +10,6 @@ import { v4 } from "uuid";
 import Image from "next/image";
 import Variants from "../../../Spinner";
 
-
 const Page = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
@@ -24,7 +23,7 @@ const Page = () => {
       try {
         const response = await fetch("/api/courses");
         // console.log(response);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -51,10 +50,10 @@ const Page = () => {
   const [cDuration, setCDuration] = useState("");
   const [cInstructor, setCInstructor] = useState("");
   const [image, setImage] = useState();
-  
+
   const handleCreate = async (event) => {
     event.preventDefault();
-    console.log(cTitle, cDetails, image?.name, cInstructor,cDuration);
+    console.log(cTitle, cDetails, image?.name, cInstructor, cDuration);
     let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
@@ -66,7 +65,7 @@ const Page = () => {
         price: cPrice,
         details: cDetails,
         instructor: cInstructor,
-        duration:cDuration,
+        duration: cDuration,
         imgPath: imgPath,
       }),
     });
@@ -77,7 +76,11 @@ const Page = () => {
 
     if (image) {
       const imageRef = ref(storage, "images/courses/" + image.name + imgPath);
-      uploadBytes(imageRef, image).then(() => {});
+      uploadBytes(imageRef, image).then((res) => {
+        console.log("======================");
+        console.log(res);
+        console.log("======================");
+      });
     }
 
     setCourses(result);
@@ -226,8 +229,8 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between pl-5 pt-7 mb-5">
-        <h2 className="text-5xl">All courses</h2>
+      <div className="flex flex-col sm:flex-row items-center justify-between pl-5 pt-7 mb-5">
+        <h2 className="text-5xl dark:text-white">All courses</h2>
         <div className="relative">
           <input
             type="text"
@@ -265,10 +268,10 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    // src={
-                    //   course.image ||
-                    //   "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
-                    // }
+                    src={`${
+                      course.image ||
+                      "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
+                    }`}
                     alt={course.data.title}
                     width={100}
                     height={100}

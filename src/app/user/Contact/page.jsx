@@ -47,7 +47,7 @@ function ContactPage() {
                 id="name"
                 name="name"
                 required
-                className="mt-1 block w-full p-2 border rounded-md"
+                className="mt-1 block w-full p-2 border rounded-md text-black"
               />
             </div>
 
@@ -63,7 +63,7 @@ function ContactPage() {
                 id="email"
                 name="email"
                 required
-                className="mt-1 block w-full p-2 border rounded-md"
+                className="mt-1 block w-full p-2 border rounded-md text-black"
               />
             </div>
 
@@ -79,7 +79,7 @@ function ContactPage() {
                 id="subject"
                 name="subject"
                 required
-                className="mt-1 block w-full p-2 border rounded-md"
+                className="mt-1 block w-full p-2 border rounded-md text-black"
               />
             </div>
 
@@ -95,7 +95,7 @@ function ContactPage() {
                 name="message"
                 required
                 rows="4"
-                className="mt-1 block w-full p-2 border rounded-md"
+                className="mt-1 block w-full p-2 border rounded-md text-black"
               />
             </div>
 
