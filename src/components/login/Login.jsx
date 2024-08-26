@@ -80,8 +80,8 @@ function Login() {
       <div className="bg-white text-gray-900 rounded-2xl shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
           {/* <img className='w-16 mx-auto' src="src/logo.jpeg" alt="logo" /> */}
-          <h2 className="text-3xl font-extrabold text-gray-800">Hello!</h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <h2 className="text-3xl font-extrabold text-black dark:text-black">Hello!</h2>
+          <p className="mt-2 text-sm text-black dark:text-black">
             Welcome to Courses, Please log in.
           </p>
         </div>

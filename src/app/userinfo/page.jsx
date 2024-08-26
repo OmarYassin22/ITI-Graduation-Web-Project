@@ -84,7 +84,7 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.fname}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.fname && formik.errors.fname ? (
             <div className="text-sm text-red-600">{formik.errors.fname}</div>
@@ -97,7 +97,7 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.lname}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.lname && formik.errors.lname ? (
             <div className="text-sm text-red-600">{formik.errors.lname}</div>
@@ -110,7 +110,7 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.email && formik.errors.email ? (
             <div className="text-sm text-red-600">{formik.errors.email}</div>
@@ -123,7 +123,7 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.number}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.number && formik.errors.number ? (
             <div className="text-sm text-red-600">{formik.errors.number}</div>
@@ -141,7 +141,7 @@ function Page() {
           </button>
           <p className="text-center mt-4 text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700">
             Already have an account?{" "}
-            <Link href="/login" className="text-blue-500 hover:underline">
+            <Link href="/login" className="text-black dark:text-black ml-5 hover:underline">
               Log In
             </Link>
           </p>
