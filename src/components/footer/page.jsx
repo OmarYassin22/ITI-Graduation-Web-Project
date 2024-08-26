@@ -1,10 +1,28 @@
-import React from "react";
+"use client";
+import { doc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
+  const [isHasScrollBar, setIsHasScrollBar] = useState(false);
+  // useEffect(() => {
+  //   if (document.body.scrollHeight > document.body.clientHeight) {
+  //     setIsHasScrollBar(true);
+  //   } else {
+  //     setIsHasScrollBar(false);
+  //   }
+  // }, []);
+  // const handleScrollbar = () => {
+  //   if (document.body.scrollHeight > document.body.clientHeight) {
+  //     setIsHasScrollBar(true);
+  //   } else {
+  //     setIsHasScrollBar(false);
+  //   }
+  //   return (isHasScrollBar);
+  // };
   return (
     <div
-      className="cardesbackground"
+      className="cardesbackground w-full"
       style={{ position: "relative", bottom: "0" }}
     >
       <footer className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">
