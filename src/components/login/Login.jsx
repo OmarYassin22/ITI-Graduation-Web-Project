@@ -81,9 +81,6 @@ function Login() {
         <div className="text-center mb-6">
           {/* <img className='w-16 mx-auto' src="src/logo.jpeg" alt="logo" /> */}
           <h2 className="text-3xl font-extrabold text-black dark:text-black">Hello!</h2>
-          <p className="mt-2 text-sm text-black dark:text-black">
-            Welcome to Courses, Please log in.
-          </p>
         </div>
         <form className="space-y-6" onSubmit={formik.handleSubmit}>
           <div className="space-y-4">
@@ -150,11 +147,11 @@ function Login() {
           </div>
         </form>
         <div className="text-center mt-4">
-          <p className="text-sm">
-            Do not have an account?{" "}
+          <p className="text-sm text-black dark:text-black">
+            Do not have an account?
             <Link
               href="/signup"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-indigo-600 hover:text-indigo-500 ml-5"
             >
               Sign up
             </Link>

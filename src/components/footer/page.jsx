@@ -19,6 +19,7 @@ function Footer() {
   //   }
   //   return (isHasScrollBar);
   // };
+  // console.log(document.body.scrollHeight > document.body.clientHeight);
   return (
     <div
       className="cardesbackground w-full"

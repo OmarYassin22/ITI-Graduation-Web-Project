@@ -4,7 +4,7 @@ import Login from "../../components/Login/Login";
 const Page = () => {
   return (
     <>
-      <Login></Login>
+      <Login id="content"></Login>
     </>
   );
 };

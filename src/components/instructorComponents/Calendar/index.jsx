@@ -34,7 +34,7 @@ const Calendar = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-7xl" id="content">
       <Breadcrumb pageName="Schedule" />
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <table className="w-full">
