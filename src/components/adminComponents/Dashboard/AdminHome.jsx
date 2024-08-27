@@ -1,15 +1,46 @@
 "use client";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "../../../app/firebaseConfig";
+
 import ChartOne from "../Charts/ChartOne";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
+import { courseContext } from "../../../app/Contexts/Courses/CourseContextProvider";
 
 const AdminHome = () => {
+  const { localCourse, steLocalCourse } = useContext(courseContext);
+  const [course, setCourse] = useState();
+  const [usersCount, setUsersCont] = useState();
+  useEffect(() => {
+    setCourse[localCourse];
+  }, [localCourse]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "UserData"));
+      setUsersCont(await querySnapshot.docs.length);
+      console.log('======================================');
+      // let docs = [];
+      // querySnapshot.forEach((doc) => {
+      //   docs.push({
+      //     id: doc.id,
+      //     data: doc.data(),
+      //   })
+      // });
+    };
+    fetchData();
+  },[]);
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="300K" rate="0.43%" levelUp>
+        <CardDataStats
+          title="Total views"
+          total={localStorage.getItem("counter")}
+          // rate="0.43%"
+          // levelUp
+        >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -51,7 +82,12 @@ const AdminHome = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Courses" total="77" rate="3.59%" levelUp>
+        <CardDataStats
+          title="Total Courses"
+          total={localCourse?.length}
+          // rate="3.59%"
+          // levelUp
+        >
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +104,7 @@ const AdminHome = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total="55" rate="0.95%" levelDown>
+        <CardDataStats title="Total Users" total={usersCount} >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -95,7 +131,7 @@ const AdminHome = () => {
 
       <div className="mt-4 grid w-full grid-cols-6 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <ChartOne />
-        
+
         <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>

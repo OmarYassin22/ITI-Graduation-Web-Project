@@ -9,6 +9,7 @@ import CourseBuyerProvider from "./BuyerContext";
 import React, { useState } from "react";
 import { SidebarProvider } from "../components/SidebarContext"; // Import SidebarProvider
 // import ProtectedRoute from "./ProtectedRoute/page";
+import StripeProvider from "./StripeProvider";
 import "../css/satoshi.css"; // styles of admin page
 import "../css/style.css"; // styles of admin page
 import { lazy } from "react";
@@ -29,13 +30,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProviderWraper>
-          <CourseContextProvider>
-            <SidebarProvider>
-              <Navbar />
-              <CourseBuyerProvider>{children}</CourseBuyerProvider>
-              <Footer />
-            </SidebarProvider>
-          </CourseContextProvider>
+          <StripeProvider>
+            <CourseContextProvider>
+              <SidebarProvider>
+                <NavbarWrapper />
+                <CourseBuyerProvider>{children}</CourseBuyerProvider>
+                <Footer />
+              </SidebarProvider>
+            </CourseContextProvider>
+          </StripeProvider>
         </NextAuthProviderWraper>
       </body>
     </html>

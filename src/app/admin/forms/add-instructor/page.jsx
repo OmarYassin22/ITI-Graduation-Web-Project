@@ -27,7 +27,7 @@ const Page = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
 
   const [brandData, setBrandData] = useState([]);
-  const [selectedInstructor, setSelectedInstructor] = useState(null);
+  // const [selectedInstructor, setSelectedInstructor] = useState(null);
   // const [instructorFields, setInstructorFields] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   // const [searchFieldTerm, setSearchFieldTerm] = useState("");
@@ -76,52 +76,6 @@ const Page = () => {
       )
     );
   }, [searchTerm, brandData]);
-
-  /////////////////////عته //////////////////////
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "instructors", id));
-      setBrandData(brandData.filter(instructor => instructor.id !== id));
-    } catch (error) {
-      alert("Error deleting instructor: ", error);
-    }
-  };
-
-  const handleUpdate = (instructor) => {
-    setSelectedInstructor(instructor);
-    setInstructorName(instructor.name);
-    setInstructorEmail(instructor.email);
-    setInstructorPhone(instructor.phone);
-    setFieldsList(instructor.fields);
-  };
-
-  const handleSubmitUpdate = async (e) => {
-    e.preventDefault();
-    if (selectedInstructor) {
-      try {
-        const instructorRef = doc(db, "instructors", selectedInstructor.id);
-        await updateDoc(instructorRef, {
-          name: instructorName,
-          email: instructorEmail,
-          phone: instructorPhone,
-          fields: fieldsList,
-        });
-        setBrandData(brandData.map(instructor =>
-          instructor.id === selectedInstructor.id ? { ...instructor, name: instructorName, email: instructorEmail, phone: instructorPhone, fields: fieldsList } : instructor
-        ));
-        setSelectedInstructor(null);
-      } catch (error) {
-        alert("Error updating instructor: ", error);
-      }
-    }
-  };
-
-  const handleAddField = () => {
-    if (instructorFields.trim() && !fieldsList.includes(instructorFields)) {
-      setFieldsList([...fieldsList, instructorFields]);
-      setInstructorFields("");
-    }
-  };
 
   
 //////////////////////////////////////////////////////////
@@ -215,15 +169,18 @@ useEffect(() => {
         }),
       });
       if (response.ok) {
-        const result = await response.json();
-        const refresh = await fetch("/api/instructors");
-        const refreshedInstructors = await refresh.json();
-        setInstructors(refreshedInstructors);
+        const newInstructor = await response.json();
+        setInstructors((prevInstructors)=>[...prevInstructors, newInstructor]);
+        //const result = await response.json();
+        //const refresh = await fetch("/api/instructors");
+        //const refreshedInstructors = await refresh.json();
+        //setInstructors(refreshedInstructors);
+
         //alert(`An instructor added successfully with : \nname : ${instructorName} \npassword :${uniquePassword}`);
         Swal.fire({
           icon: 'success',
           title: 'An instructor added successfully with :',
-          text: `E-mail: ${instructorEmail} \npassword :${uniquePassword}}`,
+          text: `E-mail: ${instructorEmail} | Password :${uniquePassword}`,
           confirmButtonText: 'OK',
         });
         setInstructorName("");
