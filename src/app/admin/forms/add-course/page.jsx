@@ -9,6 +9,7 @@ import { storage } from "../../../firebaseConfig";
 import { v4 } from "uuid";
 import Image from "next/image";
 import Variants from "../../../Spinner";
+import axios from "axios";
 
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -16,8 +17,14 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
   const [success, setSuccess] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");  
+  const [instractors, setInstractors] = useState(null)
 
+
+  async function getInstractor() {
+    let {data}= await axios.get("/api/instructors")
+    setInstractors(data)
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +35,7 @@ const Page = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        console.log(result);
+        // console.log(result);
         setCourses(result);
       } catch (error) {
         setError(error.message);
@@ -36,8 +43,8 @@ const Page = () => {
         setLoading(false);
       }
     };
-
     fetchData();
+    getInstractor()
   }, []);
 
   const handleCourseDetails = async (id) => {
@@ -164,7 +171,7 @@ const Page = () => {
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Instructor name
                 </label>
-                <input
+                <select
                   type="text"
                   placeholder="Instructor name"
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -172,8 +179,14 @@ const Page = () => {
                   value={cInstructor}
                   onChange={(e) => {
                     setCInstructor(e.target.value);
-                  }}
-                />
+                  }}>
+                    <option>Instractor Name</option>
+                    {instractors?.map((instractor)=>(
+                      <option key={instractor.id} value={instractor.data.name}>
+                        {instractor.data.name}
+                      </option>
+                    ))}
+                </select>
               </div>
               <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">

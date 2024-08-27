@@ -20,39 +20,49 @@ const Page = () => {
   const [instructorPhone, setInstructorPhone] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
 
+ 
+  
   useEffect(() => {
-    const fetchInstructors = async () => {
-      try {
-        const response = await fetch("/api/instructors");
+  const fetchInstructors = () => {
+    fetch("/api/instructors")
+      .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const result = await response.json();
+        return response.json();
+      })
+      .then(result => {
         setInstructors(result);
-      } catch (error) {
+      })
+      .catch(error => {
         setError(error.message);
-      } finally {
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
-    fetchInstructors();
-  }, []);
+      });
+  };
+  fetchInstructors();
+}, []);
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch("/api/courses");
+useEffect(() => {
+  const fetchCourses = () => {
+    fetch("/api/courses")
+      .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const result = await response.json();
+        return response.json();
+      })
+      .then(result => {
         setCourses(result);
-      } catch (error) {
+      })
+      .catch(error => {
         setError(error.message);
-      }
-    };
-    fetchCourses();
-  }, []);
+      });
+  };
+  fetchCourses();
+}, []);
+
 
   const generatePassword = (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

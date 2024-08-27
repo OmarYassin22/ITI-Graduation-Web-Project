@@ -141,7 +141,7 @@ function Student() {
     <>
       <div className="flex flex-col">
         <div className='mb-7'>
-          <select className='bg-slate-800 text-white' onChange={handleFieldChange} value={selectedField}>
+          <select className=' bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
             <option value="">Tracks</option>
             {studentData?.length > 0 ? (
               [...new Set(studentData.map(student => student.data.field))].map((field, index) => (
@@ -168,16 +168,16 @@ function Student() {
             <p className="text-meta-3 text-center">
               {student.data.email ? student.data.email.split("@")[0] + "@" : "No Email"}
             </p>
-            <p className="hidden sm:block text-black dark:text-white text-center">
+            <p className="hidden sm:block text-black  dark:text-white text-center ">
               <select
-                className='bg-slate-800'
+                className='dark:bg-slate-800'
                 value={selectedCourses[student.id] || ''}
                 onChange={(e) => handleCourseChange(student.id, e)}
               >
                 {/* <option value="">Select Course</option> */}
                 {student.data?.courses?.length > 0 ? (
                   student.data.courses.map((course,index) => (
-                    <option key={`${index}`} value={course.course}>
+                    <option key={`${index}`} value={course.course} className=''>
                       {course.course}
                     </option>
                   ))
@@ -186,7 +186,7 @@ function Student() {
                 )}
               </select>
             </p>
-            <p className="text-center w-fit mx-auto rounded-md text-white">
+            <p className=" text-center w-fit mx-auto rounded-md text-black dark:text-white">
               {selectedCourseGrades[student.id] || '0'}
             </p>
 
