@@ -6,8 +6,11 @@ import { MdDeleteSweep } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
-const Coursess = () => {
+import CartPayment from "./CartPayment";
+
+const Coursess = ({ handleRouteChange }) => {
   let {
     courseBuyerCart,
     setCourseBuyerCart,
@@ -27,11 +30,70 @@ const Coursess = () => {
     setCourseBuyerCart(updatedCourses);
     localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
   };
+  const handlePaymentSuccess = async () => {
+    try {
+      const purchasedCourseIds = courses.map((course) => course.id);
+      console.log(purchasedCourseIds);
+      // 1. Update local state
+      setCourses([]); // Clear the cart
+      setSearchTerm(""); // Reset search term if needed
+
+      // 2. Update database (if you're using one)
+      // This would typically be an API call to your backend
+      await fetch("/api/update-user-courses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // userId: currentUser.id, // You'll need to have the current user's ID
+          purchasedCourses: purchasedCourseIds,
+        }),
+      });
+
+      // 3. Show success message to user
+
+      Swal.fire({
+        position: "center-center",
+        icon: "success",
+        title:
+          "Payment successful! You now have access to the purchased courses.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      // Or use a more sophisticated notification system
+
+      // 4. Redirect user (optional)
+      // If you want to redirect the user to a "success" page or their dashboard
+      handleRouteChange("MyLearning");
+
+      // 5. Trigger any necessary re-renders or state updates in parent components
+      // If you have a global state management system like Redux or Context, you might dispatch an action here
+    } catch (error) {
+      console.error("Error in post-payment processing:", error);
+
+      Swal.fire({
+        position: "center-center",
+        icon: "success",
+        title:
+          "Payment was successful, but there was an error updating your account. Please contact support.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
   useEffect(() => {
     const savedCart = localStorage.getItem("courseBuyerCart");
     if (savedCart) {
-      setCourseBuyerCart(JSON.parse(savedCart));
-      setCourses(JSON.parse(savedCart));
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        setCourseBuyerCart(parsedCart);
+        setCourses(parsedCart);
+      } catch (error) {
+        console.error("Error parsing cart from localStorage:", error);
+        // If there's an error parsing, clear the invalid data
+        localStorage.removeItem("courseBuyerCart");
+        setCourseBuyerCart([]);
+        setCourses([]);
+      }
     }
   }, []);
 
@@ -85,10 +147,6 @@ const Coursess = () => {
                   <p className="text-3xl text-color mb-4">{`Price: ${course.price}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
-                  <button className="flex rounded-md h-12 w-45 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800 p-2">
-                    <HiOutlineShoppingCart className="text-3xl mr-2" />
-                    Buy Course
-                  </button>
                   <button
                     onClick={() => deleteCourse(course.id)}
                     className="flex rounded-md h-12 w-45 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
@@ -102,6 +160,7 @@ const Coursess = () => {
           </div>
         ))}
       </div>
+      <CartPayment courses={filteredCourses} onSuccess={handlePaymentSuccess} />
     </div>
   );
 };

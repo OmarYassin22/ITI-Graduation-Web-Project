@@ -26,7 +26,7 @@ export default function Home() {
         {selectedRoute === "courses" && (
           <Coursess handelCourses={handelCourses} />
         )}
-        {selectedRoute === "MyCart" && <MyCart />}
+        {selectedRoute === "MyCart" && <MyCart handleRouteChange={handleRouteChange}/>}
         {selectedRoute === "MyLearning" && <MyLearning />}
       </div>
      
