@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         <NextAuthProviderWraper>
           <CourseContextProvider>
             <SidebarProvider>
-              <Navbar />
+              <NavbarWrapper />
               <CourseBuyerProvider>{children}</CourseBuyerProvider>
               <Footer />
             </SidebarProvider>
