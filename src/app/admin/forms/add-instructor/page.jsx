@@ -170,6 +170,7 @@ useEffect(() => {
       });
       if (response.ok) {
         const newInstructor = await response.json();
+        console.log(newInstructor);
         setInstructors((prevInstructors)=>[...prevInstructors, newInstructor]);
         //const result = await response.json();
         //const refresh = await fetch("/api/instructors");

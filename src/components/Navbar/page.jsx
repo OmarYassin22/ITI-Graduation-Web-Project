@@ -96,6 +96,7 @@ const Navbar = () => {
             <Link href="/user/Contact" className={`${(pathName == "/user/Contact" ? `text-warning` : `text-white`)}`}>Contact Us</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
+      
         </ul>
         <div className="flex justify-between items-center gap-2">
           {status === "loading" && (
@@ -124,6 +125,7 @@ const Navbar = () => {
           )}
           <ThemeToggel />
         </div>
+
       </div>
     </nav>
   );
