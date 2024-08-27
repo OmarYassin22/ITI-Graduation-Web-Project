@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { db, storage } from "../../firebaseConfig";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { NextResponse } from "next/server";
@@ -9,28 +9,40 @@ import {
   list,
   getDownloadURL,
 } from "firebase/storage";
+let flage = true;
+let data=[];
 export async function GET(request) {
-  let imagesRef = ref(storage, "images/courses/");
-  let imageUrls = [];
-  let res = await listAll(imagesRef).then((response) =>
-    response.items.forEach((item) =>
-      getDownloadURL(item).then((url) => imageUrls.push(url))
-    )
-  );
-  console.log("================================================");
-  console.log(res);
-  console.log("================================================");
-  const querySnapshot = await getDocs(collection(db, "courses"));
-  let docs = [];
-  querySnapshot.forEach((doc) => {
-    docs.push({
-      id: doc.id,
-      data: doc.data(),
-      image: imageUrls.filter((url, i) => url.includes(doc.data().imgPath)),
+  if (flage) {
+    let imagesRef = ref(storage, "images/courses/");
+    let imageUrls = [];
+    let res = await listAll(imagesRef).then((response) =>
+      response.items.forEach((item) =>
+        getDownloadURL(item).then((url) => imageUrls.push(url))
+      )
+    );
+    console.log("================================================");
+    console.log(res);
+    console.log("================================================");
+    const querySnapshot = await getDocs(collection(db, "courses"));
+    if (querySnapshot) console.log("get done");
+    data=[];
+    querySnapshot.forEach((doc) => {
+      data.push({
+        id: doc.id,
+        data: doc.data(),
+        image: imageUrls.filter((url, i) => url.includes(doc.data().imgPath)),
+      });
     });
-  });
+    // localStorage.setItem("courses", data);
+    flage = false;
 
-  return NextResponse.json(docs);
+    return NextResponse.json(data);
+  } else {
+    console.log("###################################");
+    console.log("iniside cahing");
+    // let data = localStorage.getItem("courses");
+    return NextResponse.json(data);
+  }
 }
 export async function POST(request) {
   const { title, price, details, duration, instructor, imgPath } =
