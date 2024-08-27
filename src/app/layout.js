@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProviderWraper>
+<<<<<<< HEAD
           <StripeProvider>
             <CourseContextProvider>
               <SidebarProvider>
@@ -39,6 +40,15 @@ export default function RootLayout({ children }) {
               </SidebarProvider>
             </CourseContextProvider>
           </StripeProvider>
+=======
+          <CourseContextProvider>
+            <SidebarProvider>
+              <NavbarWrapper />
+              <CourseBuyerProvider>{children}</CourseBuyerProvider>
+              <Footer />
+            </SidebarProvider>
+          </CourseContextProvider>
+>>>>>>> ea160f2d7440628020a5e5b52ec48c4f858ad65b
         </NextAuthProviderWraper>
       </body>
     </html>
