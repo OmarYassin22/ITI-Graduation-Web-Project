@@ -38,7 +38,7 @@ const Coursess = () => {
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (
       <div className="max-h-full">
-        <h2>No courses added to your cart</h2>
+        <h2>No courses added to your cart please add courses</h2>
       </div>
     );
   }
