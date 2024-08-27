@@ -6,6 +6,12 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Variants from "../../../Spinner";
 import { IoMdClose } from "react-icons/io";
+import Swal from 'sweetalert2';
+
+import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../../../app/firebaseConfig"; 
+import { FiSearch } from "react-icons/fi";
+
 
 const Page = () => {
   const [instructors, setInstructors] = useState(null);
@@ -20,8 +26,60 @@ const Page = () => {
   const [instructorPhone, setInstructorPhone] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
 
- 
+  const [brandData, setBrandData] = useState([]);
+  // const [selectedInstructor, setSelectedInstructor] = useState(null);
+  // const [instructorFields, setInstructorFields] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchFieldTerm, setSearchFieldTerm] = useState("");
+  const [filteredData, setFilteredData] = useState(brandData);
   
+
+
+  ////////////////////////get instructors////////////////
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      try {
+        const instructorsCollection = collection(db, "instructors");
+        const instructorSnapshot = await getDocs(instructorsCollection);
+        const instructorsList = instructorSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        // console.log(instructorsList);
+        
+        setBrandData(instructorsList);
+      } catch (error) {
+        console.error("Error fetching instructors: ", error);
+      }
+    };
+
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("/api/courses");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        setCourses(result);
+      } catch (error) {
+        console.error("Error fetching courses: ", error);
+      }
+    };
+
+    fetchInstructors();
+    fetchCourses(); 
+  }, []);
+  useEffect(() => {
+    setFilteredData(
+      brandData.filter((instructor) => 
+        instructor.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, brandData]);
+
+  
+//////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
   useEffect(() => {
   const fetchInstructors = () => {
     fetch("/api/instructors")
@@ -63,20 +121,40 @@ useEffect(() => {
   fetchCourses();
 }, []);
 
-
-  const generatePassword = (length) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let password = '';
+  const generateRandomNumbers = (length) => {
+    const characters = '0123456789';
+    let result = '';
     for (let i = 0; i < length; i++) {
-      password += characters.charAt(Math.floor(Math.random() * characters.length));
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    return password;
+    return result;
   };
+
+  const generatePassword = (instructorName) => {
+    const firstLetter = instructorName.charAt(0).toUpperCase(); 
+    const secondLetter = instructorName.charAt(1).toLowerCase();
+    const randomNumbers = generateRandomNumbers(6);
+    return `${firstLetter}${secondLetter}@${randomNumbers}`;
+  };
+
+  const isValidEmail = (email) => {
+    return email.length >= 14 && email.includes('@gmail.com');
+  };
+
 
   const handleCreate = async (event) => {
     event.preventDefault();
+    
     if (instructorName && instructorEmail && instructorPhone && fieldsList.length > 0) {
-      const uniquePassword = generatePassword(8);
+      if (!isValidEmail(instructorEmail)) {
+        Swal.fire({
+          icon: 'error',
+          text: 'Please enter a valid email with at least 4 characters and ends with "@gmail.com".',
+          confirmButtonText: 'OK',
+        });
+        return;
+      }
+      const uniquePassword = generatePassword(instructorName);
       const response = await fetch("/api/instructors", {
         method: "POST",
         headers: {
@@ -91,21 +169,38 @@ useEffect(() => {
         }),
       });
       if (response.ok) {
-        const result = await response.json();
-        const refresh = await fetch("/api/instructors");
-        const refreshedInstructors = await refresh.json();
-        setInstructors(refreshedInstructors);
-        alert(`An instructor added successfully with : \nname : ${instructorName} \npassword :${uniquePassword}`);
+        const newInstructor = await response.json();
+        setInstructors((prevInstructors)=>[...prevInstructors, newInstructor]);
+        //const result = await response.json();
+        //const refresh = await fetch("/api/instructors");
+        //const refreshedInstructors = await refresh.json();
+        //setInstructors(refreshedInstructors);
+
+        //alert(`An instructor added successfully with : \nname : ${instructorName} \npassword :${uniquePassword}`);
+        Swal.fire({
+          icon: 'success',
+          title: 'An instructor added successfully with :',
+          text: `E-mail: ${instructorEmail} | Password :${uniquePassword}`,
+          confirmButtonText: 'OK',
+        });
         setInstructorName("");
         setInstructorEmail("");
         setInstructorPhone("");
         setFieldsList([]);
         setSuccess(true);
       } else {
-        alert('Failed to add instructor');
+        Swal.fire({
+          icon: 'error',
+          text: 'Failed to add instructor.',
+          confirmButtonText: 'OK',
+        });
       }
     } else {
-      alert('Please enter all required information');
+      Swal.fire({
+        icon: 'error',
+        text: 'Please enter all required information.',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -150,6 +245,7 @@ useEffect(() => {
                 <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">Instructor Email</label>
                 <input
                   type="email"
+                  placeholder="Instructor E-mail"
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   value={instructorEmail}
                   onChange={(e) => setInstructorEmail(e.target.value)}
@@ -215,6 +311,69 @@ useEffect(() => {
               </div>
             </form>
           </div>
+        </div>
+      </div>
+      {/* ////////////////////////////////////// */}
+      <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="flex items-center justify-between">
+          <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+            Instructors
+          </h4>
+          <div className="relative mb-6">
+            <input
+              type="text"
+              placeholder="search about name..."
+              className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 mr-5 bg-transparent text-black  dark:text-white"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FiSearch className="absolute left-3 top-1/3 transform-translate-y-1/2 text-gray-500" />
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <div className="grid grid-cols-6 gap-4 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
+            <h5 className="text-sm text-center font-medium xsm:text-base">
+              #
+            </h5>
+            <h5 className="text-sm text-center font-medium xsm:text-base">
+              Name
+            </h5>
+            <h5 className="text-sm text-center font-medium xsm:text-base"></h5>
+            <h5 className="text-sm text-center font-medium xsm:text-base">
+              Email
+            </h5>
+            <h5 className="text-sm text-center font-medium xsm:text-base"></h5>
+            <h5 className="text-sm text-center font-medium xsm:text-base">
+              Password
+            </h5>
+            <h5 className="text-sm text-center font-medium xsm:text-base"></h5>
+          </div>
+          {filteredData.map((instructor, index) => (
+            <div
+              className={`grid grid-cols-6 gap-4 ${
+                index === filteredData.length - 1
+                  ? ""
+                  : "border-b border-stroke dark:border-strokedark"
+              } p-2.5`}
+              key={instructor.id}
+            >
+              <p className="text-center text-black dark:text-white">
+                {index + 1}
+              </p>
+              <p className="text-center text-black dark:text-white">
+                {instructor.name}
+              </p>
+              <p className="text-center text-black dark:text-white"></p>
+              <p className="text-center text-meta-3">
+                {instructor.email}
+              </p>
+              <p className="text-center text-black dark:text-white"></p>
+              <p className="text-center text-meta-3">
+                {instructor.password}
+              </p>
+              <p className="text-center text-black dark:text-white"></p>
+            </div>
+          ))}
         </div>
       </div>
     </DefaultLayout>

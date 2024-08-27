@@ -1,4 +1,5 @@
 "use client";
+import Swal from 'sweetalert2';
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 import React, { useState, useEffect } from "react";
@@ -10,7 +11,6 @@ import { v4 } from "uuid";
 import Image from "next/image";
 import Variants from "../../../Spinner";
 import axios from "axios";
-
 const Page = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
@@ -19,7 +19,6 @@ const Page = () => {
   const [success, setSuccess] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");  
   const [instractors, setInstractors] = useState(null)
-
 
   async function getInstractor() {
     let {data}= await axios.get("/api/instructors")
@@ -60,6 +59,17 @@ const Page = () => {
 
   const handleCreate = async (event) => {
     event.preventDefault();
+    const lowerCaseTitle = cTitle.toLowerCase();
+    const existingCourse = courses.find((course) => course.data.title.toLowerCase() === lowerCaseTitle);
+    if (existingCourse) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Course name already exists',
+        text: 'Please choose a different name.',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
     console.log(cTitle, cDetails, image?.name, cInstructor, cDuration);
     let imgPath = v4();
     const response = await fetch("/api/courses", {
@@ -68,7 +78,7 @@ const Page = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: cTitle,
+        title: lowerCaseTitle,
         price: cPrice,
         details: cDetails,
         instructor: cInstructor,
@@ -139,7 +149,7 @@ const Page = () => {
           <div className="flex flex-col gap-5.5 p-6.5">
             <form className="max-w-sm">
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Course name
                 </label>
                 <input
@@ -154,7 +164,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Course Price
                 </label>
                 <input
@@ -168,7 +178,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Instructor name
                 </label>
                 <select
@@ -189,7 +199,7 @@ const Page = () => {
                 </select>
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Course duration
                 </label>
                 <input
@@ -205,7 +215,7 @@ const Page = () => {
               </div>
 
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Course details
                 </label>
                 <textarea
@@ -219,7 +229,7 @@ const Page = () => {
                 ></textarea>
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Attach file
                 </label>
                 <input
