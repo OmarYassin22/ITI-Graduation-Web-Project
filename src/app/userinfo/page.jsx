@@ -32,7 +32,7 @@ function Page() {
     initialValues: {
       fname: "",
       lname: "",
-      email: "",
+      username: "",
       number: "",
     },
     validationSchema: Yup.object({
@@ -42,12 +42,9 @@ function Page() {
       lname: Yup.string()
         .required("please enter last name")
         .min(3, "last name should have at least 3 characters"),
-      email: Yup.string()
-        .required("email is required and  writen  as moh.eha@gmail.com")
-        .matches(
-          /^\w{3,}.?\w{3,}?@(\w{3,}).(\w{3,})$/i,
-          "email is required and  writen  as moh.eha@gmail.com"
-        ),
+      username: Yup.string().required(
+        "username is required please enter user name"
+      ),
       number: Yup.string()
         .required("please enter phone number")
         .matches(
@@ -84,7 +81,7 @@ function Page() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.fname}
-            style={{color:'black'}}
+            style={{ color: "black" }}
             className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.fname && formik.errors.fname ? (
@@ -104,17 +101,17 @@ function Page() {
             <div className="text-sm text-red-600">{formik.errors.lname}</div>
           ) : null}
           <input
-            type="email"
-            placeholder="Email"
-            id="email"
-            name="email"
+            type="text"
+            placeholder="username"
+            id="username"
+            name="username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.email}
+            value={formik.values.username}
             className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="text-sm text-red-600">{formik.errors.email}</div>
+          {formik.touched.username && formik.errors.username ? (
+            <div className="text-sm text-red-600">{formik.errors.username}</div>
           ) : null}
           <input
             type="tel"
@@ -142,7 +139,10 @@ function Page() {
           </button>
           <p className="text-center mt-4 text-gray-700 sm:text-gray-500 md:text-gray-600 lg:text-gray-700">
             Already have an account?{" "}
-            <Link href="/login" className="text-black dark:text-black ml-5 hover:underline">
+            <Link
+              href="/login"
+              className="text-black dark:text-black ml-5 hover:underline"
+            >
               Log In
             </Link>
           </p>
