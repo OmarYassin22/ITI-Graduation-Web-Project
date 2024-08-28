@@ -8,7 +8,17 @@ import { HiOutlineShoppingCart } from "react-icons/hi2";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import CartPayment from "./CartPayment";
+import { db } from "./../../../firebaseConfig";
 
 const Coursess = ({ handleRouteChange }) => {
   let {
@@ -30,49 +40,72 @@ const Coursess = ({ handleRouteChange }) => {
     setCourseBuyerCart(updatedCourses);
     localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
   };
+
   const handlePaymentSuccess = async () => {
     try {
       const purchasedCourseIds = courses.map((course) => course.id);
-      console.log(purchasedCourseIds);
-      // 1. Update local state
-      setCourses([]); // Clear the cart
-      setSearchTerm(""); // Reset search term if needed
+      console.log("Purchased Course IDs:", purchasedCourseIds);
 
-      // 2. Update database (if you're using one)
-      // This would typically be an API call to your backend
+      // 1. Update local state
+      setCourses([]);
+      setSearchTerm("");
+      localStorage.removeItem("courseBuyerCart");
+
+      let buyerEmail = window.localStorage.getItem("email");
+      console.log("Buyer Email:", buyerEmail);
+
+      // 2. Update external database (if you're still using this)
       await fetch("/api/update-user-courses", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // userId: currentUser.id, // You'll need to have the current user's ID
           purchasedCourses: purchasedCourseIds,
         }),
       });
 
-      // 3. Show success message to user
+      // 3. Update Firebase
+      const UserDataCollection = collection(db, "UserData");
+      const q = query(UserDataCollection, where("email", "==", buyerEmail));
+      console.log("Query:", q);
 
-      Swal.fire({
-        position: "center-center",
-        icon: "success",
-        title:
-          "Payment successful! You now have access to the purchased courses.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      // Or use a more sophisticated notification system
+      const querySnapshot = await getDocs(q);
+      console.log("Query Snapshot:", querySnapshot);
 
-      // 4. Redirect user (optional)
-      // If you want to redirect the user to a "success" page or their dashboard
-      handleRouteChange("MyLearning");
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        console.log("User Document:", userDoc.data());
 
-      // 5. Trigger any necessary re-renders or state updates in parent components
-      // If you have a global state management system like Redux or Context, you might dispatch an action here
+        const userRef = doc(db, "UserData", userDoc.id);
+
+        // Update the buyedCourses array with the new purchased course IDs
+        await updateDoc(userRef, {
+          buyedCourses: arrayUnion(...purchasedCourseIds),
+        });
+
+        console.log("Firebase update successful");
+
+        // 4. Show success message
+        Swal.fire({
+          position: "center-center",
+          icon: "success",
+          title:
+            "Payment successful! You now have access to the purchased courses.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        // 5. Redirect user
+        handleRouteChange("MyLearning");
+      } else {
+        console.error("No matching user document found");
+        throw new Error("User document not found");
+      }
     } catch (error) {
       console.error("Error in post-payment processing:", error);
 
       Swal.fire({
         position: "center-center",
-        icon: "success",
+        icon: "error",
         title:
           "Payment was successful, but there was an error updating your account. Please contact support.",
         showConfirmButton: false,
@@ -164,4 +197,5 @@ const Coursess = ({ handleRouteChange }) => {
     </div>
   );
 };
+
 export default Coursess;
