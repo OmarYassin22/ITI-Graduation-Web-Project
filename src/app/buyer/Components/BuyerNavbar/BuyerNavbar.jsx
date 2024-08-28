@@ -10,7 +10,7 @@ import CategoryDropdown from "./CategoryDropdown";
 import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
 
 const Logo = () => (
-  <h2 className="font-bold text-2xl text-color mr-12">
+  <h2 className="font-bold text-2xl text-white dark:text-white mr-12">
     <Link href="/buyer">E-Learning</Link>
   </h2>
 );
@@ -30,7 +30,7 @@ const NavIcons = () => {
   return (
     <ul className="flex items-center text-color space-x-5">
       {icons.map(({ Icon, size, label, href }) => (
-        <li key={label} className="text-color">
+        <li key={label} className="text-white dark:text-white hover:text-warning dark:hover:text-warning">
           <Link href={href} aria-label={label}>
             <Icon size={size} />
           </Link>
@@ -57,19 +57,19 @@ const BuyerNavbar = ({ handleRouteChange }) => {
       </div>
       <ul className="flex items-center space-x-5">
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("courses")}
         >
           Courses
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("MyLearning")}
         >
           MyLearning
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("MyCart")}
         >
           MyCart

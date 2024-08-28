@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
-import { db } from "../../../app/firebaseConfig"; 
+import { db } from "../../../app/firebaseConfig";
 import { IoMdClose } from "react-icons/io";
 
 function Student() {
@@ -82,47 +82,47 @@ function Student() {
     setStudentName(`${student.data.fname} ${student.data.lname}`);
     setStudentEmail(student.data.email);
     setStudentPhone(student.data.number);
-    setStudentFields(student.data.courses || []); 
+    setStudentFields(student.data.courses || []);
   };
 
- const handleSubmitUpdate = async (e) => {
-  e.preventDefault();
-  if (selectedStudent) {
-    try {
-      const studentRef = doc(db, "students", selectedStudent.id);
+  const handleSubmitUpdate = async (e) => {
+    e.preventDefault();
+    if (selectedStudent) {
+      try {
+        const studentRef = doc(db, "students", selectedStudent.id);
 
-      const docSnap = await getDoc(studentRef);
-      const currentData = docSnap.data();
+        const docSnap = await getDoc(studentRef);
+        const currentData = docSnap.data();
 
-      const updatedCourses = studentFields.map(field => ({
-        ...field,
-        degree: 0 
-      }));
+        const updatedCourses = studentFields.map(field => ({
+          ...field,
+          degree: 0
+        }));
 
-      await updateDoc(studentRef, {
-        courses: updatedCourses
-      });
+        await updateDoc(studentRef, {
+          courses: updatedCourses
+        });
 
-      setStudentData(studentData.map(student =>
-        student.id === selectedStudent.id ? {
-          ...student,
-          data: {
-            ...student.data,
-            courses: updatedCourses
-          }
-        } : student
-      ));
+        setStudentData(studentData.map(student =>
+          student.id === selectedStudent.id ? {
+            ...student,
+            data: {
+              ...student.data,
+              courses: updatedCourses
+            }
+          } : student
+        ));
 
-      setSelectedStudent(null);
-      setStudentName("");
-      setStudentEmail("");
-      setStudentPhone("");
-      setStudentFields([]);
-    } catch (error) {
-      alert("Error updating student: ", error);
+        setSelectedStudent(null);
+        setStudentName("");
+        setStudentEmail("");
+        setStudentPhone("");
+        setStudentFields([]);
+      } catch (error) {
+        alert("Error updating student: ", error);
+      }
     }
-  }
-};
+  };
 
 
   const handleDeleteField = (index) => {
@@ -141,7 +141,7 @@ function Student() {
     <>
       <div className="flex flex-col">
         <div className='mb-7'>
-          <select className=' bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
+          <select className='bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
             <option value="">Tracks</option>
             {studentData?.length > 0 ? (
               [...new Set(studentData.map(student => student.data.field))].map((field, index) => (
@@ -153,22 +153,22 @@ function Student() {
           </select>
         </div>
         <div className="grid grid-cols-7 p-2 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-          <h5 className="text-sm text-center font-medium xsm:text-base">Name</h5>
-          <h5 className="text-sm font-medium text-center xsm:text-base">Phone</h5>
-          <h5 className="text-sm font-medium text-center xsm:text-base">Email</h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Field</h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Degree</h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Delete</h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Update</h5>
+          <h5 className="text-[6px] xl:text-sm text-center font-medium">Name</h5>
+          <h5 className="text-[6px] xl:text-sm font-medium text-center">Phone</h5>
+          <h5 className="text-[6px] xl:text-sm font-medium text-center">Email</h5>
+          <h5 className="text-[6px] xl:text-sm text-center font-medium">Field</h5>
+          <h5 className="text-[6px] xl:text-sm text-center font-medium">Degree</h5>
+          <h5 className="text-[6px] xl:text-sm text-center font-medium">Delete</h5>
+          <h5 className="text-[6px] xl:text-sm text-center font-medium">Update</h5>
         </div>
         {filteredStudents.map(student => (
           <div className="grid grid-cols-7 gap-2 p-2.5" key={student.id}>
-            <p className="text-black dark:text-white">{student.data.fname} {student.data.lname}</p>
-            <p className="text-meta-3 text-center">{student.data.number}</p>
-            <p className="text-meta-3 text-center">
+            <p className="text-[6px] xl:text-sm text-black dark:text-white text-center">{student.data.fname} {student.data.lname}</p>
+            <p className="text-[6px] xl:text-sm text-meta-3 text-center">{student.data.number}</p>
+            <p className="text-[6px] xl:text-sm text-meta-3 text-center">
               {student.data.email ? student.data.email.split("@")[0] + "@" : "No Email"}
             </p>
-            <p className="hidden sm:block text-black  dark:text-white text-center ">
+            <p className="text-[6px] xl:text-sm text-black  dark:text-white text-center">
               <select
                 className='dark:bg-slate-800'
                 value={selectedCourses[student.id] || ''}
@@ -176,7 +176,7 @@ function Student() {
               >
                 {/* <option value="">Select Course</option> */}
                 {student.data?.courses?.length > 0 ? (
-                  student.data.courses.map((course,index) => (
+                  student.data.courses.map((course, index) => (
                     <option key={`${index}`} value={course.course} className=''>
                       {course.course}
                     </option>
@@ -186,14 +186,14 @@ function Student() {
                 )}
               </select>
             </p>
-            <p className=" text-center w-fit mx-auto rounded-md text-black dark:text-white">
+            <p className="text-[6px] xl:text-sm text-center w-fit mx-auto rounded-md text-black dark:text-white">
               {selectedCourseGrades[student.id] || '0'}
             </p>
 
-            <button onClick={() => handleDelete(student.id)} className="hidden sm:block text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white">
+            <button onClick={() => handleDelete(student.id)} className="text-[6px] xl:text-sm text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white">
               Delete
             </button>
-            <button onClick={() => handleUpdate(student)} className="hidden sm:block text-center bg-green-800 w-fit mx-auto p-2 rounded-md text-white">
+            <button onClick={() => handleUpdate(student)} className="text-[6px] xl:text-sm text-center bg-green-800 w-fit mx-auto p-2 rounded-md text-white">
               Update
             </button>
           </div>
@@ -266,21 +266,21 @@ function Student() {
               {/* add fields*/}
               <div className="mb-4">
                 <div className='flex justify-between items-center'>
-                <input
-                  type="text"
-                  placeholder="New Course"
-                  value={newCourse}
-                  onChange={(e) => setNewCourse(e.target.value)}
-                  className="w-5/12 rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                <input
-                  type="text"
-                  
-                  placeholder="New Degree"
-                  value={newDegree}
-                  onChange={(e) => setNewDegree(e.target.value)}
-                  className="w-5/12 rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
+                  <input
+                    type="text"
+                    placeholder="New Course"
+                    value={newCourse}
+                    onChange={(e) => setNewCourse(e.target.value)}
+                    className="w-5/12 rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                  <input
+                    type="text"
+
+                    placeholder="New Degree"
+                    value={newDegree}
+                    onChange={(e) => setNewDegree(e.target.value)}
+                    className="w-5/12 rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
                 </div>
                 <button
                   type="button"
@@ -290,21 +290,21 @@ function Student() {
                   Add Course
                 </button>
               </div>
-               <div className='flex justify-between items-center'>
-                  <button
-                    type="submit"
-                    className="mt-4 w-fit bg-blue-500 text-white rounded-lg p-2"
-                  >
-                    Update
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedStudent(null)}
-                    className="mt-2 w-fit bg-rose-700 text-white rounded-lg p-2"
-                  >
-                    Cancel
-                  </button>
-               </div>
+              <div className='flex justify-between items-center'>
+                <button
+                  type="submit"
+                  className="mt-4 w-fit bg-blue-500 text-white rounded-lg p-2"
+                >
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedStudent(null)}
+                  className="mt-2 w-fit bg-rose-700 text-white rounded-lg p-2"
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>

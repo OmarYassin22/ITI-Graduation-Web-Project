@@ -17,12 +17,12 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
   const [success, setSuccess] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");  
+  const [searchTerm, setSearchTerm] = useState("");
   const [instractors, setInstractors] = useState(null)
 
 
   async function getInstractor() {
-    let {data}= await axios.get("/api/instructors")
+    let { data } = await axios.get("/api/instructors")
     setInstractors(data)
   }
   useEffect(() => {
@@ -180,12 +180,12 @@ const Page = () => {
                   onChange={(e) => {
                     setCInstructor(e.target.value);
                   }}>
-                    <option>Instractor Name</option>
-                    {instractors?.map((instractor)=>(
-                      <option key={instractor.id} value={instractor.data.name}>
-                        {instractor.data.name}
-                      </option>
-                    ))}
+                  <option>Instractor Name</option>
+                  {instractors?.map((instractor) => (
+                    <option key={instractor.id} value={instractor.data.name}>
+                      {instractor.data.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -255,7 +255,7 @@ const Page = () => {
           <FiSearch className="absolute left-3 top-1/3 transform-translate-y-1/2 text-gray-500" />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
         {filteredCourses?.map((course, i) => (
           <div key={i} className="mx-3 my-5">
             <div className="card-body p-0 h-full flex flex-col justify-between">
@@ -281,10 +281,9 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={`${
-                      course.image ||
+                    src={`${course.image ||
                       "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
-                    }`}
+                      }`}
                     alt={course.data.title}
                     width={100}
                     height={100}

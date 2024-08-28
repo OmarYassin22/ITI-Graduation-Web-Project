@@ -2,14 +2,14 @@
 // pages/calendar.jsx
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
-import { collection, addDoc, getDoc, doc,setDoc,updateDoc  } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig";
 import Swal from 'sweetalert2'
 
 const Calendar = () => {
   const [events, setEvents] = useState({});
   const [editingEvent, setEditingEvent] = useState(null);
-const Swal = require('sweetalert2')
+  const Swal = require('sweetalert2')
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -27,38 +27,38 @@ const Swal = require('sweetalert2')
   }, []);
 
 
-const handleSaveClick = async () => {
-  if (editingEvent) {
-    const { title, date } = editingEvent.event;
-    if (title.trim() || date.trim()) {
-      setEvents((prevEvents) => {
-        const updatedEvents = {
-          ...prevEvents,
-          [editingEvent.day]: editingEvent.event,
-        };
+  const handleSaveClick = async () => {
+    if (editingEvent) {
+      const { title, date } = editingEvent.event;
+      if (title.trim() || date.trim()) {
+        setEvents((prevEvents) => {
+          const updatedEvents = {
+            ...prevEvents,
+            [editingEvent.day]: editingEvent.event,
+          };
 
-        const docRef = doc(db, "course_instructor", "calendar_events");
-        setDoc(docRef, updatedEvents)
-          .then(() => {
-          //  alert("saved successfully!");
-            Swal.fire({
-              text: 'saved successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK',
-              width:"15em",
-              timer:"1000"
+          const docRef = doc(db, "course_instructor", "calendar_events");
+          setDoc(docRef, updatedEvents)
+            .then(() => {
+              //  alert("saved successfully!");
+              Swal.fire({
+                text: 'saved successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                width: "15em",
+                timer: "1000"
+              })
             })
-          })
-          .catch((error) => {
-            console.error("Error saving event: ", error);
-          });
+            .catch((error) => {
+              console.error("Error saving event: ", error);
+            });
 
-        return updatedEvents; 
-      });
+          return updatedEvents;
+        });
+      }
+      setEditingEvent(null);
     }
-    setEditingEvent(null); 
-  }
-};
+  };
 
 
   // Function to handle input changes during editing
@@ -80,42 +80,42 @@ const handleSaveClick = async () => {
     setEditingEvent({ day, event });
   };
 
-// Function to delete event in Firestore
-const handleDeleteClick = async () => {
-  if (editingEvent) {
-    const { day } = editingEvent;
+  // Function to delete event in Firestore
+  const handleDeleteClick = async () => {
+    if (editingEvent) {
+      const { day } = editingEvent;
 
-    setEvents((prevEvents) => {
-      const updatedEvents = { ...prevEvents };
-      delete updatedEvents[day]; 
+      setEvents((prevEvents) => {
+        const updatedEvents = { ...prevEvents };
+        delete updatedEvents[day];
 
-   
 
-      const docRef = doc(db, "course_instructor", "calendar_events");
-      setDoc(docRef, updatedEvents)
-        .then(() => {
-          // alert("Deleted successfully!");
+
+        const docRef = doc(db, "course_instructor", "calendar_events");
+        setDoc(docRef, updatedEvents)
+          .then(() => {
+            // alert("Deleted successfully!");
             Swal.fire({
               text: 'Deleted successfully!',
               icon: 'warning',
               confirmButtonText: 'OK',
-              width:"15em",
-              timer:"1000",
-              padding:"0",
-            
-              
+              width: "15em",
+              timer: "1000",
+              padding: "0",
+
+
             })
-        })
-        .catch((error) => {
-          console.error("Error deleting event: ", error);
-        });
+          })
+          .catch((error) => {
+            console.error("Error deleting event: ", error);
+          });
 
-      return updatedEvents; 
-    });
+        return updatedEvents;
+      });
 
-    setEditingEvent(null); 
-  }
-};
+      setEditingEvent(null);
+    }
+  };
 
 
 
@@ -143,7 +143,7 @@ const handleDeleteClick = async () => {
                   </span>
                   {events[i + 1] && (
                     <div className="group h-16 w-full flex-grow cursor-pointer py-1 md:h-30">
-                      <div className="event invisible absolute left-2 z-99 mb-1 flex w-[200%] flex-col rounded-sm border-l-[3px] border-primary bg-gray px-3 py-1 text-left opacity-0 group-hover:visible group-hover:opacity-100 dark:bg-meta-4 md:visible md:w-[90%] h-[50%] xl:h-[40%] md:opacity-100">
+                      <div className="event invisible absolute left-2 z-0 mb-1 flex w-[200%] flex-col rounded-sm border-l-[3px] border-primary bg-gray px-3 py-1 text-left opacity-0 group-hover:visible group-hover:opacity-100 dark:bg-meta-4 md:visible md:w-[90%] h-[50%] xl:h-[40%] md:opacity-100">
                         <span className="event-name text-xs xl:text-sm font-semibold text-black dark:text-white">
                           {events[i + 1].title}
                         </span>
@@ -193,7 +193,7 @@ const handleDeleteClick = async () => {
                   Save
                 </button>
                 <button
-                  onClick={ handleDeleteClick}
+                  onClick={handleDeleteClick}
                   className="rounded bg-blue-500 px-4 py-2 text-white"
                 >
                   Delete

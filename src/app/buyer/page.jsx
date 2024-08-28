@@ -26,10 +26,10 @@ export default function Home() {
         {selectedRoute === "courses" && (
           <Coursess handelCourses={handelCourses} />
         )}
-        {selectedRoute === "MyCart" && <MyCart handleRouteChange={handleRouteChange}/>}
+        {selectedRoute === "MyCart" && <MyCart handleRouteChange={handleRouteChange} />}
         {selectedRoute === "MyLearning" && <MyLearning />}
       </div>
-     
+
     </div>
   );
 }

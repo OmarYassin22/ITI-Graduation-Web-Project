@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../app/firebaseConfig"; 
+import { db } from "../../../app/firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 
@@ -18,7 +18,7 @@ const Instructor = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-// console.log(brandData);
+  // console.log(brandData);
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -30,7 +30,7 @@ const Instructor = () => {
           ...doc.data(),
         }));
         // console.log(instructorsList);
-        
+
         setBrandData(instructorsList);
       } catch (error) {
         console.error("Error fetching instructors: ", error);
@@ -51,12 +51,12 @@ const Instructor = () => {
     };
 
     fetchInstructors();
-    fetchCourses(); 
+    fetchCourses();
   }, []);
 
   useEffect(() => {
     setFilteredData(
-      brandData.filter((instructor) => 
+      brandData.filter((instructor) =>
         instructor.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         instructor.fields.some((field) => field.toLowerCase().includes(searchFieldTerm.toLowerCase()))
       )
@@ -115,7 +115,7 @@ const Instructor = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex items-center justify-between">
-        <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+        <h4 className="mb-6 mr-5 text-xl font-semibold text-black dark:text-white">
           Instructors
         </h4>
         <div className="relative mb-6">
@@ -151,31 +151,30 @@ const Instructor = () => {
           <h5 className="text-sm font-medium text-center  xsm:text-base">
             Email
           </h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium  xsm:text-base">
+          <h5 className="sm:block text-sm text-center font-medium  xsm:text-base">
             Field
           </h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">
+          <h5 className="sm:block text-sm text-center font-medium xsm:text-base">
             Delete
           </h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">
+          <h5 className="sm:block text-sm text-center font-medium xsm:text-base">
             Update
           </h5>
         </div>
         {filteredData.map((instructor, key) => (
           <div
-            className={`grid grid-cols-6 gap-2 ${
-              key === filteredData.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
-            } p-2.5`}
+            className={`grid grid-cols-6 gap-2 ${key === filteredData.length - 1
+              ? ""
+              : "border-b border-stroke dark:border-strokedark"
+              } p-2.5`}
             key={instructor.id}
           >
-            <p className="text-black dark:text-white">{instructor.name}</p>
+            <p className="text-black dark:text-white text-center">{instructor.name}</p>
             <p className="text-meta-3 text-center">{instructor.phone}</p>
             <p className="text-meta-3 text-center">
               {instructor.email ? instructor.email.split("@")[0] + "@" : "No Email"}
             </p>
-            <p className="hidden sm:block text-black dark:text-white text-center">
+            <p className="sm:block text-black dark:text-white text-center">
               <select name="field" className="bg-transparent">
                 {instructor.fields
                   .sort((a, b) => b.length - a.length)
@@ -192,13 +191,13 @@ const Instructor = () => {
               </select>
             </p>
             <button
-              className="hidden sm:block text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white"
+              className="sm:block text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white"
               onClick={() => handleDelete(instructor.id)}
             >
               Delete
             </button>
             <button
-              className="hidden sm:block text-center bg-green-800 w-fit mx-auto p-2 rounded-md text-white"
+              className="sm:block text-center bg-green-800 w-fit mx-auto p-2 rounded-md text-white"
               onClick={() => handleUpdate(instructor)}
             >
               Update
@@ -264,24 +263,24 @@ const Instructor = () => {
                     value={instructorFields}
                     onChange={(e) => setInstructorFields(e.target.value)}
                   /></div>
-                  <div>
-                <label className="mb-3 block text-sm font-medium text-black my-1">
-                  Select Course
-                </label>
-                <select
-                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
-                >
-                  <option value="" disabled selected>
-                    Select a course
-                  </option>
-                  {courses.map((course) => (
-                    <option key={course.id} value={course.data.title}>
-                      {course.data.title}
+                <div>
+                  <label className="mb-3 block text-sm font-medium text-black my-1">
+                    Select Course
+                  </label>
+                  <select
+                    className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
+                  >
+                    <option value="" disabled selected>
+                      Select a course
                     </option>
-                  ))}
-                </select>
-              </div> 
+                    {courses.map((course) => (
+                      <option key={course.id} value={course.data.title}>
+                        {course.data.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <ul className="mt-3">
                   {fieldsList.map((field, index) => (
                     <li key={index} className="flex justify-between items-center text-black hover:bg-black hover:text-white duration-500 p-1">
@@ -294,7 +293,7 @@ const Instructor = () => {
                         <IoMdClose className="text-white bg-rose-600 text-xl cursor-pointer" />
                       </button>
                     </li>
-                        
+
                   ))}
                 </ul>
               </div>
@@ -323,13 +322,13 @@ const Instructor = () => {
                   type="submit"
                   className=" rounded-lg bg-primary text-white w-fit p-2"
                 >
-                  Update 
+                  Update
                 </button>
                 <button
                   onClick={() => setSelectedInstructor(null)}
                   className="w-fit rounded-lg bg-primary  text-white p-2"
                 >
-                 Cancel
+                  Cancel
                 </button>
 
               </div>

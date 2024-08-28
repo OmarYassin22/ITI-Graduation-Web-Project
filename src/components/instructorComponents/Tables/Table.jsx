@@ -11,9 +11,9 @@ const Table = () => {
   const [uniqueFieldsArray, setUniqueFieldsArray] = useState([]);
   const [selectedField, setSelectedField] = useState('');
 
-  const filteredCourseData = 
-  selectedField ? courseData.filter(course => course.field === selectedField)
-  : courseData;
+  const filteredCourseData =
+    selectedField ? courseData.filter(course => course.field === selectedField)
+      : courseData;
 
   const handleGradeInputChange = (studentId, courseName, value) => {
     setGradeInputs(prev => ({ ...prev, [`${studentId}-${courseName}`]: value }));
@@ -23,14 +23,14 @@ const Table = () => {
 
     const newGrade = gradeInputs[`${studentId}-${courseName}`];
     if (!newGrade) return;
-  
+
     try {
       const studentDoc = doc(db, "students", studentId);
       const studentSnapshot = await getDoc(studentDoc);
-      
+
       if (studentSnapshot.exists()) {
         const studentData = studentSnapshot.data();
-        const updatedCourses = studentData.courses.map(course => 
+        const updatedCourses = studentData.courses.map(course =>
           course.course === courseName
             ? { ...course, degree: newGrade }
             : course
@@ -38,8 +38,8 @@ const Table = () => {
 
         await updateDoc(studentDoc, { courses: updatedCourses });
 
-        setCourseData(prevData => 
-          prevData.map(course => 
+        setCourseData(prevData =>
+          prevData.map(course =>
             course.studentId === studentId && course.courseName === courseName
               ? { ...course, degree: newGrade }
               : course
@@ -63,11 +63,11 @@ const Table = () => {
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "students"));
-      const students = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+      const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
       const emadCourses = students.flatMap(student => {
         if (!student.courses || !Array.isArray(student.courses) || student.courses.length === 0) {
-          return []; 
+          return [];
         }
 
         return student.courses
@@ -99,12 +99,12 @@ const Table = () => {
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
       direction = 'descending';
     }
-  
+
     const sortedData = [...courseData].sort((a, b) => {
       if (key === 'degree') {
         const aValue = parseFloat(a[key]);
         const bValue = parseFloat(b[key]);
-        
+
         if (aValue < bValue) {
           return direction === 'ascending' ? -1 : 1;
         }
@@ -122,7 +122,7 @@ const Table = () => {
         return 0;
       }
     });
-  
+
     setCourseData(sortedData);
     setSortConfig({ key, direction });
   };
@@ -161,79 +161,78 @@ const Table = () => {
         <div className="flex flex-col">
           <div className="grid grid-cols-5 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-5">
             <div className="p-2.5 xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
+              <h5
+                className="text-[6px] md:text-sm uppercase cursor-pointer"
                 onClick={() => sortData('courseStudent')}
               >
                 Name {getSortDirection('courseStudent')}
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
+              <h5
+                className="text-[6px] md:text-sm uppercase cursor-pointer"
                 onClick={() => sortData('courseName')}
               >
                 Course {getSortDirection('courseName')}
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
+              <h5
+                className="text-[6px] md:text-sm uppercase cursor-pointer"
                 onClick={() => sortData('degree')}
               >
                 Grade {getSortDirection('degree')}
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
+              <h5
+                className="text-[6px] md:text-sm uppercase cursor-pointer"
                 onClick={() => sortData('field')}
               >
-                Field 
+                Field
                 {getSortDirection('field')}
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base"
+              <h5
+                className="text-[6px] md:text-sm uppercase"
               >
-                Add Grade 
+                Add Grade
               </h5>
             </div>
           </div>
           {filteredCourseData.map((course, key) => (
             <div
-              className={`grid grid-cols-5 sm:grid-cols-5 ${
-                key === filteredCourseData.length - 1
-                  ? ""
-                  : "border-b border-stroke dark:border-strokedark"
-              }`}
+              className={`grid grid-cols-5 sm:grid-cols-5 ${key === filteredCourseData.length - 1
+                ? ""
+                : "border-b border-stroke dark:border-strokedark"
+                }`}
               key={key}
             >
-              <div className="flex items-center gap-3 p-2.5 xl:p-5">  
-                <p className="text-black dark:text-white sm:block">{course.courseStudent}</p>
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                <p className="text-[6px] md:text-sm text-black dark:text-white sm:block">{course.courseStudent}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{course.courseName}</p>
+                <p className="text-[6px] md:text-sm text-black dark:text-white">{course.courseName}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{course.degree}</p>
+                <p className="text-[6px] md:text-sm text-black dark:text-white">{course.degree}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{course.field}</p>
+                <p className="text-[6px] md:text-sm text-black dark:text-white">{course.field}</p>
               </div>
               <div className="flex items-center justify-between p-2.5 xl:p-5">
-                <input 
-                  type="number" 
-                  className="w-2/4 border outline-none" 
+                <input
+                  type="number"
+                  className="w-5 sm:w-2/4 border outline-none text-black dark:text-black"
                   value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
                   onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
                 />
-                <button 
-                  className="bg-sky-500 text-white px-3 py-1 rounded-lg"
+                <button
+                  className="bg-sky-500 text-white px-3 py-1 rounded-lg w-5 sm:w-2/4"
                   onClick={() => handleEditGrade(course.studentId, course.courseName)}
                 >
-                  {course.degree === '0' ? 'Add' : 'Edit'}
+                  <p className="flex items-center justify-center text-xs sm:text-sm xl:text-base">{course.degree === '0' ? 'Add' : 'Edit'}</p>
                 </button>
               </div>
             </div>
