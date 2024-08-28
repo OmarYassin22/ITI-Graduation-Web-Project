@@ -16,20 +16,20 @@ import { useState } from 'react';
 
 
 export const courses = [
-    { name: 'HTML', image: HTML, link: '/htmldetails' },
-    { name: 'CSS', image: CSS, link: '/cssdetails' },
-    { name: 'JavaScript', image: JS, link: '/javascriptdetails' },
-    { name: 'Bootstrap', image: Bootstrap, link: '/bootstrapdetails' },
-    { name: 'Tailwind', image: Tailwind, link: '/tailwinddetails' },
-    { name: 'SASS', image: SASS, link: '/sassdetails' },
-    { name: 'TypeScript', image: TS, link: '/typescriptdetails' },
-    { name: 'React', image: ReactLogo, link: '/reactdetails' },
-    { name: 'Dart', image: Dart, link: '/dartdetails' },
-    { name: 'Flutter', image: Flutter, link: '/flutterdetails' },
+    { name: 'HTML', image: HTML},
+    { name: 'CSS', image: CSS},
+    { name: 'JavaScript', image: JS},
+    { name: 'Bootstrap', image: Bootstrap},
+    { name: 'Tailwind', image: Tailwind},
+    { name: 'SASS', image: SASS},
+    { name: 'TypeScript', image: TS},
+    { name: 'React', image: ReactLogo},
+    { name: 'Dart', image: Dart},
+    { name: 'Flutter', image: Flutter},
 ];
 
 const CourseCard = ({ name, image, link }) => (
-    <Link href={link}>
+    <Link href={`/student/courses/${name.toLowerCase()}`}>
         <div className="card card-compact bg-base-100 w-60 hover:shadow-xl hover:scale-105 transition-all duration-700 border rounded-lg">
             <figure>
                 <Image
@@ -53,7 +53,7 @@ function Courses() {
     const [filteredCourses, setFilteredCourses] = useState(courses);
     return (
         <>
-            <div className="px-20 py-12 flex justify-between gap-y-9 flex-wrap">
+            <div className="px-10 py-5 flex gap-y-4 justify-evenly flex-wrap">
                 {filteredCourses.map((course, index) => (
                     <CourseCard key={index} {...course} />
                 ))}

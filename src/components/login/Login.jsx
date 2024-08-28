@@ -44,6 +44,8 @@ function Login() {
     const q = await query(UserType, where("uid", "==", dbuser.user.uid));
     const result = await getDocs(q);
     localStorage.setItem("type", result.docs[0].data().type);
+    localStorage.setItem("fname", result.docs[0].data().fname);
+    localStorage.setItem("lname", result.docs[0].data().lname);
 
     const res = await signIn("credentials", {
       email: values.email,
