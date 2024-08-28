@@ -7,6 +7,7 @@ import BuyerNavbar from "./Components/BuyerNavbar/BuyerNavbar";
 import Coursess from "./Courses/Coursess";
 import MyLearning from "./Components/CourseCardes/MyLearning";
 import MyCart from "./Components/CourseCardes/MyCart";
+import Scholarship from "./Components/CourseCardes/Scholarship";
 
 
 export default function Home() {
@@ -22,12 +23,13 @@ export default function Home() {
     <div>
       <BuyerNavbar handleRouteChange={handleRouteChange} />
 
-      <div className="px-20 py-12 ">
+      <div className="px-20 py-12" >
         {selectedRoute === "courses" && (
           <Coursess handelCourses={handelCourses} />
         )}
         {selectedRoute === "MyCart" && <MyCart handleRouteChange={handleRouteChange}/>}
         {selectedRoute === "MyLearning" && <MyLearning />}
+        {selectedRoute === "Scholarship" && <Scholarship></Scholarship>}
       </div>
      
     </div>

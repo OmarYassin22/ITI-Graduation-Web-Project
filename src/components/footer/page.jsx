@@ -3,27 +3,23 @@ import React from "react";
 import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
-  // const [isHasScrollBar, setIsHasScrollBar] = useState(false);
-  // useEffect(() => {
-  //   if (document.body.scrollHeight > document.body.clientHeight) {
-  //     setIsHasScrollBar(true);
-  //   } else {
-  //     setIsHasScrollBar(false);
-  //   }
-  // }, []);
-  // const handleScrollbar = () => {
-  //   if (document.body.scrollHeight > document.body.clientHeight) {
-  //     setIsHasScrollBar(true);
-  //   } else {
-  //     setIsHasScrollBar(false);
-  //   }
-  //   return (isHasScrollBar);
-  // };
-  // console.log(document.body.scrollHeight > document.body.clientHeight);
+  const href = window.location.href;
+  const noFooter =
+    href.includes("admin") ||
+    href.includes("buyer") ||
+    href.includes("buyre") ||
+    href.includes("student")
+      ? true
+      : false;
+  console.log("############### footer #####################");
   return (
     <div
       className="cardesbackground w-full"
-      style={{ position: "relative", bottom: "0" }}
+      style={{
+        position: "relative",
+        bottom: "0",
+        display: noFooter ? 'none' : true,
+      }}
     >
       <footer className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">
         <div className="footer-icon">

@@ -59,7 +59,31 @@ const Video = () => {
     }
 
     setIsUploading(true);
+    
     const storageRef = ref(storage, `Emad Elshplangy/${selectedCourse}/${file.name}`);
+
+    // Get existing course data from localStorage
+    let coursesData = JSON.parse(localStorage.getItem('coursesData')) || [];
+
+    // Create new course data object
+    const newCourseData = {
+      selectedCourse: selectedCourse,
+      fileName: file.name
+    };
+
+    // Append new course data to the array
+    coursesData.push(newCourseData);
+
+    // Store updated array back in localStorage
+    localStorage.setItem('coursesData', JSON.stringify(coursesData));
+    
+    // const storageRef = ref(storage, `Emad Elshplangy/${selectedCourse}/${file.name}`);
+    // const courseData = {
+    //   selectedCourse: selectedCourse,
+    //   fileName: file.name
+    // };
+    // localStorage.setItem('courseData', JSON.stringify(courseData));
+  
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on('state_changed',
