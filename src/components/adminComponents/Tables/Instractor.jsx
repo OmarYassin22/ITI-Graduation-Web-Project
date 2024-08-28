@@ -18,6 +18,7 @@ const Instructor = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
+// console.log(brandData);
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -28,6 +29,8 @@ const Instructor = () => {
           id: doc.id,
           ...doc.data(),
         }));
+        // console.log(instructorsList);
+        
         setBrandData(instructorsList);
       } catch (error) {
         console.error("Error fetching instructors: ", error);

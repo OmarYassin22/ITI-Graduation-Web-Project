@@ -32,7 +32,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/courses/${params.id}`);
+        const response = await fetch(`/api/courses/${params?.id}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -66,7 +66,7 @@ const Page = ({ params }) => {
   }, []);
   function addCourse() {
     const isAlreadyInCart = courseBuyerCart.some(
-      (item) => item.id === courses.id
+      (item) => item?.id === courses?.id
     );
 
     if (isAlreadyInCart) {

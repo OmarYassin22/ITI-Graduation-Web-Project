@@ -10,7 +10,7 @@ const Redirect = (props) => {
   const router = useRouter();
   console.log(type);
   if (type == "admin") router.push(`/admin/home`);
-  if (type == "buyer") router.push(`/buyer`);
+  if (type == "buyer"||type=='applicant') router.push(`/buyer`);
   if (type == "student") router.push(`/student`);
   if (type == "instructor") router.push(`/instructor`);
   return (

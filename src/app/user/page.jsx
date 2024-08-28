@@ -7,23 +7,25 @@ import Variants from "../Spinner";
 import { useRouter } from "next/navigation";
 import { BackgroundSection, CardGridSection } from "./StaticSections";
 import { courseContext } from "../Contexts/Courses/CourseContextProvider";
-
 function UserPage() {
+  const counter =
+    localStorage.getItem("counter") == 0
+      ? localStorage.setItem("counter", 0)
+      : +localStorage.getItem("counter");
+  console.log(counter);
+
+
+  window.onload=()=>{
+    localStorage.setItem("counter", +localStorage.getItem("counter")+1)
+  }
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { localCourse, setLocalCourse } = useContext(courseContext);
-console.log(courses);
+
+  console.log(courses);
+
   useEffect(() => {
-    // axios
-    //   .get("/api/courses")
-    //   .then((response) => {
-    //     if (response.data) {
-    //       setCourses(response.data);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching courses:", error);
-    //   });
+
     setCourses(localCourse);
   }, [localCourse]);
 
