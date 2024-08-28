@@ -3,8 +3,9 @@ import UserPage from "./user/page";
 
 export default function Home() {
   return (
-    <div>
+    <div style={{minHeight:'90vh'}}>
       <UserPage />
     </div>
   );
 }
+  

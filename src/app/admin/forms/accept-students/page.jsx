@@ -3,7 +3,14 @@
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 import React, { useState, useEffect } from "react";
-import { getDocs, collection, doc, deleteDoc, updateDoc, setDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  doc,
+  deleteDoc,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { useRouter } from "next/navigation";
@@ -46,6 +53,11 @@ const AcceptStudents = () => {
   const handleAccept = async (applicant) => {
     try {
       if (selectedOption[applicant.id] === "accepted") {
+        ////////////////////////////////
+        await updateDoc(doc(db, "UserData", applicant.id), {
+          type: "student",
+        });
+        ////////////////////////////////
         const newStudent = {
           fname: applicant.fname,
           lname: applicant.lname,
@@ -64,6 +76,11 @@ const AcceptStudents = () => {
         });
         setBrandData(brandData.filter((item) => item.id !== applicant.id));
       } else {
+        ////////////////////////////////
+        await updateDoc(doc(db, "UserData", applicant.id), {
+          type: "student",
+        });
+        ////////////////////////////////
         const newStudent = {
           fname: applicant.fname,
           lname: applicant.lname,
@@ -72,13 +89,13 @@ const AcceptStudents = () => {
           uid: applicant.uid, // Copy uid from applicant
           field: selectedField[applicant.id] || "frontend", // Default value
           // degree: 0, // Default value
+
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
         setBrandData(brandData.filter((item) => item.id !== applicant.id));
         setSuccess(true);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error processing student: ", error);
       alert("Failed to process student");
     }
@@ -99,7 +116,7 @@ const AcceptStudents = () => {
     return (
       <DefaultLayout>
         <Breadcrumb pageName="Accept Students" />
-        <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="mt-3 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="flex items-center justify-between">
             <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
               All applicants
@@ -116,15 +133,18 @@ const AcceptStudents = () => {
             </div>
             <div className="max-h-full">
               <Variants></Variants>
-            </div></div></div>
+
+            </div>
+          </div>
+        </div>
       </DefaultLayout>
     );
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Accept Students" />
-      <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className="mt-3 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="flex items-center justify-between">
-          <h4 className="mb-6 text-sm mr-5 md:text-xl font-semibold text-black dark:text-white">
+          <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
             All applicants
           </h4>
           <div className="relative mb-6">
@@ -140,76 +160,83 @@ const AcceptStudents = () => {
         </div>
 
         <div className="flex flex-col">
-          <div className="grid grid-cols-6 gap-2 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-            <h5 className="text-[6px] xl:text-base text-center font-medium uppercase">
+
+          <div className="grid grid-cols-7 gap-2 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
+            <h5 className="text-[6px] xl:text-base text-center font-medium uppercase xsm:text-base">
               Name
             </h5>
-            <h5 className="text-[6px] xl:text-base font-medium text-center uppercase">
+            <h5 className="text-[6px] xl:text-base font-medium text-center uppercase xsm:text-base">
               Phone
             </h5>
-            <h5 className="text-[6px] xl:text-base font-medium text-center uppercase">
+            <h5 className="text-[6px] xl:text-base font-medium text-center uppercase xsm:text-base">
               Email
             </h5>
-            <h5 className="text-[6px] xl:text-base text-center font-medium uppercase">
+
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
+              Selected Field
+            </h5>
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
+              Grads
+            </h5>
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
               Approvement
             </h5>
-            <h5 className="text-[6px] xl:text-base text-center font-medium uppercase">
-              Select a field
-            </h5>
-            <h5 className="text-[6px] xl:text-base text-center font-medium uppercase">
-              confimation
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
+              Confirmation
             </h5>
           </div>
           {filteredData.map((applicant, key) => (
             <div
-              className={`grid grid-cols-6 gap-2 ${key === filteredData.length - 1
+              className={`grid grid-cols-7 gap-2 ${key === filteredData.length - 1
                 ? ""
                 : "border-b border-stroke dark:border-strokedark"
                 } p-2.5`}
               key={applicant.id}
             >
-              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">{applicant.fname} {applicant.lname} </p>
+              <p className="text-[6px] xl:text-base text-black dark:text-white">
+                {applicant.fname} {applicant.lname}
+              </p>
               <p className="text-[6px] xl:text-base text-meta-3 text-center">{applicant.number}</p>
               <p className="text-[6px] xl:text-base text-meta-3 text-center">
-                {applicant.email ? applicant.email.split("@")[0] + "@" : "No Email"}
+                {applicant.email
+                  ? applicant.email.split("@")[0] + "@"
+                  : "No Email"}
               </p>
               <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
-                <select onChange={(e) => handleOptionChange(applicant.id, e.target.value)}
-                  name="status" className="bg-transparent">
+                {applicant.field}
+              </p>
+              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
+                {+applicant.grade > 5 ? (
+                  <span className="text-[6px] xl:text-base">
+                    <span className="text-[6px] xl:text-base text-meta-3"> {applicant.grade}</span>/10
+                  </span>
+                ) : (
+                  <span className="text-[6px] xl:text-base">
+                    <span className="text-meta-1 text-[6px] xl:text-base">
+                      {applicant.grade}
+                    </span>/10
+                  </span>
+                )}
+              </p>
+              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
+                <select
+                  onChange={(e) =>
+                    handleOptionChange(applicant.id, e.target.value)
+                  }
+                  name="status"
+                  className="text-[6px] xl:text-base bg-transparent"
+                >
                   <option
                     value="accepted"
-                    className="bg-transparent text-black"
+                    className="text-[6px] xl:text-base bg-transparent text-black"
                   >
                     accepted
                   </option>
                   <option
                     value="rejected"
-                    className="bg-transparent text-black"
+                    className="text-[6px] xl:text-base bg-transparent text-black"
                   >
                     rejected
-                  </option>
-                </select>
-              </p>
-              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
-                <select onChange={(e) => handleFieldChange(applicant.id, e.target.value)}
-                  name="field" className="bg-transparent">
-                  <option
-                    value="Frontend"
-                    className="bg-transparent text-black"
-                  >
-                    Frontend
-                  </option>
-                  <option
-                    value="Backend"
-                    className="bg-transparent text-black"
-                  >
-                    Backend
-                  </option>
-                  <option
-                    value="Mobile App"
-                    className="bg-transparent text-black"
-                  >
-                    Mobile App
                   </option>
                 </select>
               </p>
@@ -217,7 +244,7 @@ const AcceptStudents = () => {
                 className="text-[6px] xl:text-base text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white"
                 onClick={() => handleAccept(applicant)}
               >
-                confim
+                Confim
               </button>
             </div>
           ))}
