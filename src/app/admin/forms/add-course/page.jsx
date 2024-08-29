@@ -1,5 +1,5 @@
 "use client";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 import React, { useState, useEffect } from "react";
@@ -17,12 +17,12 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
   const [success, setSuccess] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");  
-  const [instractors, setInstractors] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [instractors, setInstractors] = useState(null);
 
   async function getInstractor() {
-    let {data}= await axios.get("/api/instructors")
-    setInstractors(data)
+    let { data } = await axios.get("/api/instructors");
+    setInstractors(data);
   }
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +40,7 @@ const Page = () => {
       }
     };
     fetchData();
-    getInstractor()
+    getInstractor();
   }, []);
 
   const handleCourseDetails = async (id) => {
@@ -58,13 +58,15 @@ const Page = () => {
   const handleCreate = async (event) => {
     event.preventDefault();
     const lowerCaseTitle = cTitle.toLowerCase();
-    const existingCourse = courses.find((course) => course.data.title.toLowerCase() === lowerCaseTitle);
+    const existingCourse = courses.find(
+      (course) => course.data.title.toLowerCase() === lowerCaseTitle
+    );
     if (existingCourse) {
       Swal.fire({
-        icon: 'error',
-        title: 'Course name already exists',
-        text: 'Please choose a different name.',
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Course name already exists",
+        text: "Please choose a different name.",
+        confirmButtonText: "OK",
       });
       return;
     }
@@ -209,6 +211,7 @@ const Page = () => {
                   value={cInstructor}
                   onChange={(e) => {
                     setCInstructor(e.target.value);
+<<<<<<< HEAD
                   }}>
                     <option>Instractor Name</option>
                     {instractors?.map((instractor)=>(
@@ -216,6 +219,16 @@ const Page = () => {
                         {instractor.data.name} | {instractor.data.fields.join(', ')}
                       </option>
                     ))}
+=======
+                  }}
+                >
+                  <option>Instractor Name</option>
+                  {instractors?.map((instractor) => (
+                    <option key={instractor.id} value={instractor.data.name}>
+                      {instractor.data.name}
+                    </option>
+                  ))}
+>>>>>>> ed4286aefb7dda336204258ee2e4e82bd770d4b6
                 </select>
               </div>
               <div>

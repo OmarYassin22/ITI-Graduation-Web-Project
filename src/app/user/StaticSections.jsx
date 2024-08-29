@@ -1,4 +1,6 @@
 import Image from "next/image";
+// import { initFlowbite } from "flowbite";
+// import { useEffect } from "react";
 
 const BackgroundSection = () => (
   <div
@@ -14,25 +16,4 @@ const BackgroundSection = () => (
   </div>
 );
 
-const CardGridSection = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 container">
-    {Array.from({ length: 3 }).map((_, index) => (
-      <div key={index} className="cards w-full">
-        <Image
-          src={`/images/card-${index + 1}.jpg`}
-          className="border rounded-xl w-full"
-          alt="Card"
-          width={300}
-          height={300}
-          loading="lazy"
-        />
-        <h2 className="font-bold mt-2">Static Word</h2>
-        <p className="max-w-80">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque quo
-        </p>
-      </div>
-    ))}
-  </div>
-);
-
-export { BackgroundSection, CardGridSection };
+export { BackgroundSection };
