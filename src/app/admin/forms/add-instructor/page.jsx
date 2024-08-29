@@ -178,6 +178,7 @@ const Page = () => {
       const docRef = await addDoc(collection(db, "UserData"), {
         uid: userData.user.uid,
         type: "instructor",
+        fname: instructorName,
         email: instructorEmail,
         phone: instructorPhone,
         fields: fieldsList,
