@@ -56,7 +56,6 @@ function Student() {
     getStudentData();
     getInstructors();
   }, []);
-
   useEffect(() => {
     setFilteredData(
       studentData.filter((student) => 

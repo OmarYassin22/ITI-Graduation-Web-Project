@@ -9,9 +9,9 @@ import { IoMdClose } from "react-icons/io";
 import Swal from 'sweetalert2';
 
 import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../../app/firebaseConfig"; 
+import { db , auth } from "../../../../app/firebaseConfig"; 
 import { FiSearch } from "react-icons/fi";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Page = () => {
   const [instructors, setInstructors] = useState(null);
@@ -32,8 +32,6 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-  
-
 
   ////////////////////////get instructors////////////////
   useEffect(() => {
@@ -155,6 +153,19 @@ useEffect(() => {
         return;
       }
       const uniquePassword = generatePassword(instructorName);
+      // register({email:instructorEmail , password: uniquePassword});
+      const userData = await createUserWithEmailAndPassword(
+        auth,
+        instructorEmail,
+        uniquePassword,
+      );
+      console.log(userData);
+  
+      // return NextResponse.json({ user: userData.user }, { status: 201 });
+
+
+
+      ////////////////////////////////////////////////
       const response = await fetch("/api/instructors", {
         method: "POST",
         headers: {
@@ -169,6 +180,7 @@ useEffect(() => {
         }),
       });
       if (response.ok) {
+        
         const newInstructor = await response.json();
         console.log(newInstructor);
         setInstructors((prevInstructors)=>[...prevInstructors, newInstructor]);
@@ -184,6 +196,7 @@ useEffect(() => {
           text: `E-mail: ${instructorEmail} | Password :${uniquePassword}`,
           confirmButtonText: 'OK',
         });
+
         setInstructorName("");
         setInstructorEmail("");
         setInstructorPhone("");
