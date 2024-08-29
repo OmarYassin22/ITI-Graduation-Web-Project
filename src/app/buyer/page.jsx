@@ -15,18 +15,12 @@ export default function Home() {
 
   const [selectedRoute, setSelectedRoute] = useState("courses");
   const [buyerCorses, setBuyerCorses] = useState([]);
-  const type = localStorage.getItem("type");
   const handleRouteChange = (route) => {
     setSelectedRoute(route);
   };
   function handelCourses(x) {
     setBuyerCorses(x);
   }
-
-  useEffect(() => {
-    if (!location.href.includes(type) || !location.href.includes("applicant"))
-      router.push("/redirect");
-  }, [router, type]);
 
   return (
     <div>
