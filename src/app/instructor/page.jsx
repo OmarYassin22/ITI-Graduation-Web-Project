@@ -1,9 +1,8 @@
-"use client"
+"use client";
 import Calendar from "../../components/instructorComponents/Calendar";
-import DefaultLayout from'../../../components/Layouts/DefaultLayout'
-const name= localStorage.getItem("name");
+import DefaultLayout from "../../components/instructorComponents/Layouts/DefaultLayout";
+const name = localStorage.getItem("name");
 const CalendarPage = () => {
-  
   return (
     <DefaultLayout>
       <Calendar />

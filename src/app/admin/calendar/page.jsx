@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Calendar from "../../../components/adminComponents/Calender/index";
-import DefaultLayout from'../../../components/Layouts/DefaultLayout'
+import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout";
 
 const CalendarPage = () => {
   const [selectedCalendar, setSelectedCalendar] = useState("Calendar 1");
@@ -10,19 +10,13 @@ const CalendarPage = () => {
     setSelectedCalendar(e.target.value);
   };
 
-  // {
-  //   emad: [
-  //     { course: "html", date: 30 - 8 },
-  //     
-  //   ];
-  // }
-
   return (
     <DefaultLayout>
       <div className="my-4">
         <label htmlFor="calendarDropdown" className="mr-2">
           Select Calendar:
         </label>
+        a
         <select
           id="calendarDropdown"
           value={selectedCalendar}

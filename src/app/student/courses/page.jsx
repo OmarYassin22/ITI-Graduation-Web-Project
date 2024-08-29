@@ -1,6 +1,6 @@
 import React from 'react';
 import Courses from "../../../components/studentComponents/Courses/Courses";
-import DefaultLayout from'../../../components/Layouts/DefaultLayout'
+import DefaultLayout from'../../../components/studentComponents/Layouts/DefaultLayout'
 
 
 function page() {
