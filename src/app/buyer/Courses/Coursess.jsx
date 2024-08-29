@@ -14,13 +14,11 @@ const Coursess = () => {
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const { localCourse, setLocalCourse } = useContext(courseContext);
-  console.log(localCourse);
 
   useEffect(() => {
     setCourses(localCourse);
   }, [localCourse]);
 
-  console.log(courses);
   const openCourseDetails = async (id) => {
     push(`/buyer/${id}`);
   };

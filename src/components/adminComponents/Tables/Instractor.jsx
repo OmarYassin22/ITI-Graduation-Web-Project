@@ -268,19 +268,22 @@ const Instructor = () => {
                 <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">
                   Select Course
                 </label>
-                <select
-                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+               <select
+                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
                 >
-                  <option value="" disabled selected>
+                  <option disabled selected>
                     Select a course
                   </option>
-                  {courses.map((course) => (
-                    <option key={course.id} value={course.data.title}>
-                      {course.data.title}
-                    </option>
-                  ))}
+                  {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                    .map((course) => (
+                      <option key={course.id} value={course.data.title}>
+                        {course.data.title}
+                      </option>
+                    ))
+                  }
                 </select>
+
               </div> 
                 <ul className="mt-3 ">
                   {fieldsList.map((field, index) => (
@@ -299,24 +302,7 @@ const Instructor = () => {
                 </ul>
               </div>
 
-              {/* <div>
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                  Select Course
-                </label>
-                <select
-                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
-                >
-                  <option value="" disabled selected>
-                    Select a course
-                  </option>
-                  {courses.map((course) => (
-                    <option key={course.id} value={course.data.category}>
-                      {course.data.category}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
+            
 
               <div className="mt-4 flex justify-between">
                 <button

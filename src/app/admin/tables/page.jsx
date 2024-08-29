@@ -1,12 +1,12 @@
 'use client';
 import Breadcrumb from "../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../components/Layouts/DefaultLayout'
 import Student from "../../../components/adminComponents/Tables/Student";
 import Instractor from "../../../components/adminComponents/Tables/Instractor";
 import { useState } from "react";
 
 const TablesPage = () => {
-  const [active, setActive] = useState("Student");
+  const [active, setActive] = useState("Instractor");
 
   return (
     <DefaultLayout>

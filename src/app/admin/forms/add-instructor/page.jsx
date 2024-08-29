@@ -1,6 +1,6 @@
 "use client";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../../components/Layouts/DefaultLayout'
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -272,7 +272,8 @@ useEffect(() => {
                   >
                     <option value="">Select a Course</option>
                     {courses.length > 0 ? (
-                      courses.map((course) => (
+                      [...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                      .map((course) => (
                         <option key={course.id} value={course.data.title}>
                           {course.data.title}
                         </option>

@@ -17,10 +17,11 @@ function Student() {
   const [studentFields, setStudentFields] = useState([]);
   const [newCourse, setNewCourse] = useState("");
   const [newDegree, setNewDegree] = useState("");
-  const [newInstructor, setNewInstructor] = useState(""); // إضافة المدرس الجديد
+  const [newInstructor, setNewInstructor] = useState(""); 
   const [instructors, setInstructors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredStudents, setFilteredData] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   async function getInstructors() {
     try {
@@ -30,7 +31,14 @@ function Student() {
       console.error("Error fetching instructors:", error);
     }
   }
-
+ async function fetchCourses() {
+    try {
+      const { data } = await axios.get("/api/courses");
+      setCourses(data);
+    } catch (error) {
+      console.error("Error fetching instructors:", error);
+    }
+  }
   async function getStudentData() {
     try {
       const { data } = await axios.get('/api/students');
@@ -55,6 +63,7 @@ function Student() {
   useEffect(() => {
     getStudentData();
     getInstructors();
+    fetchCourses()
   }, []);
 
   useEffect(() => {
@@ -316,13 +325,21 @@ function Student() {
                   </div>
                 ))}
                 <div className="flex flex-col sm:flex-row justify-between">
-                  <input
-                    type="text"
-                    placeholder="New Course"
-                    value={newCourse}
-                    onChange={(e) => setNewCourse(e.target.value)}
-                    className="dark:bg-slate-800 dark:text-white w-1/3 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
-                  />
+                   <select
+                  className="w-1/3 dark:bg-slate-800 dark:text-white rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                 onChange={(e) => setNewCourse(e.target.value)}
+                  value={newCourse}
+                >
+                  <option value="" disabled selected>
+                 Courses
+                  </option>
+                  {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                  .map((course) => (
+                    <option key={course.id} value={course.data.title}>
+                      {course.data.title}
+                    </option>
+                  ))}
+                </select>
                   <input
                     type="number"
                     placeholder="Degree"

@@ -41,7 +41,7 @@ function MyLearning() {
     getData();
   }, []);
   useEffect(() => {
-    if (courses && buyedCourses.length > 0) {
+    if (courses && buyedCourses?.length > 0) {
       const filteredCourses = courses.filter((course) =>
         buyedCourses.includes(course.id)
       );
