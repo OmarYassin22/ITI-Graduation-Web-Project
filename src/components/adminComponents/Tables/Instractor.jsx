@@ -152,7 +152,7 @@ const Instructor = () => {
             Email
           </h5>
           <h5 className="sm:block text-sm text-center font-medium  xsm:text-base">
-            Field
+            Courses
           </h5>
           <h5 className="sm:block text-sm text-center font-medium xsm:text-base">
             Delete
@@ -207,12 +207,12 @@ const Instructor = () => {
       </div>
 
       {selectedInstructor && (
-        <div className="fixed inset-0 flex z-99 items-center justify-center bg-gray-700 bg-opacity-50 ">
-          <div className="bg-white p-5 rounded-lg shadow-lg max-w-md">
+        <div className="fixed z-99999 inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 ">
+          <div className="dark:bg-slate-800 dark:text-white bg-white p-5 rounded-lg shadow-lg max-w-md max-h-[80vh] overflow-y-auto ">
             <h3 className="text-xl font-semibold mb-4">Update Instructor</h3>
             <form className="max-w-sm" onSubmit={handleSubmitUpdate}>
               <div>
-                <label className="mb-3 block text-black text-sm font-medium  my-1">
+                <label className="dark:text-white mb-3 block text-black text-sm font-medium  my-1">
                   Instructor Name
                 </label>
                 <input
@@ -225,7 +225,7 @@ const Instructor = () => {
                 />
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black my-1">
+                <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">
                   Email
                 </label>
                 <input
@@ -238,7 +238,7 @@ const Instructor = () => {
                 />
               </div>
               <div>
-                <label className="mb-3 block text-sm font-medium text-black  my-1">
+                <label className="dark:text-white mb-3 block text-sm font-medium text-black  my-1">
                   Phone
                 </label>
                 <input
@@ -252,7 +252,7 @@ const Instructor = () => {
               </div>
 
               <div>
-                <label className="mb-3 block text-sm font-medium text-black ">
+                <label className="dark:text-white mb-3 block text-sm font-medium text-black ">
                   Add Field
                 </label>
                 <div className="flex items-center gap-2">
@@ -264,7 +264,7 @@ const Instructor = () => {
                     onChange={(e) => setInstructorFields(e.target.value)}
                   /></div>
                 <div>
-                  <label className="mb-3 block text-sm font-medium text-black my-1">
+                  <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">
                     Select Course
                   </label>
                   <select
@@ -281,9 +281,9 @@ const Instructor = () => {
                     ))}
                   </select>
                 </div>
-                <ul className="mt-3">
+                <ul className="mt-3 ">
                   {fieldsList.map((field, index) => (
-                    <li key={index} className="flex justify-between items-center text-black hover:bg-black hover:text-white duration-500 p-1">
+                    <li key={index} className="dark:text-white flex justify-between items-center text-black hover:bg-black hover:text-white duration-500 p-1">
                       <span>{field}</span>
                       <button
                         type="button"

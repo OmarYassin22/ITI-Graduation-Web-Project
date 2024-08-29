@@ -18,7 +18,7 @@ const CourseContextProvider = lazy(() =>
 );
 
 const inter = Inter({ subsets: ["latin"] });
-
+// update
 // export const metadata = {
 //   title: "E-Learning",
 //   description: "Website for Online+Offline Courses",

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig";
 import { IoMdClose } from "react-icons/io";
+import { FiSearch } from 'react-icons/fi';
 
 function Student() {
   const [studentData, setStudentData] = useState([]);
@@ -15,12 +16,24 @@ function Student() {
   const [studentPhone, setStudentPhone] = useState("");
   const [studentFields, setStudentFields] = useState([]);
   const [newCourse, setNewCourse] = useState("");
-  const [newDegree, setNewDegree] = useState([]);
+  const [newDegree, setNewDegree] = useState("");
+  const [newInstructor, setNewInstructor] = useState(""); // إضافة المدرس الجديد
+  const [instructors, setInstructors] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredStudents, setFilteredData] = useState([]);
+
+  async function getInstructors() {
+    try {
+      const { data } = await axios.get("/api/instructors");
+      setInstructors(data);
+    } catch (error) {
+      console.error("Error fetching instructors:", error);
+    }
+  }
 
   async function getStudentData() {
     try {
       const { data } = await axios.get('/api/students');
-      console.log(data);
       setStudentData(data);
 
       const initialSelectedCourses = {};
@@ -29,7 +42,7 @@ function Student() {
         if (student.data && student.data.courses && student.data.courses.length > 0) {
           const firstCourse = student.data.courses[0];
           initialSelectedCourses[student.id] = firstCourse.course;
-          initialSelectedCourseGrades[student.id] = firstCourse.degree; // تم تغيير 'grade' إلى 'degree'
+          initialSelectedCourseGrades[student.id] = firstCourse.degree;
         }
       });
       setSelectedCourses(initialSelectedCourses);
@@ -41,7 +54,17 @@ function Student() {
 
   useEffect(() => {
     getStudentData();
+    getInstructors();
   }, []);
+
+  useEffect(() => {
+    setFilteredData(
+      studentData.filter((student) =>
+        student.data.fname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.data.lname.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, studentData]);
 
   function handleCourseChange(studentId, event) {
     const courseName = event.target.value;
@@ -56,7 +79,7 @@ function Student() {
 
     setSelectedCourseGrades(prevState => ({
       ...prevState,
-      [studentId]: course ? course.degree : '' // تم تغيير 'grade' إلى 'degree'
+      [studentId]: course ? course.degree : ''
     }));
   }
 
@@ -64,9 +87,9 @@ function Student() {
     setSelectedField(event.target.value);
   }
 
-  const filteredStudents = selectedField
-    ? studentData.filter(student => student.data.field === selectedField)
-    : studentData;
+  const filteredStudentsByField = selectedField
+    ? filteredStudents.filter(student => student.data.field === selectedField)
+    : filteredStudents;
 
   const handleDelete = async (id) => {
     try {
@@ -90,6 +113,7 @@ function Student() {
     if (selectedStudent) {
       try {
         const studentRef = doc(db, "students", selectedStudent.id);
+<<<<<<< HEAD
 
         const docSnap = await getDoc(studentRef);
         const currentData = docSnap.data();
@@ -113,6 +137,30 @@ function Student() {
           } : student
         ));
 
+=======
+        const docSnap = await getDoc(studentRef);
+        const currentData = docSnap.data();
+
+        const updatedCourses = studentFields.map(field => ({
+          ...field,
+          degree: Number(field.degree)
+        }));
+
+        await updateDoc(studentRef, {
+          courses: updatedCourses
+        });
+
+        setStudentData(studentData.map(student =>
+          student.id === selectedStudent.id ? {
+            ...student,
+            data: {
+              ...student.data,
+              courses: updatedCourses
+            }
+          } : student
+        ));
+
+>>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
         setSelectedStudent(null);
         setStudentName("");
         setStudentEmail("");
@@ -123,25 +171,30 @@ function Student() {
       }
     }
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
 
   const handleDeleteField = (index) => {
     setStudentFields((prevFields) => prevFields.filter((_, i) => i !== index));
   };
 
   const handleAddField = () => {
-    if (newCourse && newDegree) {
-      setStudentFields([...studentFields, { course: newCourse, degree: newDegree }]);
+    if (newCourse && newDegree && newInstructor) {
+      setStudentFields([...studentFields, { course: newCourse, degree: Number(newDegree), instructor: newInstructor }]);
       setNewCourse("");
       setNewDegree("");
+      setNewInstructor("");
     }
   };
 
   return (
     <>
       <div className="flex flex-col">
-        <div className='mb-7'>
-          <select className='bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
+
+        <div className='mb-7 flex justify-between'>
+          <select className=' bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
             <option value="">Tracks</option>
             {studentData?.length > 0 ? (
               [...new Set(studentData.map(student => student.data.field))].map((field, index) => (
@@ -151,33 +204,43 @@ function Student() {
               <option>No fields available</option>
             )}
           </select>
+          <div className="relative w-72">
+            <input
+              type="text"
+              placeholder="search about name..."
+              className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-full bg-transparent text-black dark:text-white"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+          </div>
         </div>
-        <div className="grid grid-cols-7 p-2 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-          <h5 className="text-[6px] xl:text-sm text-center font-medium">Name</h5>
+        <div className="grid grid-cols-12 p-2 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
+          <h5 className="text-[6px] xl:text-sm col-span-2 text-sm text-center font-medium">Name</h5>
           <h5 className="text-[6px] xl:text-sm font-medium text-center">Phone</h5>
-          <h5 className="text-[6px] xl:text-sm font-medium text-center">Email</h5>
-          <h5 className="text-[6px] xl:text-sm text-center font-medium">Field</h5>
+          <h5 className="text-[6px] xl:text-sm col-span-3 text-sm font-medium text-center">Email</h5>
+          <h5 className="text-[6px] xl:text-sm text-center font-medium">Courses</h5>
           <h5 className="text-[6px] xl:text-sm text-center font-medium">Degree</h5>
+          <h5 className="col-span-2 text-[6px] xl:text-sm text-center font-medium">Instructor</h5>
           <h5 className="text-[6px] xl:text-sm text-center font-medium">Delete</h5>
           <h5 className="text-[6px] xl:text-sm text-center font-medium">Update</h5>
         </div>
-        {filteredStudents.map(student => (
-          <div className="grid grid-cols-7 gap-2 p-2.5" key={student.id}>
-            <p className="text-[6px] xl:text-sm text-black dark:text-white text-center">{student.data.fname} {student.data.lname}</p>
+        {filteredStudentsByField.map(student => (
+          <div className="grid grid-cols-12 gap-2 p-2.5" key={student.id}>
+            <p className="text-[6px] xl:text-sm col-span-2 text-black dark:text-white">{student.data.fname} {student.data.lname}</p>
             <p className="text-[6px] xl:text-sm text-meta-3 text-center">{student.data.number}</p>
-            <p className="text-[6px] xl:text-sm text-meta-3 text-center">
+            <p className="text-[6px] xl:text-sm text-meta-3 text-center col-span-3">
               {student.data.email ? student.data.email.split("@")[0] + "@" : "No Email"}
             </p>
             <p className="text-[6px] xl:text-sm text-black  dark:text-white text-center">
               <select
-                className='dark:bg-slate-800'
+                className='text-[6px] xl:text-sm dark:bg-slate-800'
                 value={selectedCourses[student.id] || ''}
                 onChange={(e) => handleCourseChange(student.id, e)}
               >
-                {/* <option value="">Select Course</option> */}
                 {student.data?.courses?.length > 0 ? (
                   student.data.courses.map((course, index) => (
-                    <option key={`${index}`} value={course.course} className=''>
+                    <option key={index} value={course.course}>
                       {course.course}
                     </option>
                   ))
@@ -189,7 +252,11 @@ function Student() {
             <p className="text-[6px] xl:text-sm text-center w-fit mx-auto rounded-md text-black dark:text-white">
               {selectedCourseGrades[student.id] || '0'}
             </p>
-
+            <p className="text-[6px] xl:text-sm col-span-2 text-center w-fit mx-auto rounded-md text-black dark:text-white">
+              {student.data.courses && Array.isArray(student.data.courses) ?
+                student.data.courses.find(course => course.course === selectedCourses[student.id])?.instructor || 'No Instructor'
+                : 'No Courses Available'}
+            </p>
             <button onClick={() => handleDelete(student.id)} className="text-[6px] xl:text-sm text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white">
               Delete
             </button>
@@ -200,109 +267,133 @@ function Student() {
         ))}
       </div>
       {selectedStudent && (
-        <div className="fixed inset-0 flex z-99 items-center justify-center bg-gray-700 bg-opacity-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg max-w-md">
-            <h3 className="text-xl font-semibold mb-4">Update Student</h3>
-            <form className="max-w-sm" onSubmit={handleSubmitUpdate}>
+        <div className="fixed inset-0 flex z-99999 items-center justify-center bg-gray-700 bg-opacity-50">
+          <div className="dark:bg-slate-800 dark:text-white bg-white p-5 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <h3 className="text-2xl font-semibold mb-4 dark:text-white">Update Student</h3>
+            <form className="space-y-4 " onSubmit={handleSubmitUpdate}>
               <div>
-                <label className="mb-3 block text-black text-sm font-medium my-1">
+                <label className="dark:text-white mb-3 block text-black text-sm font-medium my-1">
                   Student Name
                 </label>
                 <input
                   type="text"
-                  placeholder="Student Name"
-                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
-                  required
+                  readOnly
+                  className="dark:bg-slate-800 dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                 />
               </div>
               <div>
-                <label className="mb-3 block text-black text-sm font-medium my-1">
-                  Student Email
+                <label className="dark:text-white mb-3 block text-black text-sm font-medium my-1">
+                  Email
                 </label>
                 <input
                   type="email"
-                  placeholder="Student Email"
-                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={studentEmail}
-                  onChange={(e) => setStudentEmail(e.target.value)}
-                  required
+                  readOnly
+                  className="dark:bg-slate-800 dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                 />
               </div>
               <div>
-                <label className="mb-3 block text-black text-sm font-medium my-1">
-                  Student Phone
+                <label className="dark:text-white mb-3 block text-black text-sm font-medium my-1">
+                  Phone
                 </label>
                 <input
                   type="text"
-                  placeholder="Student Phone"
-                  className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={studentPhone}
-                  onChange={(e) => setStudentPhone(e.target.value)}
-                  required
+                  readOnly
+                  className="dark:bg-slate-800 dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                 />
               </div>
-
-              {/* إضافة حقول جديدة للدورات */}
-              <div className="mt-4 mb-2">
-                <label className="mb-3 block text-black text-sm font-medium my-1">
-                  Current Courses
-                </label>
+              <div className="mt-4">
+                <h4 className="dark:text-white text-lg font-medium text-black mb-2">Courses and Instructor</h4>
                 {studentFields.map((field, index) => (
-                  <div key={index} className="flex items-center mb-2">
-                    <span className="flex-grow">{field.course} - {field.degree}</span>
+                  <div key={index} className="mb-2 flex items-center space-x-2">
+                    <input
+                      type="text"
+                      placeholder="Course"
+                      value={field.course}
+                      readOnly
+                      className="dark:bg-slate-800 dark:text-white w-1/3 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Degree"
+                      value={field.degree}
+                      onChange={(e) => {
+                        const updatedFields = [...studentFields];
+                        updatedFields[index].degree = e.target.value;
+                        setStudentFields(updatedFields);
+                      }}
+                      className="dark:bg-slate-800 dark:text-white w-1/4 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Instructor"
+                      value={field.instructor}
+                      onChange={(e) => {
+                        const updatedFields = [...studentFields];
+                        updatedFields[index].instructor = e.target.value;
+                        setStudentFields(updatedFields);
+                      }}
+                      className="dark:bg-slate-800 dark:text-white w-2/5 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                    />
                     <button
                       type="button"
                       onClick={() => handleDeleteField(index)}
-                      className="text-red-600"
+                      className="text-red-600 text-xl"
                     >
                       <IoMdClose />
                     </button>
                   </div>
                 ))}
-              </div>
-
-              {/* add fields*/}
-              <div className="mb-4">
-                <div className='flex justify-between items-center'>
+                <div className="flex flex-col sm:flex-row justify-between">
                   <input
                     type="text"
                     placeholder="New Course"
                     value={newCourse}
                     onChange={(e) => setNewCourse(e.target.value)}
-                    className="w-5/12 rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    className="dark:bg-slate-800 dark:text-white w-1/3 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                   />
                   <input
-                    type="text"
-
-                    placeholder="New Degree"
+                    type="number"
+                    placeholder="Degree"
                     value={newDegree}
                     onChange={(e) => setNewDegree(e.target.value)}
-                    className="w-5/12 rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    className="dark:bg-slate-800 dark:text-white w-1/4 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                   />
+                  <select
+                    value={newInstructor}
+                    onChange={(e) => setNewInstructor(e.target.value)}
+                    className=" dark:bg-slate-800 dark:text-white w-2/5 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                  >
+                    <option value="">Select Instructor</option>
+                    {instructors.map((instructor) => (
+                      <option key={instructor.id} value={instructor.name}>
+                        {instructor.data.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <button
                   type="button"
                   onClick={handleAddField}
-                  className="w-full bg-blue-500 text-white rounded-lg py-2 mt-2"
+                  className="mt-2 bg-blue-500 text-white py-2 px-4 w-full rounded-lg"
                 >
                   Add Course
                 </button>
               </div>
-              <div className='flex justify-between items-center'>
+              <div className="flex justify-between items-center mt-4">
                 <button
                   type="submit"
-                  className="mt-4 w-fit bg-blue-500 text-white rounded-lg p-2"
+                  className="bg-green-500 text-white py-2 px-4 rounded-lg"
                 >
                   Update
                 </button>
                 <button
-                  type="button"
                   onClick={() => setSelectedStudent(null)}
-                  className="mt-2 w-fit bg-rose-700 text-white rounded-lg p-2"
+                  className="text-white bg-red-700 py-2 px-4 rounded-lg"
                 >
-                  Cancel
+                  Close
                 </button>
               </div>
             </form>

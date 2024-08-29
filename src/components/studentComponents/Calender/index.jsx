@@ -1,24 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
-
-const initialEvents = {
-    "1": { title: "JavaScript", date: "1 Dec - 4 Dec" },
-    "5": { title: "Git", date: "5 Dec" },
-    "7": { title: "Git", date: "7 Dec" },
-    "8": { title: "React-js", date: "8 Dec - 12 Dec" },
-    "14": { title: "Next-js", date: "14 Dec -" },
-    "15": { title: "Next-js", date: "16 Dec" },
-    "17": { title: "Angular-js", date: "17 Dec -" },
-    "21": { title: "Angular-js", date: "21 Dec" },
-    "22": { title: "TypeScript", date: "22 Dec - 24 Dec" },
-    "25": { title: "App Design", date: "25 Dec - 27 Dec" },
-};
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../../app/firebaseConfig';
 
 const Calendar = () => {
-    const [events, setEvents] = useState(initialEvents);
+    const [events, setEvents] = useState({});
+
+    const fullName = localStorage.getItem("fname") + localStorage.getItem("lname");
+
+    console.log(fullName);
+
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, "course_instructor"));
+            const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const intructorCourse = courses.filter((course) => (course.instructor === "Emad Elshplangy"));
+
+            console.log(intructorCourse);
+
+            const newEvents = {};
+
+            intructorCourse.forEach((course) => {
+
+                const timestamp = course.details?.date;
+                const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+                const options = { day: 'numeric', month: 'short' };
+                const formattedDate = date.toLocaleDateString('en-GB', options);
+                const day = date.getDate();
+
+                const newEvent = { title: course.title, date: formattedDate };
+                newEvents[day] = newEvent;
+
+                // const formattedDates = course.details.date.map((timestamp) => {
+                //   const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+                //   const options = { day: 'numeric', month: 'short' };
+                //   const formattedDate = date.toLocaleDateString('en-GB', options);
+                //   const day = date.getDate();
+                //   newEvents[day] = { title: course.title, date: formattedDate };
+                // });
+            });
+            setEvents(newEvents);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    };
 
     return (
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl" id="content">
             <Breadcrumb pageName="Schedule" />
             <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <table className="w-full">
