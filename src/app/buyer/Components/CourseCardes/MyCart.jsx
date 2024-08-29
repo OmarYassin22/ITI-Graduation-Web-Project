@@ -128,7 +128,7 @@ const Coursess = ({ handleRouteChange }) => {
         setCourses([]);
       }
     }
-  }, []);
+  },[]);
 
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (

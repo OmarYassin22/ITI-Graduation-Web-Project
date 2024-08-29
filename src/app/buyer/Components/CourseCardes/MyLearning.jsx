@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "./../../../firebaseConfig";
 import { courseContext } from "./../../../Contexts/Courses/CourseContextProvider";
 import Image from "next/image";
@@ -10,13 +10,51 @@ function MyLearning() {
   const [learningCourses, setLearningCourses] = useState([]);
   const { localCourse } = useContext(courseContext);
   console.log(localCourse);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [courseTitle, setCourseTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [courseIns, setCourseIns] = useState(null);
+  
 
   useEffect(() => {
     setCourses(localCourse);
   }, [localCourse]);
+
   function openCourseDetails(id) {
-    console.log(id);
+    setSelectedCourseId(id);
   }
+
+  useEffect(() => {
+    const fetchCourseTitle = async () => {
+      if (selectedCourseId) {
+        setIsLoading(true);
+        console.log(selectedCourseId);  
+        try {
+          const courseRef = doc(db, 'courses', selectedCourseId);
+          const courseSnap = await getDoc(courseRef);
+          console.log(courseRef);
+          console.log(courseSnap);          
+          if (courseSnap.exists()) {
+            setCourseTitle(courseSnap.data().title);
+            setCourseIns(courseSnap.data().instructor)
+          } else {
+            setError('No such course!');
+          }
+        } catch (error) {
+          setError('Error fetching course: ' + error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    fetchCourseTitle();
+  }, [selectedCourseId]);
+
+  console.log(courseTitle);
+  console.log(courseIns);
+
   async function getData() {
     try {
       let buyerEmail = window.localStorage.getItem("email");
@@ -94,6 +132,10 @@ function MyLearning() {
             </div>
           </div>
         ))}
+      </div>
+      <div>
+        {isLoading && <div>Loading...</div>}
+        {error && <div>Error: {error}</div>}
       </div>
     </div>
   );
