@@ -1,5 +1,5 @@
 import React from 'react'
-import DefaultLayout from "../../../components/instructorComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../components/Layouts/DefaultLayout'
 import InsVideo from '../../../components/instructorComponents/Video/Video';
 
 const Video = () => {

@@ -1,5 +1,5 @@
 import Chart from "../../../components/adminComponents/Charts/page";
-import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../components/Layouts/DefaultLayout'
 import React from "react";
 
 const BasicChartPage = () => {
