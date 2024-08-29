@@ -272,7 +272,8 @@ useEffect(() => {
                   >
                     <option value="">Select a Course</option>
                     {courses.length > 0 ? (
-                      courses.map((course) => (
+                      [...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                      .map((course) => (
                         <option key={course.id} value={course.data.title}>
                           {course.data.title}
                         </option>

@@ -333,7 +333,8 @@ function Student() {
                   <option value="" disabled selected>
                  Courses
                   </option>
-                  {courses.map((course) => (
+                  {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                  .map((course) => (
                     <option key={course.id} value={course.data.title}>
                       {course.data.title}
                     </option>

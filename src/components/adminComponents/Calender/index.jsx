@@ -184,7 +184,8 @@ const handleDeleteClick = () => {
                   <option value="" disabled selected>
                  Select a course
                   </option>
-                  {courses.map((course) => (
+                  {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                  .map((course) => (
                     <option key={course.id} value={course.data.title}>
                       {course.data.title}
                     </option>
