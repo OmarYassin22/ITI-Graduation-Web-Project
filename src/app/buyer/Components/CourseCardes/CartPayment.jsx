@@ -63,7 +63,7 @@ export default function CartPayment({ courses, onSuccess }) {
       <button
         onClick={handlePayment}
         disabled={loading}
-        className="mt-4 flex rounded-md h-12 w-full items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
+        className="mt-4 flex rounded-md h-12 w-70 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
       >
         {loading ? "Processing..." : "Pay for All Courses"}
       </button>
