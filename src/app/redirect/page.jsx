@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useInsertionEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import "./test.css";
@@ -8,11 +8,16 @@ import "./test.css";
 const type = localStorage.getItem("type");
 const Redirect = (props) => {
   const router = useRouter();
-  console.log(type);
-  if (type == "admin") router.push(`/admin/home`);
-  if (type == "buyer"||type=='applicant') router.push(`/buyer`);
-  if (type == "student") router.push(`/student`);
-  if (type == "instructor") router.push(`/instructor`);
+  const type = localStorage.getItem("type");
+
+  useInsertionEffect(() => {
+    if (type === "admin") router.push("/admin/home");
+    else if (type === "buyer" || type === 'applicant') router.push("/buyer");
+    else if (type === "student") router.push("/student");
+    else if (type === "instructor") router.push("/instructor");
+  }, [type, router]); // Ensure this effect only runs when type changes
+
+
   return (
     <div>
       <div>
