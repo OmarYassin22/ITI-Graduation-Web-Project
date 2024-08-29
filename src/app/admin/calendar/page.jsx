@@ -25,15 +25,13 @@ const CalendarPage = () => {
         >
           <option value="Calendar 1">Front End</option>
           <option value="Calendar 2">Back End</option>
-          <option value="Calendar 3">Full Stack</option>
+          <option value="Calendar 3">Mobil App</option>
         </select>
       </div>
 
-      {selectedCalendar === "Calendar 1" && <Calendar calendarId="front-end" />}
-      {selectedCalendar === "Calendar 2" && <Calendar calendarId="back-end" />}
-      {selectedCalendar === "Calendar 3" && (
-        <Calendar calendarId="full stack" />
-      )}
+      {selectedCalendar === 'Calendar 1' && <Calendar calendarId="front-end" />}
+      {selectedCalendar === 'Calendar 2' && <Calendar calendarId="back-end" />}
+      {selectedCalendar === 'Calendar 3' && <Calendar calendarId="mobile app" />}
     </DefaultLayout>
   );
 };
