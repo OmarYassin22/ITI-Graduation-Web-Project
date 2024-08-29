@@ -35,7 +35,7 @@ const Coursess = ({ handleRouteChange }) => {
     course?.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const deleteCourse = (courseId) => {
-    const updatedCourses = courses.filter((course) => course.id !== courseId);
+    const updatedCourses = courses.filter((course) => course?.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerCart(updatedCourses);
     localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));

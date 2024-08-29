@@ -14,6 +14,8 @@ const Video = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
 
+  const fullName = localStorage.getItem("fname") + " " + localStorage.getItem("lname");
+
   useEffect(() => {
     if (!dataFetched) {
       fetchData();
@@ -33,7 +35,7 @@ const Video = () => {
         }
     
         student.courses
-          .filter(course => course.instructor === 'Emad Elshplangy')
+          .filter(course => course.instructor === fullName)
           .forEach(course => courseSet.add(course.course));
         return [];
       });
@@ -60,7 +62,7 @@ const Video = () => {
 
     setIsUploading(true);
     
-    const storageRef = ref(storage, `Emad Elshplangy/${selectedCourse}/${file.name}`);
+    const storageRef = ref(storage, `${fullName}/${selectedCourse}/${file.name}`);
 
     // Get existing course data from localStorage
     let coursesData = JSON.parse(localStorage.getItem('coursesData')) || [];

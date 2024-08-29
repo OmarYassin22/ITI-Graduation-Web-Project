@@ -6,10 +6,7 @@ import { db } from '../../../app/firebaseConfig';
 const Calendar = () => {
   const [events, setEvents] = useState({});
 
-  const fullName = localStorage.getItem("fname") + localStorage.getItem("lname");
-
-  console.log(fullName);
-  
+  const fullName = localStorage.getItem("fname") + " " + localStorage.getItem("lname");
 
   useEffect(() => {
     fetchData();
@@ -19,7 +16,9 @@ const Calendar = () => {
     try {
       const querySnapshot = await getDocs(collection(db, "courses"));
       const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const intructorCourse = courses.filter((course) => (course.instructor === "Emad Elshplangy"));
+      const intructorCourse = courses.filter((course) => (
+        course.instructor === fullName
+      ));
 
       console.log(intructorCourse);
       

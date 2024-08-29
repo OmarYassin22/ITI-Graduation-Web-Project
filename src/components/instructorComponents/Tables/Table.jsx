@@ -11,6 +11,8 @@ const Table = () => {
   const [uniqueFieldsArray, setUniqueFieldsArray] = useState([]);
   const [selectedField, setSelectedField] = useState('');
 
+  const fullName = localStorage.getItem("fname") + " " + localStorage.getItem("lname");
+
   const filteredCourseData = 
   selectedField ? courseData.filter(course => course.field === selectedField)
   : courseData;
@@ -71,7 +73,7 @@ const Table = () => {
         }
 
         return student.courses
-          .filter(course => course.instructor === 'Emad Elshplangy')
+          .filter(course => course.instructor === fullName)
           .map(course => ({
             studentId: student.id,
             courseStudent: student.fname + " " + student.lname,
