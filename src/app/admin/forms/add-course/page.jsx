@@ -1,7 +1,7 @@
 "use client";
 import Swal from 'sweetalert2';
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../../components/Layouts/DefaultLayout'
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";

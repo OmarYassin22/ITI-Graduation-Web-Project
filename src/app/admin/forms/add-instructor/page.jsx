@@ -1,6 +1,6 @@
 "use client";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../../components/Layouts/DefaultLayout'
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

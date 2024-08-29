@@ -4,34 +4,25 @@ import Sidebar from "../Sidebar";
 import { useSidebar } from "../../SidebarContext";
 
 export default function DefaultLayout({ children }) {
-    const {sidebarOpen, setSidebarOpen} = useSidebar();
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
+  console.log("=========================================");
+  console.log(localStorage.setItem("type"));
+  console.log(location.href);
+  console.log("=========================================");
 
-    return (
-        <>
-            {/* <!-- ===== Page Wrapper Start ===== --> */}
-            <div className="flex">
-                {/* <!-- ===== Sidebar Start ===== --> */}
-                <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-                {/* <!-- ===== Sidebar End ===== --> */}
+  return (
+    <>
+      <div className="flex">
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-                {/* <!-- ===== Content Area Start ===== --> */}
-                <div className="relative flex flex-1 flex-col lg:ml-72.5">
-                    {/* <!-- ===== Header Start ===== --> */}
-                    {/* <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-                    {/* <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-                    {/* <!-- ===== Header End ===== --> */}
-
-                    {/* <!-- ===== Main Content Start ===== --> */}
-                    <main>
-                        <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                            {children}
-                        </div>
-                    </main>
-                    {/* <!-- ===== Main Content End ===== --> */}
-                </div>
-                {/* <!-- ===== Content Area End ===== --> */}
+        <div className="relative flex flex-1 flex-col lg:ml-72.5">
+          <main>
+            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+              {children}
             </div>
-            {/* <!-- ===== Page Wrapper End ===== --> */}
-        </>
-    );
+          </main>
+        </div>
+      </div>
+    </>
+  );
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import Breadcrumb from "../../../components/studentComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../components/studentComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../components/Layouts/DefaultLayout'
 import TableOne from "../../../components/studentComponents/Tables/TableOne";
 
 function page() {
