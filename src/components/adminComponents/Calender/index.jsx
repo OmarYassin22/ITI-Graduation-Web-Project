@@ -2,18 +2,17 @@
 // pages/calendar.jsx
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
-import { collection, addDoc, getDoc, doc,setDoc,updateDoc  } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
-const Calendar = () => {
+const Calendar = ({ calendarId }) => {
   const [events, setEvents] = useState({});
   const [editingEvent, setEditingEvent] = useState(null);
-const Swal = require('sweetalert2')
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const docRef = doc(db, "course_instructor", "calendar_events");
+      const docRef = doc(db, "course_instructor", calendarId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -24,44 +23,46 @@ const Swal = require('sweetalert2')
     };
 
     fetchEvents();
-  }, []);
+  }, [calendarId]);
 
+  const handleSaveClick = async () => {
+    if (editingEvent) {
+      const { title, date } = editingEvent.event;
+      if (title.trim() || date.trim()) {
+        setEvents((prevEvents) => {
+          const updatedEvents = {
+            ...prevEvents,
+            [editingEvent.day]: editingEvent.event,
+          };
 
-const handleSaveClick = async () => {
-  if (editingEvent) {
-    const { title, date } = editingEvent.event;
-    if (title.trim() || date.trim()) {
-      setEvents((prevEvents) => {
-        const updatedEvents = {
-          ...prevEvents,
-          [editingEvent.day]: editingEvent.event,
-        };
-
-        const docRef = doc(db, "course_instructor", "calendar_events");
-        setDoc(docRef, updatedEvents)
-          .then(() => {
-          //  alert("saved successfully!");
-            Swal.fire({
-              text: 'saved successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK',
-              width:"15em",
-              timer:"1000"
+          const docRef = doc(db, "course_instructor", calendarId);
+          setDoc(docRef, updatedEvents)
+            .then(() => {
+              Swal.fire({
+                text: 'Saved successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                width: "15em",
+                timer: "1000"
+              });
             })
-          })
-          .catch((error) => {
-            console.error("Error saving event: ", error);
-          });
+            .catch((error) => {
+              console.error("Error saving event: ", error);
+            });
 
-        return updatedEvents; 
-      });
+          return updatedEvents; 
+        });
+      }
+      setEditingEvent(null); 
     }
-    setEditingEvent(null); 
-  }
-};
+  };
 
+  const handleEditClick = (day) => {
+    const event = events[day] || { title: "", date: "" };
+    setEditingEvent({ day, event });
+  };
 
-  // Function to handle input changes during editing
+  // Handle input change during editing
   const handleInputChange = (e, field) => {
     if (editingEvent) {
       setEditingEvent({
@@ -73,51 +74,33 @@ const handleSaveClick = async () => {
       });
     }
   };
-
-  // Function to start editing an event
-  const handleEditClick = (day) => {
-    const event = events[day] || { title: "", date: "" };
-    setEditingEvent({ day, event });
-  };
-
-// Function to delete event in Firestore
-const handleDeleteClick = async () => {
+const handleDeleteClick = () => {
   if (editingEvent) {
-    const { day } = editingEvent;
-
     setEvents((prevEvents) => {
       const updatedEvents = { ...prevEvents };
-      delete updatedEvents[day]; 
+      delete updatedEvents[editingEvent.day]; // حذف الحدث من اليوم المختار
 
-   
-
-      const docRef = doc(db, "course_instructor", "calendar_events");
+      const docRef = doc(db, "course_instructor", calendarId);
       setDoc(docRef, updatedEvents)
         .then(() => {
-          // alert("Deleted successfully!");
-            Swal.fire({
-              text: 'Deleted successfully!',
-              icon: 'warning',
-              confirmButtonText: 'OK',
-              width:"15em",
-              timer:"1000",
-              padding:"0",
-            
-              
-            })
+          Swal.fire({
+            text: 'Deleted successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            width: "15em",
+            timer: "1000"
+          });
         })
         .catch((error) => {
           console.error("Error deleting event: ", error);
         });
 
-      return updatedEvents; 
+      return updatedEvents;
     });
 
-    setEditingEvent(null); 
+    setEditingEvent(null); // إخفاء النموذج بعد الحذف
   }
 };
-
-
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -165,7 +148,7 @@ const handleDeleteClick = async () => {
               <h3 className="text-lg font-bold">Edit Event</h3>
               <div className="mb-4">
                 <label className="text-gray-700 block text-sm font-medium">
-                  Event Title
+                 Course
                 </label>
                 <input
                   type="text"
@@ -176,7 +159,7 @@ const handleDeleteClick = async () => {
               </div>
               <div className="mb-4">
                 <label className="text-gray-700 block text-sm font-medium">
-                  Event Date
+                  Instructor
                 </label>
                 <input
                   type="text"
