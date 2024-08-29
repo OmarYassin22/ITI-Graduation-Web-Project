@@ -14,10 +14,9 @@ function UserPage() {
       : +localStorage.getItem("counter");
   console.log(counter);
 
-
-  window.onload=()=>{
-    localStorage.setItem("counter", +localStorage.getItem("counter")+1)
-  }
+  window.onload = () => {
+    localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
+  };
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { localCourse, setLocalCourse } = useContext(courseContext);
@@ -25,7 +24,6 @@ function UserPage() {
   console.log(courses);
 
   useEffect(() => {
-
     setCourses(localCourse);
   }, [localCourse]);
 
@@ -93,8 +91,9 @@ function UserPage() {
                 <div className="relative z-10 text-white">
                   <div className="card-content">
                     <h3 className="font-bold mb-2">{course.data.title}</h3>
-                    <span className="flex">
-                      <FaStar className="text-yellow-400" /> <span>4.7</span>
+                    <span className="flex justify-center items-center gap-x-3">
+                      <FaStar className="text-yellow-400" />{" "}
+                      <span>{course.data.rating}</span>
                     </span>{" "}
                   </div>
                 </div>
