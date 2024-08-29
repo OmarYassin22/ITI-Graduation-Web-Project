@@ -7,6 +7,8 @@ import Variants from "../Spinner";
 import { useRouter } from "next/navigation";
 import { BackgroundSection, CardGridSection } from "./StaticSections";
 import { courseContext } from "../Contexts/Courses/CourseContextProvider";
+import Acordion from "./acordion";
+
 function UserPage() {
   const counter =
     localStorage.getItem("counter") == 0
@@ -109,8 +111,7 @@ function UserPage() {
           )}
         </div>
       </div>
-
-      <CardGridSection />
+      <Acordion />
     </div>
   );
 }

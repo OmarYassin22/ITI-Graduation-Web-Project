@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../../app/firebaseConfig';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../app/firebaseConfig";
 
 const Calendar = () => {
   const [events, setEvents] = useState({});
 
-  const fullName = localStorage.getItem("fname") + localStorage.getItem("lname");
+  const fullName =
+    localStorage.getItem("fname") || "";
 
   console.log(fullName);
-  
 
   useEffect(() => {
     fetchData();
@@ -17,20 +17,26 @@ const Calendar = () => {
 
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "courses"));
-      const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const intructorCourse = courses.filter((course) => (course.instructor === "Emad Elshplangy"));
+      const querySnapshot = await getDocs(collection(db, "course_instructor"));
+      const courses = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const intructorCourse = courses.filter(
+        (course) => course.instructor === fullName
+      );
 
       console.log(intructorCourse);
-      
+
       const newEvents = {};
 
       intructorCourse.forEach((course) => {
-
         const timestamp = course.details?.date;
-        const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
-        const options = { day: 'numeric', month: 'short' };
-        const formattedDate = date.toLocaleDateString('en-GB', options);
+        const date = new Date(
+          timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+        );
+        const options = { day: "numeric", month: "short" };
+        const formattedDate = date.toLocaleDateString("en-GB", options);
         const day = date.getDate();
 
         const newEvent = { title: course.title, date: formattedDate };
@@ -56,15 +62,18 @@ const Calendar = () => {
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <table className="w-full">
           <thead>
-            <tr className="grid grid-cols-7 rounded-t-sm bg-primary text-white">
-            </tr>
+            <tr className="grid grid-cols-7 rounded-t-sm bg-primary text-white"></tr>
           </thead>
           <tbody>
             <tr className="grid grid-cols-7">
               {Array.from({ length: 31 }, (_, i) => (
                 <td
                   key={i + 1}
-                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${(events[i + 1] != undefined ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600` : `transition`)}`}
+                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${
+                    events[i + 1] != undefined
+                      ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600`
+                      : `transition`
+                  }`}
                 >
                   <span className="font-medium text-black dark:text-white">
                     {i + 1}

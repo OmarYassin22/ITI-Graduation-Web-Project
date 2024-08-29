@@ -1,7 +1,7 @@
 // pages/accept-students.jsx
 "use client";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../../components/adminComponents/Layouts/DefaultLayout'
 import React, { useState, useEffect } from "react";
 import {
   getDocs,

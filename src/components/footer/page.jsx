@@ -8,10 +8,10 @@ function Footer() {
     href.includes("admin") ||
     href.includes("buyer") ||
     href.includes("buyre") ||
+    href.includes("redirect") ||
     href.includes("student")
       ? true
       : false;
-  console.log("############### footer #####################");
   return (
     <div
       className="cardesbackground w-full"

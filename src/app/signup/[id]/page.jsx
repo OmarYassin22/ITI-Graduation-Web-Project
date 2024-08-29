@@ -37,7 +37,7 @@ function Page({ params }) {
     initialValues: {
       fname: "",
       lname: "",
-      email: "",
+      userName: "",
       number: "",
     },
     validationSchema: Yup.object({
@@ -47,12 +47,9 @@ function Page({ params }) {
       lname: Yup.string()
         .required("please enter last name")
         .min(3, "last name should have at least 3 characters"),
-      email: Yup.string()
-        .required("email is required and  writen  as moh.eha@gmail.com")
-        .matches(
-          /^\w{3,}.?\w{3,}?@(\w{3,}).(\w{3,})$/i,
-          "email is required and  writen  as moh.eha@gmail.com"
-        ),
+      userName: Yup.string()
+        .required("please enter your user name")
+        .min(6, "user name should have at least 6 characters"),
       number: Yup.string()
         .required("please enter phone number")
         .matches(
@@ -93,7 +90,7 @@ function Page({ params }) {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.fname}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.fname && formik.errors.fname ? (
             <div className="text-sm text-red-600">{formik.errors.fname}</div>
@@ -106,23 +103,23 @@ function Page({ params }) {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.lname}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.lname && formik.errors.lname ? (
             <div className="text-sm text-red-600">{formik.errors.lname}</div>
           ) : null}
           <input
-            type="email"
-            placeholder="Email"
-            id="email"
-            name="email"
+            type="text"
+            placeholder="user name"
+            id="userName"
+            name="userName"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.email}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            value={formik.values.userName}
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="text-sm text-red-600">{formik.errors.email}</div>
+          {formik.touched.userName && formik.errors.userName ? (
+            <div className="text-sm text-red-600">{formik.errors.userName}</div>
           ) : null}
           <input
             type="tel"
@@ -132,7 +129,7 @@ function Page({ params }) {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.number}
-            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-gray-900"
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
           />
           {formik.touched.number && formik.errors.number ? (
             <div className="text-sm text-red-600">{formik.errors.number}</div>

@@ -1,10 +1,10 @@
-'use client'
-import React, { useState } from 'react';
-import Calendar from '../../../components/adminComponents/Calender/index';
-import DefaultLayout from '../../../components/adminComponents/Layouts/DefaultLayout';
+"use client";
+import React, { useState } from "react";
+import Calendar from "../../../components/adminComponents/Calender/index";
+import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout";
 
 const CalendarPage = () => {
-  const [selectedCalendar, setSelectedCalendar] = useState('Calendar 1');
+  const [selectedCalendar, setSelectedCalendar] = useState("Calendar 1");
 
   const handleCalendarChange = (e) => {
     setSelectedCalendar(e.target.value);
@@ -13,13 +13,15 @@ const CalendarPage = () => {
   return (
     <DefaultLayout>
       <div className="my-4">
-        <label htmlFor="calendarDropdown" className="mr-2">Select Calendar:</label>
+        <label htmlFor="calendarDropdown" className="mr-2">
+          Select Calendar:
+        </label>
+        a
         <select
           id="calendarDropdown"
           value={selectedCalendar}
           onChange={handleCalendarChange}
           className=" rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-
         >
           <option value="Calendar 1">Front End</option>
           <option value="Calendar 2">Back End</option>

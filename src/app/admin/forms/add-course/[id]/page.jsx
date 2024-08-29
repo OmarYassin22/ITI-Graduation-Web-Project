@@ -1,6 +1,6 @@
 "use client";
 import Breadcrumb from "../../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from "../../../../../components/adminComponents/Layouts/DefaultLayout";
+import DefaultLayout from'../../../../../components/adminComponents/Layouts/DefaultLayout'
 import Variants from "../../../../Spinner";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
