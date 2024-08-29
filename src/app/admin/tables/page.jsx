@@ -6,7 +6,7 @@ import Instractor from "../../../components/adminComponents/Tables/Instractor";
 import { useState } from "react";
 
 const TablesPage = () => {
-  const [active, setActive] = useState("Student");
+  const [active, setActive] = useState("Instractor");
 
   return (
     <DefaultLayout>
