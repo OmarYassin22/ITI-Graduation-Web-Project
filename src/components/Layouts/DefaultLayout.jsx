@@ -14,7 +14,7 @@ export default function DefaultLayout({ children }) {
     if (userType && !location.href.includes(userType)) {
       router.push("/redirect");
     }
-  }, []); // Empty dependency array to run only on initial render
+  }, [router]); // Empty dependency array to run only on initial render
 
   return (
     <>

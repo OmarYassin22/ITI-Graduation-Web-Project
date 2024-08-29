@@ -15,6 +15,7 @@ export default function Home() {
 
   const [selectedRoute, setSelectedRoute] = useState("courses");
   const [buyerCorses, setBuyerCorses] = useState([]);
+  const type = localStorage.getItem("type");
   const handleRouteChange = (route) => {
     setSelectedRoute(route);
   };
@@ -22,26 +23,25 @@ export default function Home() {
     setBuyerCorses(x);
   }
 
-  if (
-    !location.href.includes(localStorage.getItem("type")) ||
-    localStorage.getItem("type") != "applicant"
-  )
-    return router.push("/redirect");
-  else
-    return (
-      <div>
-        <BuyerNavbar handleRouteChange={handleRouteChange} />
+  useEffect(() => {
+    if (!location.href.includes(type) || !location.href.includes("applicant"))
+      router.push("/redirect");
+  }, [router, type]);
 
-        <div className="px-20 py-12">
-          {selectedRoute === "courses" && (
-            <Coursess handelCourses={handelCourses} />
-          )}
-          {selectedRoute === "MyCart" && (
-            <MyCart handleRouteChange={handleRouteChange} />
-          )}
-          {selectedRoute === "MyLearning" && <MyLearning />}
-          {selectedRoute === "Scholarship" && <Scholarship></Scholarship>}
-        </div>
+  return (
+    <div>
+      <BuyerNavbar handleRouteChange={handleRouteChange} />
+
+      <div className="px-20 py-12">
+        {selectedRoute === "courses" && (
+          <Coursess handelCourses={handelCourses} />
+        )}
+        {selectedRoute === "MyCart" && (
+          <MyCart handleRouteChange={handleRouteChange} />
+        )}
+        {selectedRoute === "MyLearning" && <MyLearning />}
+        {selectedRoute === "Scholarship" && <Scholarship></Scholarship>}
       </div>
-    );
+    </div>
+  );
 }
