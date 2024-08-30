@@ -32,10 +32,8 @@ const Coursess = ({ handleRouteChange }) => {
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredCourses = courses.filter(
-    (course) =>
-      course?.title &&
-      course.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCourses = courses.filter((course) =>
+    course?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const deleteCourse = (courseId) => {
     const updatedCourses = courses.filter((course) => course.id !== courseId);
@@ -46,7 +44,9 @@ const Coursess = ({ handleRouteChange }) => {
 
   const handlePaymentSuccess = async () => {
     try {
-      const purchasedCourseIds = courses.map((course) => course.id);
+      const purchasedCourseIds = courses
+        .filter((course) => course != null && course.id != null)
+        .map((course) => course.id);
       console.log("Purchased Course IDs:", purchasedCourseIds);
 
       // 1. Update local state
