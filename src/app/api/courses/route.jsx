@@ -45,7 +45,7 @@ export async function GET(request) {
   }
 }
 export async function POST(request) {
-  const { title, price, details, duration, instructor, imgPath } =
+  const { title, price, details, duration, instructor, imgPath , buyers , track } =
     await request.json();
 
   try {
@@ -57,6 +57,8 @@ export async function POST(request) {
       instructor: instructor,
       duration: duration,
       imgPath: imgPath != null ? imgPath : null,
+      buyers : buyers,
+      track : track ,
     });
 
     console.log("Document written with ID: ", docRef.id);
