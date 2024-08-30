@@ -7,6 +7,8 @@ import BuyerNavbar from "./Components/BuyerNavbar/BuyerNavbar";
 import Coursess from "./Courses/Coursess";
 import MyLearning from "./Components/CourseCardes/MyLearning";
 import MyCart from "./Components/CourseCardes/MyCart";
+
+import MyWishlist from "./Components/CourseCardes/MyWishlist";
 import Scholarship from "./Components/CourseCardes/Scholarship";
 import { useRouter } from "next/navigation";
 
@@ -32,6 +34,9 @@ export default function Home() {
         )}
         {selectedRoute === "MyCart" && (
           <MyCart handleRouteChange={handleRouteChange} />
+        )}
+        {selectedRoute === "MyWishlist" && (
+          <MyWishlist handleRouteChange={handleRouteChange} />
         )}
         {selectedRoute === "MyLearning" && <MyLearning />}
         {selectedRoute === "Scholarship" && <Scholarship></Scholarship>}

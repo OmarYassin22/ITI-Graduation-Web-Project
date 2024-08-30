@@ -67,15 +67,15 @@ const menuGroups = [
                 route: "/instructor/table",
             },
             {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="2" y="4" width="16" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M22 7l-6 5 6 5V7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              ),
-              label: "Add Video",
-              route: "/instructor/video",
-          },
+                icon: (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="4" width="16" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M22 7l-6 5 6 5V7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                ),
+                label: "Add Video",
+                route: "/instructor/video",
+            },
         ],
     },
 ];
@@ -93,7 +93,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 {/* <!-- SIDEBAR HEADER --> */}
                 <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
                     <Link href="/">
-                 
+
                     </Link>
 
                     <button
