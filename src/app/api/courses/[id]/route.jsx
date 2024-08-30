@@ -57,9 +57,9 @@ export async function PUT(request) {
   try {
     const res = new URL(request.url);
     const id = res.pathname.substring(res.pathname.lastIndexOf("/") + 1);
-    const { title, price, imgPath, details, duration, instructor } = await request.json();
+    const { title, price, imgPath, details, duration, instructor, buyers, track } = await request.json();
     const oldDoc = doc(db, "courses", id);
-    updateDoc(oldDoc, { title, price, imgPath, details, duration, instructor });
+    updateDoc(oldDoc, { title, price, imgPath, details, duration, instructor, buyers, track });
     return NextResponse.json({
       message: `course with ${id} has been updated`,
     });

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { BRAND } from "@/types/brand";
 "use client";
 import Image from "next/image";
@@ -246,28 +247,20 @@ const TableOne = () => {
   };
 
 
+=======
+import { useState } from "react";
+import TopStudents from './top10students';
+import TopCourses from "./top10courses";
+function TableOne() {
+  const [active, setActive] = useState("Student");
+>>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
         Top 10
       </h4>
-      <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
-          <div className="form-control  min-w-47.5">
-            <label className="label cursor-pointer">
-              <span className="label-text m-2 font-semibold text-secondary">
-                Top Instructors
-              </span>
-              <input
-                type="radio"
-                name="radio-10"
-                className="radio checked:bg-red-500"
-                value="instructors"
-                defaultChecked
-                onChange={handleRadioChange}
-              />
-            </label>
-          </div>
           <div className="form-control min-w-47.5">
             <label className="label cursor-pointer">
               <span className="label-text m-2 font-semibold text-secondary">
@@ -278,7 +271,8 @@ const TableOne = () => {
                 name="radio-10"
                 className="radio checked:bg-red-500"
                 value="students"
-                onChange={handleRadioChange}
+                defaultChecked
+                onChange={() => setActive("Student")}
               />
             </label>
           </div>
@@ -292,12 +286,13 @@ const TableOne = () => {
                 name="radio-10"
                 className="radio checked:bg-red-500 m-2"
                 value="courses"
-                onChange={handleRadioChange}
+                onChange={() => setActive("Course")}
               />
             </label>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <br></br>
       <div className="flex flex-col">
         <div className="grid grid-cols-5 rounded-sm bg-gray-2 dark:bg-meta-4">
@@ -362,8 +357,11 @@ const TableOne = () => {
           </div>
         ))}
       </div>
+=======
+        {active === "Student" && <TopStudents />}
+        {active === "Course" && <TopCourses />}
+>>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
     </div>
   );
-};
-
+}
 export default TableOne;

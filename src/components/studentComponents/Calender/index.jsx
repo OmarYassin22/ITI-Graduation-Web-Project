@@ -6,7 +6,6 @@ import { db } from '../../../app/firebaseConfig';
 const Calendar = () => {
     const [events, setEvents] = useState({});
 
-    const fullName = localStorage.getItem("fname") + localStorage.getItem("lname");
 
     console.log(fullName);
 

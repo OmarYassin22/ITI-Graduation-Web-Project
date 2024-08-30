@@ -32,6 +32,7 @@ function Login() {
   };
   async function login(values) {
     // try {
+    debugger;
 
     setLoading(true);
     setErrorMsg("");
@@ -40,19 +41,21 @@ function Login() {
       values.email,
       values.password
     );
+
     const UserType = collection(db, "UserData");
     const q = await query(UserType, where("uid", "==", dbuser.user.uid));
     const result = await getDocs(q);
     localStorage.setItem("type", result.docs[0].data().type);
-    localStorage.setItem("fname", result.docs[0].data().fname);
-    localStorage.setItem("lname", result.docs[0].data().lname);
+    localStorage.setItem("fname", result.docs[0].data()?.fname);
+    localStorage.setItem("lname", result.docs[0].data()?.lname);
 
-    
-    localStorage.setItem("email", result.docs[0].data().email);
+    localStorage.setItem("email", values.email);
     const res = await signIn("credentials", {
       email: values.email,
       password: values.password,
     });
+    console.log(res);
+    console.log("================================================");
   }
 
   const formik = useFormik({
@@ -84,7 +87,9 @@ function Login() {
       <div className="bg-white text-gray-900 rounded-2xl shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
           {/* <img className='w-16 mx-auto' src="src/logo.jpeg" alt="logo" /> */}
-          <h2 className="text-3xl font-extrabold text-black dark:text-black">Hello!</h2>
+          <h2 className="text-3xl font-extrabold text-black dark:text-black">
+            Hello!
+          </h2>
         </div>
         <form className="space-y-6" onSubmit={formik.handleSubmit}>
           <div className="space-y-4">

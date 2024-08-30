@@ -13,6 +13,7 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   arrayUnion,
@@ -31,8 +32,10 @@ const Coursess = ({ handleRouteChange }) => {
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredCourses = courses.filter((course) =>
-    course?.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCourses = courses.filter(
+    (course) =>
+      course?.title &&
+      course.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const deleteCourse = (courseId) => {
     const updatedCourses = courses.filter((course) => course.id !== courseId);
@@ -84,6 +87,26 @@ const Coursess = ({ handleRouteChange }) => {
 
         console.log("Firebase update successful");
 
+        ////////////////////////////////////////////////
+        // Update the 'buyers' field in each course document
+        for (const courseId of purchasedCourseIds) {
+          const courseRef = doc(db, "courses", courseId);
+
+          // Get the current 'buyers' count for the course
+          const courseSnapshot = await getDoc(courseRef);
+          const currentBuyersCount = courseSnapshot.data().buyers || 0;
+
+          // Increment the 'buyers' field by 1 for the course
+          const updatedBuyersCount = currentBuyersCount + 1;
+
+          // Update the 'buyers' field in the course document
+          await updateDoc(courseRef, { buyers: updatedBuyersCount });
+
+          console.log(
+            `Buyers count updated successfully for course ${courseId}`
+          );
+        }
+
         // 4. Show success message
         Swal.fire({
           position: "center-center",
@@ -113,6 +136,7 @@ const Coursess = ({ handleRouteChange }) => {
       });
     }
   };
+
   useEffect(() => {
     const savedCart = localStorage.getItem("courseBuyerCart");
     if (savedCart) {

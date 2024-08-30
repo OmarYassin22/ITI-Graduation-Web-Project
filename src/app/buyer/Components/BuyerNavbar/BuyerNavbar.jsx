@@ -1,5 +1,5 @@
 // 'use client';
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
@@ -8,6 +8,8 @@ import SearchBar from "./SearchBar";
 import UserProfile from "./UserProfile";
 import CategoryDropdown from "./CategoryDropdown";
 import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
+import { CourseBuyerContext } from "../../../BuyerContext";
+import styles from "./style.module.css"; // Import the CSS module
 
 const Logo = () => (
   <h2 className="font-bold text-2xl text-white dark:text-white mr-12">
@@ -15,25 +17,42 @@ const Logo = () => (
   </h2>
 );
 
-const NavIcons = () => {
-  const icons = [
-    { Icon: FaRegHeart, size: 24, label: "Favorites", href: "/favorites" },
-    { Icon: IoCartOutline, size: 30, label: "Cart", href: "/cart" },
-    {
-      Icon: CiBellOn,
-      size: 34,
-      label: "Notifications",
-      href: "/notifications",
-    },
-  ];
+const NavIcons = ({ handleRouteChange }) => {
+  let { courseBuyerCart, courseBuyerWish } = useContext(CourseBuyerContext);
+
+  const handleCart = () => {
+    handleRouteChange("MyCart");
+  };
+
+  const handleWish = () => {
+    handleRouteChange("MyWishlist");
+  };
 
   return (
     <ul className="flex items-center text-color space-x-5">
-      {icons.map(({ Icon, size, label, href }) => (
-        <li key={label} className="text-white dark:text-white hover:text-warning dark:hover:text-warning">
-          <Link href={href} aria-label={label}>
-            <Icon size={size} />
-          </Link>
+      {[
+        {
+          Icon: FaRegHeart,
+          size: 24,
+          label: "Favorites",
+          count: courseBuyerWish.length, // Assuming courseBuyerWish is an array
+          onClick: handleWish,
+        },
+        {
+          Icon: IoCartOutline,
+          size: 30,
+          label: "Cart",
+          count: courseBuyerCart.length, // Assuming courseBuyerCart is an array
+          onClick: handleCart,
+        },
+      ].map(({ Icon, size, label, count, onClick }) => (
+        <li
+          key={label}
+          className={`text-color cursor-pointer ${styles.cartIcon}`}
+          onClick={onClick}
+        >
+          <Icon size={size} />
+          {count > 0 && <span className={styles.cartBadge}>{count}</span>}
         </li>
       ))}
     </ul>
@@ -80,12 +99,11 @@ const BuyerNavbar = ({ handleRouteChange }) => {
         >
           Scholarship
         </li>
-
       </ul>
 
       <div className="flex items-center space-x-5">
-        <NavIcons />
-        <UserProfile />
+        <NavIcons handleRouteChange={handleRouteChange} />
+        {/* <UserProfile /> */}
         <ThemeToggle />
       </div>
     </nav>

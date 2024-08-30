@@ -1,10 +1,20 @@
 "use client";
-import React, { useState } from "react";
-import Sidebar from "../Sidebar";
-import { useSidebar } from "../../SidebarContext";
+import React, { useEffect } from "react";
+import Sidebar from "../studentComponents/Sidebar";
+import { useSidebar } from "../SidebarContext";
+import { useRouter } from "next/navigation";
 
 export default function DefaultLayout({ children }) {
   const { sidebarOpen, setSidebarOpen } = useSidebar();
+  const router = useRouter();
+
+
+  useEffect(() => {
+    const userType = localStorage.getItem("type");
+    if (userType && !location.href.includes(userType)) {
+      router.push("/redirect");
+    }
+  }, [router]); // Empty dependency array to run only on initial render
 
   return (
     <>

@@ -56,7 +56,6 @@ function Student() {
     getStudentData();
     getInstructors();
   }, []);
-
   useEffect(() => {
     setFilteredData(
       studentData.filter((student) =>
@@ -113,31 +112,6 @@ function Student() {
     if (selectedStudent) {
       try {
         const studentRef = doc(db, "students", selectedStudent.id);
-<<<<<<< HEAD
-
-        const docSnap = await getDoc(studentRef);
-        const currentData = docSnap.data();
-
-        const updatedCourses = studentFields.map(field => ({
-          ...field,
-          degree: 0
-        }));
-
-        await updateDoc(studentRef, {
-          courses: updatedCourses
-        });
-
-        setStudentData(studentData.map(student =>
-          student.id === selectedStudent.id ? {
-            ...student,
-            data: {
-              ...student.data,
-              courses: updatedCourses
-            }
-          } : student
-        ));
-
-=======
         const docSnap = await getDoc(studentRef);
         const currentData = docSnap.data();
 
@@ -159,8 +133,6 @@ function Student() {
             }
           } : student
         ));
-
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
         setSelectedStudent(null);
         setStudentName("");
         setStudentEmail("");
@@ -171,10 +143,6 @@ function Student() {
       }
     }
   };
-<<<<<<< HEAD
-
-=======
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
 
   const handleDeleteField = (index) => {
     setStudentFields((prevFields) => prevFields.filter((_, i) => i !== index));
