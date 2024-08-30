@@ -1,5 +1,5 @@
 // 'use client';
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
@@ -8,6 +8,8 @@ import SearchBar from "./SearchBar";
 import UserProfile from "./UserProfile";
 import CategoryDropdown from "./CategoryDropdown";
 import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
+import { CourseBuyerContext } from "../../../BuyerContext";
+import styles from "./style.module.css"; // Import the CSS module
 
 const Logo = () => (
   <h2 className="font-bold text-2xl text-color mr-12">
@@ -16,20 +18,41 @@ const Logo = () => (
 );
 
 const NavIcons = ({ handleRouteChange }) => {
-  const icons = [
-    { Icon: FaRegHeart, size: 24, label: "Favorites" },
-    { Icon: IoCartOutline, size: 30, label: "Cart" },
-  ];
-  const handleClick = (index) => {
-    if (index === 1) {
-      handleRouteChange("MyCart"); // Call handleRouteChange when the second icon is clicked
-    }
+  let { courseBuyerCart, courseBuyerWish } = useContext(CourseBuyerContext);
+
+  const handleCart = () => {
+    handleRouteChange("MyCart");
   };
+
+  const handleWish = () => {
+    handleRouteChange("MyWishlist");
+  };
+
   return (
     <ul className="flex items-center text-color space-x-5">
-      {icons.map(({ Icon, size, label }, index) => (
-        <li key={label} className="text-color">
-          <Icon size={size} onClick={() => handleClick(index)} />
+      {[
+        {
+          Icon: FaRegHeart,
+          size: 24,
+          label: "Favorites",
+          count: courseBuyerWish.length, // Assuming courseBuyerWish is an array
+          onClick: handleWish,
+        },
+        {
+          Icon: IoCartOutline,
+          size: 30,
+          label: "Cart",
+          count: courseBuyerCart.length, // Assuming courseBuyerCart is an array
+          onClick: handleCart,
+        },
+      ].map(({ Icon, size, label, count, onClick }) => (
+        <li
+          key={label}
+          className={`text-color cursor-pointer ${styles.cartIcon}`}
+          onClick={onClick}
+        >
+          <Icon size={size} />
+          {count > 0 && <span className={styles.cartBadge}>{count}</span>}
         </li>
       ))}
     </ul>
