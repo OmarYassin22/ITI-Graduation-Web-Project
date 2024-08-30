@@ -61,7 +61,7 @@ const Page = ({ params }) => {
       body: JSON.stringify({
         title: cTitle,
         price: cPrice,
-        imgPath: cImage.name + imgPath,
+        imgPath: cImage?.name + imgPath,
         details: cDetails,
         instructor: cInstructor,
         duration: cDuration,

@@ -15,25 +15,21 @@ const Logo = () => (
   </h2>
 );
 
-const NavIcons = () => {
+const NavIcons = ({ handleRouteChange }) => {
   const icons = [
-    { Icon: FaRegHeart, size: 24, label: "Favorites", href: "/favorites" },
-    { Icon: IoCartOutline, size: 30, label: "Cart", href: "/cart" },
-    {
-      Icon: CiBellOn,
-      size: 34,
-      label: "Notifications",
-      href: "/notifications",
-    },
+    { Icon: FaRegHeart, size: 24, label: "Favorites" },
+    { Icon: IoCartOutline, size: 30, label: "Cart" },
   ];
-
+  const handleClick = (index) => {
+    if (index === 1) {
+      handleRouteChange("MyCart"); // Call handleRouteChange when the second icon is clicked
+    }
+  };
   return (
     <ul className="flex items-center text-color space-x-5">
-      {icons.map(({ Icon, size, label, href }) => (
+      {icons.map(({ Icon, size, label }, index) => (
         <li key={label} className="text-color">
-          <Link href={href} aria-label={label}>
-            <Icon size={size} />
-          </Link>
+          <Icon size={size} onClick={() => handleClick(index)} />
         </li>
       ))}
     </ul>
@@ -80,12 +76,11 @@ const BuyerNavbar = ({ handleRouteChange }) => {
         >
           Scholarship
         </li>
-        
       </ul>
 
       <div className="flex items-center space-x-5">
-        <NavIcons />
-        <UserProfile />
+        <NavIcons handleRouteChange={handleRouteChange} />
+        {/* <UserProfile /> */}
         <ThemeToggle />
       </div>
     </nav>
