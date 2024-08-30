@@ -13,6 +13,7 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   arrayUnion,
@@ -84,6 +85,26 @@ const Coursess = ({ handleRouteChange }) => {
 
         console.log("Firebase update successful");
 
+        ////////////////////////////////////////////////
+        // Update the 'buyers' field in each course document
+        for (const courseId of purchasedCourseIds) {
+          const courseRef = doc(db, "courses", courseId);
+
+          // Get the current 'buyers' count for the course
+          const courseSnapshot = await getDoc(courseRef);
+          const currentBuyersCount = courseSnapshot.data().buyers || 0;
+
+          // Increment the 'buyers' field by 1 for the course
+          const updatedBuyersCount = currentBuyersCount + 1;
+
+          // Update the 'buyers' field in the course document
+          await updateDoc(courseRef, { buyers: updatedBuyersCount });
+
+          console.log(
+            `Buyers count updated successfully for course ${courseId}`
+          );
+        }
+
         // 4. Show success message
         Swal.fire({
           position: "center-center",
@@ -113,6 +134,95 @@ const Coursess = ({ handleRouteChange }) => {
       });
     }
   };
+
+  ////////////////////////////////////////////
+
+  const handleTest = async () => {
+    try {
+      const purchasedCourseIds = courses.map((course) => course.id);
+      console.log("Purchased Course IDs:", purchasedCourseIds);
+
+      // 1. Update local state
+      setCourses([]);
+      setSearchTerm("");
+      localStorage.removeItem("courseBuyerCart");
+
+      let buyerEmail = window.localStorage.getItem("email");
+      console.log("Buyer Email:", buyerEmail);
+
+      // 3. Update Firebase
+      const UserDataCollection = collection(db, "UserData");
+      const q = query(UserDataCollection, where("email", "==", buyerEmail));
+      console.log("Query:", q);
+
+      const querySnapshot = await getDocs(q);
+      console.log("Query Snapshot:", querySnapshot);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        console.log("User Document:", userDoc.data());
+
+        const userRef = doc(db, "UserData", userDoc.id);
+
+        // Update the buyedCourses array with the new purchased course IDs
+        await updateDoc(userRef, {
+          buyedCourses: arrayUnion(...purchasedCourseIds),
+        });
+
+        console.log("Firebase update successful");
+
+        ////////////////////////////////////////////////
+        // Update the 'buyers' field in each course document
+        for (const courseId of purchasedCourseIds) {
+          const courseRef = doc(db, "courses", courseId);
+
+          // Get the current 'buyers' count for the course
+          const courseSnapshot = await getDoc(courseRef);
+          const currentBuyersCount = courseSnapshot.data().buyers || 0;
+
+          // Increment the 'buyers' field by 1 for the course
+          const updatedBuyersCount = currentBuyersCount + 1;
+
+          // Update the 'buyers' field in the course document
+          await updateDoc(courseRef, { buyers: updatedBuyersCount });
+
+          console.log(
+            `Buyers count updated successfully for course ${courseId}`
+          );
+        }
+
+        // 4. Show success message
+        Swal.fire({
+          position: "center-center",
+          icon: "success",
+          title:
+            "Payment successful! You now have access to the purchased courses.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        // 5. Redirect user
+        handleRouteChange("MyLearning");
+      } else {
+        console.error("No matching user document found");
+        throw new Error("User document not found");
+      }
+    } catch (error) {
+      console.error("Error in post-payment processing:", error);
+
+      Swal.fire({
+        position: "center-center",
+        icon: "error",
+        title:
+          "Payment was successful, but there was an error updating your account. Please contact support.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+
+  ///////////////////////////////////////////////////////////////
+
   useEffect(() => {
     const savedCart = localStorage.getItem("courseBuyerCart");
     if (savedCart) {
@@ -180,6 +290,13 @@ const Coursess = ({ handleRouteChange }) => {
                   <p className="text-3xl text-color mb-4">{`Price: ${course.price}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
+                  <button
+                    onClick={() => handleTest()}
+                    className="flex rounded-md h-12 w-45 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
+                  >
+                    <MdDeleteSweep className="text-3xl mr-2 " />
+                    test Course
+                  </button>
                   <button
                     onClick={() => deleteCourse(course.id)}
                     className="flex rounded-md h-12 w-45 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
