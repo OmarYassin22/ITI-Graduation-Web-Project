@@ -12,7 +12,7 @@ import { CourseBuyerContext } from "../../../BuyerContext";
 import styles from "./style.module.css"; // Import the CSS module
 
 const Logo = () => (
-  <h2 className="font-bold text-2xl text-color mr-12">
+  <h2 className="font-bold text-2xl text-white dark:text-white mr-12">
     <Link href="/buyer">E-Learning</Link>
   </h2>
 );
@@ -76,25 +76,25 @@ const BuyerNavbar = ({ handleRouteChange }) => {
       </div>
       <ul className="flex items-center space-x-5">
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("courses")}
         >
           Courses
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("MyLearning")}
         >
           MyLearning
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("MyCart")}
         >
           MyCart
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("Scholarship")}
         >
           Scholarship
