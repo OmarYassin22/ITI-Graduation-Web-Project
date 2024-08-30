@@ -1,7 +1,7 @@
 "use client";
 import Swal from 'sweetalert2';
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from'../../../../components/Layouts/DefaultLayout'
+import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
@@ -28,13 +28,10 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const response = await fetch("/api/courses");
-        // console.log(response);
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        // console.log(result);
         setCourses(result);
       } catch (error) {
         setError(error.message);
@@ -51,7 +48,8 @@ const Page = () => {
   };
   const [cTitle, setCTitle] = useState("");
   const [cPrice, setCPrice] = useState(0);
-  const [cImage, setCImage] = useState("");
+  // const [cImage, setCImage] = useState("");
+  const [cTrack, setCTrack] = useState("");
   const [cDetails, setCDetails] = useState("");
   const [cDuration, setCDuration] = useState("");
   const [cInstructor, setCInstructor] = useState("");
@@ -84,6 +82,8 @@ const Page = () => {
         instructor: cInstructor,
         duration: cDuration,
         imgPath: imgPath,
+        buyers:0,
+        track: cTrack,
       }),
     });
 
@@ -103,10 +103,11 @@ const Page = () => {
     setCourses(result);
     setCTitle("");
     setCPrice(0);
-    setCImage("");
+    // setCImage("");
     setCDetails("");
     setCInstructor("");
     setCDuration("");
+    setCTrack("");
     setSuccess(true);
     setImage(null);
   };
@@ -165,6 +166,25 @@ const Page = () => {
               </div>
               <div>
                 <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
+                  Track name
+                </label>
+                <select
+                  type="text"
+                  placeholder="Instructor name"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  required
+                  value={cTrack}
+                  onChange={(e) => {
+                    setCTrack(e.target.value);
+                  }}
+                >
+                  <option value="front-end">Front-end</option>
+                  <option value="back-end">Back-end</option>
+                  <option value="mobile-app">Mobile-app</option>
+                </select>
+              </div>
+              <div>
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
                   Course Price
                 </label>
                 <input
@@ -193,7 +213,7 @@ const Page = () => {
                     <option>Instractor Name</option>
                     {instractors?.map((instractor)=>(
                       <option key={instractor.id} value={instractor.data.name}>
-                        {instractor.data.name}
+                        {instractor.data.name} | {instractor.data.fields.join(', ')}
                       </option>
                     ))}
                 </select>
@@ -267,13 +287,13 @@ const Page = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
         {filteredCourses?.map((course, i) => (
-          <div key={i} className="mx-3 my-5">
-            <div className="card-body p-0 h-full flex flex-col justify-between">
-              <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
-                <div className="flex justify-between items-center mb-4">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {course.data.title}
-                  </h5>
+          <div key={i} className="mx-3 text-color  my-5">
+          <div className="card-body  p-0 h-full flex flex-col justify-between">
+            <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
+              <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {course.data.title}
+                </h5>
 
                   <button
                     type="button"

@@ -5,10 +5,6 @@ import { useSidebar } from "../../SidebarContext";
 
 export default function DefaultLayout({ children }) {
   const { sidebarOpen, setSidebarOpen } = useSidebar();
-  console.log("=========================================");
-  console.log(localStorage.setItem("type"));
-  console.log(location.href);
-  console.log("=========================================");
 
   return (
     <>

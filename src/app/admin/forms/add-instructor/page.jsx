@@ -1,6 +1,6 @@
 "use client";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from'../../../../components/Layouts/DefaultLayout'
+import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -9,9 +9,9 @@ import { IoMdClose } from "react-icons/io";
 import Swal from 'sweetalert2';
 
 import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../../app/firebaseConfig"; 
+import { db , auth } from "../../../../app/firebaseConfig"; 
 import { FiSearch } from "react-icons/fi";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Page = () => {
   const [instructors, setInstructors] = useState(null);
@@ -32,8 +32,6 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-  
-
 
   ////////////////////////get instructors////////////////
   useEffect(() => {
@@ -155,6 +153,27 @@ useEffect(() => {
         return;
       }
       const uniquePassword = generatePassword(instructorName);
+      // register({email:instructorEmail , password: uniquePassword});
+      const userData = await createUserWithEmailAndPassword(
+        auth,
+        instructorEmail,
+        uniquePassword,
+      );
+      console.log(userData);
+      console.log("==================");
+      const docRef = await addDoc(collection(db, "UserData"), {
+        uid: userData.user.uid,
+        type: "instructor",
+        fname: instructorName,
+        email: instructorEmail,
+        phone: instructorPhone,
+        fields: fieldsList,
+      });
+      console.log("Document written with ID: ", docRef.id);
+
+
+
+      ////////////////////////////////////////////////
       const response = await fetch("/api/instructors", {
         method: "POST",
         headers: {
@@ -169,6 +188,7 @@ useEffect(() => {
         }),
       });
       if (response.ok) {
+        
         const newInstructor = await response.json();
         console.log(newInstructor);
         setInstructors((prevInstructors)=>[...prevInstructors, newInstructor]);
@@ -184,6 +204,7 @@ useEffect(() => {
           text: `E-mail: ${instructorEmail} | Password :${uniquePassword}`,
           confirmButtonText: 'OK',
         });
+
         setInstructorName("");
         setInstructorEmail("");
         setInstructorPhone("");
@@ -272,8 +293,7 @@ useEffect(() => {
                   >
                     <option value="">Select a Course</option>
                     {courses.length > 0 ? (
-                      [...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
-                      .map((course) => (
+                      courses.map((course) => (
                         <option key={course.id} value={course.data.title}>
                           {course.data.title}
                         </option>

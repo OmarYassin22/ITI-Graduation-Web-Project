@@ -32,6 +32,7 @@ function Login() {
   };
   async function login(values) {
     // try {
+    debugger;
 
     setLoading(true);
     setErrorMsg("");
@@ -40,18 +41,21 @@ function Login() {
       values.email,
       values.password
     );
+
     const UserType = collection(db, "UserData");
     const q = await query(UserType, where("uid", "==", dbuser.user.uid));
     const result = await getDocs(q);
     localStorage.setItem("type", result.docs[0].data().type);
-    localStorage.setItem("fname", result.docs[0].data().fname);
-    localStorage.setItem("lname", result.docs[0].data().lname);
+    localStorage.setItem("fname", result.docs[0].data()?.fname);
+    localStorage.setItem("lname", result.docs[0].data()?.lname);
 
     localStorage.setItem("email", values.email);
     const res = await signIn("credentials", {
       email: values.email,
       password: values.password,
     });
+    console.log(res);
+    console.log("================================================");
   }
 
   const formik = useFormik({

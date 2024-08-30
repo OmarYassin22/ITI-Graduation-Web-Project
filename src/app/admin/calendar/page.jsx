@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Calendar from "../../../components/adminComponents/Calender/index";
-import DefaultLayout from'../../../components/Layouts/DefaultLayout'
+import DefaultLayout from "../../../components/adminComponents/Layouts/DefaultLayout";
 
 const CalendarPage = () => {
   const [selectedCalendar, setSelectedCalendar] = useState("Calendar 1");
@@ -10,19 +10,13 @@ const CalendarPage = () => {
     setSelectedCalendar(e.target.value);
   };
 
-  // {
-  //   emad: [
-  //     { course: "html", date: 30 - 8 },
-  //     
-  //   ];
-  // }
-
   return (
     <DefaultLayout>
       <div className="my-4">
         <label htmlFor="calendarDropdown" className="mr-2">
           Select Calendar:
         </label>
+        a
         <select
           id="calendarDropdown"
           value={selectedCalendar}
@@ -31,15 +25,13 @@ const CalendarPage = () => {
         >
           <option value="Calendar 1">Front End</option>
           <option value="Calendar 2">Back End</option>
-          <option value="Calendar 3">Full Stack</option>
+          <option value="Calendar 3">Mobil App</option>
         </select>
       </div>
 
-      {selectedCalendar === "Calendar 1" && <Calendar calendarId="front-end" />}
-      {selectedCalendar === "Calendar 2" && <Calendar calendarId="back-end" />}
-      {selectedCalendar === "Calendar 3" && (
-        <Calendar calendarId="full stack" />
-      )}
+      {selectedCalendar === 'Calendar 1' && <Calendar calendarId="front-end" />}
+      {selectedCalendar === 'Calendar 2' && <Calendar calendarId="back-end" />}
+      {selectedCalendar === 'Calendar 3' && <Calendar calendarId="mobile app" />}
     </DefaultLayout>
   );
 };

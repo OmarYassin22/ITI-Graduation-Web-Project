@@ -1,6 +1,6 @@
 "use client";
 import Breadcrumb from "../../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from'../../../../../components/Layouts/DefaultLayout'
+import DefaultLayout from "../../../../../components/adminComponents/Layouts/DefaultLayout";
 import Variants from "../../../../Spinner";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ const Page = ({ params }) => {
   const [courses, setCourses] = useState();
   const { push } = useRouter();
   const [cTitle, setCTitle] = useState("");
+  const [cTrack, setCTrack] = useState("");
   const [cPrice, setCPrice] = useState(0);
   const [cDetails, setCDetails] = useState("");
   const [cInstructor, setCInstructor] = useState("");
@@ -33,6 +34,7 @@ const Page = ({ params }) => {
         setCImage(result.image);
         setCInstructor(result.instructor);
         setCDuration(result.duration);
+        setCTrack(result.track);
         setCourses(result);
         setLoading(false);
       } catch (error) {
@@ -63,6 +65,8 @@ const Page = ({ params }) => {
         details: cDetails,
         instructor: cInstructor,
         duration: cDuration,
+        buyers:0,
+        track: cTrack,
       }),
     });
     const data = await response.json();
@@ -103,6 +107,25 @@ const Page = ({ params }) => {
                 }}
               />
             </div>
+            <div>
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
+                  Track name
+                </label>
+                <select
+                  type="text"
+                  placeholder="Instructor name"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  required
+                  value={cTrack}
+                  onChange={(e) => {
+                    setCTrack(e.target.value);
+                  }}
+                >
+                  <option value="front-end">Front-end</option>
+                  <option value="back-end">Back-end</option>
+                  <option value="mobile-app">Mobile-app</option>
+                </select>
+              </div>
             <div>
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                 Course Price
