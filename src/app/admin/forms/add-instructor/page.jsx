@@ -9,7 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import Swal from 'sweetalert2';
 
 import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../../app/firebaseConfig"; 
+import { db } from "../../../../app/firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 
 
@@ -32,7 +32,7 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-  
+
 
 
   ////////////////////////get instructors////////////////
@@ -46,7 +46,7 @@ const Page = () => {
           ...doc.data(),
         }));
         // console.log(instructorsList);
-        
+
         setBrandData(instructorsList);
       } catch (error) {
         console.error("Error fetching instructors: ", error);
@@ -67,59 +67,59 @@ const Page = () => {
     };
 
     fetchInstructors();
-    fetchCourses(); 
+    fetchCourses();
   }, []);
   useEffect(() => {
     setFilteredData(
-      brandData.filter((instructor) => 
+      brandData.filter((instructor) =>
         instructor.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
   }, [searchTerm, brandData]);
 
-  
-//////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   useEffect(() => {
-  const fetchInstructors = () => {
-    fetch("/api/instructors")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(result => {
-        setInstructors(result);
-      })
-      .catch(error => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-  fetchInstructors();
-}, []);
+    const fetchInstructors = () => {
+      fetch("/api/instructors")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(result => {
+          setInstructors(result);
+        })
+        .catch(error => {
+          setError(error.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    fetchInstructors();
+  }, []);
 
-useEffect(() => {
-  const fetchCourses = () => {
-    fetch("/api/courses")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(result => {
-        setCourses(result);
-      })
-      .catch(error => {
-        setError(error.message);
-      });
-  };
-  fetchCourses();
-}, []);
+  useEffect(() => {
+    const fetchCourses = () => {
+      fetch("/api/courses")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(result => {
+          setCourses(result);
+        })
+        .catch(error => {
+          setError(error.message);
+        });
+    };
+    fetchCourses();
+  }, []);
 
   const generateRandomNumbers = (length) => {
     const characters = '0123456789';
@@ -131,7 +131,7 @@ useEffect(() => {
   };
 
   const generatePassword = (instructorName) => {
-    const firstLetter = instructorName.charAt(0).toUpperCase(); 
+    const firstLetter = instructorName.charAt(0).toUpperCase();
     const secondLetter = instructorName.charAt(1).toLowerCase();
     const randomNumbers = generateRandomNumbers(6);
     return `${firstLetter}${secondLetter}@${randomNumbers}`;
@@ -144,7 +144,7 @@ useEffect(() => {
 
   const handleCreate = async (event) => {
     event.preventDefault();
-    
+
     if (instructorName && instructorEmail && instructorPhone && fieldsList.length > 0) {
       if (!isValidEmail(instructorEmail)) {
         Swal.fire({
@@ -171,7 +171,7 @@ useEffect(() => {
       if (response.ok) {
         const newInstructor = await response.json();
         console.log(newInstructor);
-        setInstructors((prevInstructors)=>[...prevInstructors, newInstructor]);
+        setInstructors((prevInstructors) => [...prevInstructors, newInstructor]);
         //const result = await response.json();
         //const refresh = await fetch("/api/instructors");
         //const refreshedInstructors = await refresh.json();
@@ -295,7 +295,7 @@ useEffect(() => {
                         onClick={() => handleDeleteItem(index)}
                         className="text-red-500 hover:text-red-700 text-xl dark:text-red-400 dark:hover:text-red-300"
                       >
-                        <IoMdClose className="bg-rose-700 text-white rounded-full"/>
+                        <IoMdClose className="bg-rose-700 text-white rounded-full" />
                       </button>
                     </li>
                   ))}
@@ -333,46 +333,45 @@ useEffect(() => {
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-6 gap-4 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-            <h5 className="text-sm text-center font-medium xsm:text-base">
+            <h5 className="text-[6px] md:text-sm text-center font-medium">
               #
             </h5>
-            <h5 className="text-sm text-center font-medium xsm:text-base">
+            <h5 className="text-[6px] md:text-sm text-center font-medium">
               Name
             </h5>
-            <h5 className="text-sm text-center font-medium xsm:text-base"></h5>
-            <h5 className="text-sm text-center font-medium xsm:text-base">
+            <h5 className="text-[6px] md:text-sm text-center font-medium"></h5>
+            <h5 className="text-[6px] md:text-sm text-center font-medium">
               Email
             </h5>
-            <h5 className="text-sm text-center font-medium xsm:text-base"></h5>
-            <h5 className="text-sm text-center font-medium xsm:text-base">
+            <h5 className="text-[6px] md:text-sm text-center font-medium"></h5>
+            <h5 className="text-[6px] md:text-sm text-center font-medium">
               Password
             </h5>
-            <h5 className="text-sm text-center font-medium xsm:text-base"></h5>
+            <h5 className="text-[6px] md:text-sm text-center font-medium"></h5>
           </div>
           {filteredData.map((instructor, index) => (
             <div
-              className={`grid grid-cols-6 gap-4 ${
-                index === filteredData.length - 1
+              className={`grid grid-cols-6 gap-4 ${index === filteredData.length - 1
                   ? ""
                   : "border-b border-stroke dark:border-strokedark"
-              } p-2.5`}
+                } p-2.5`}
               key={instructor.id}
             >
               <p className="text-center text-black dark:text-white">
                 {index + 1}
               </p>
-              <p className="text-center text-black dark:text-white">
+              <p className="text-[6px] md:text-sm text-center text-black dark:text-white">
                 {instructor.name}
               </p>
-              <p className="text-center text-black dark:text-white"></p>
-              <p className="text-center text-meta-3">
+              <p className="text-[6px] md:text-sm text-center text-black dark:text-white"></p>
+              <p className="text-[6px] md:text-sm text-center text-meta-3">
                 {instructor.email}
               </p>
-              <p className="text-center text-black dark:text-white"></p>
-              <p className="text-center text-meta-3">
+              <p className="text-[6px] md:text-sm text-center text-black dark:text-white"></p>
+              <p className="text-[6px] md:text-sm text-center text-meta-3">
                 {instructor.password}
               </p>
-              <p className="text-center text-black dark:text-white"></p>
+              <p className="text-[6px] md:text-sm text-center text-black dark:text-white"></p>
             </div>
           ))}
         </div>
