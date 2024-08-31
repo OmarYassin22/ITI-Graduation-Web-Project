@@ -6,7 +6,6 @@ const TopStudents = () => {
   const [filteredStudents, setFilteredData] = useState([]);
   const [selectedField, setSelectedField] = useState('');
   const [searchTerm, setSearchTerm] = useState("");
-
   async function getStudentData() {
     try {
       const { data } = await axios.get('/api/students');
@@ -20,9 +19,14 @@ const TopStudents = () => {
   function calculateStudentPercentages(students) {
     return students.map((student) => {
       if (student.data && student.data.courses) {
-        const totalDegrees = student.data.courses.reduce((acc, course) => acc + course.degree, 0);
-        const maxDegrees = student.data.courses.length * 100; 
-        const percentage = (totalDegrees / maxDegrees) * 100;
+        const totalDegrees = student.data.courses.reduce((acc, course) => {
+          const degree = parseFloat(course.degree);
+          return acc + (isNaN(degree) ? 0 : degree);
+        }, 0);
+  
+        const numberOfCourses = student.data.courses.length; 
+  
+        const percentage = (totalDegrees / numberOfCourses);
         return {
           id: student.id,
           name: `${student.data.fname} ${student.data.lname}`,
@@ -58,7 +62,7 @@ const TopStudents = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Top 10 students
+        Top 10 students by percentage
       </h4>
       <div className="flex flex-col mb-6 mt-4">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
@@ -102,5 +106,4 @@ const TopStudents = () => {
     </div>
   );
 }
-
 export default TopStudents;
