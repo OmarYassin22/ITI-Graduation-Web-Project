@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Contact from "../Contact/page";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import DefaultLayout from '../../../components/homeComponents/Layouts/DefaultLayout';
 
 
 
@@ -41,6 +42,7 @@ function About() {
   };
   return (
     <>
+    <DefaultLayout>
       <div className="text-blue-700 text-5xl mt-5 text-center">About Us</div>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-5 mb-5 place-items-center pl-20">
         <div className="col-span-2 text-l sm:text-2xl container dark:text-white">
@@ -70,7 +72,7 @@ function About() {
           />
         </div>
         <div className="col-span-2 text-l sm:text-2xl container dark:text-white">
-          Our mission is simple: to democratize education by providing affordable and flexible learning opportunities to people everywhere. Whether you're looking to develop new skills, advance in your career, or simply learn something new, we are here to support you on your journey.
+          Our mission is simple: to democratize education by providing affordable and flexible learning opportunities to people everywhere. Whether you are looking to develop new skills, advance in your career, or simply learn something new, we are here to support you on your journey.
         </div>
       </div>
       <div className="flex flex-col justify-center items-center mt-20">
@@ -95,6 +97,7 @@ function About() {
           </GoogleMap>
         </LoadScript>
       </div>
+      </DefaultLayout>
     </>
   );
 }

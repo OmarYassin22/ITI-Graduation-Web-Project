@@ -9,6 +9,8 @@ import Rater from "react-rater";
 import { courseContext } from "../../../Contexts/Courses/CourseContextProvider";
 import Variants from "../../../Spinner";
 import Image from "next/image";
+import DefaultLayout from "../../../../components/homeComponents/Layouts/DefaultLayout";
+
 const Page = ({ params }) => {
   const [course, setCourse] = useState();
   // const { push } = useRouter();
@@ -44,10 +46,13 @@ const Page = ({ params }) => {
   if (!course)
     return (
       <>
+      <DefaultLayout>
         <Variants></Variants>
+        </DefaultLayout>
       </>
     );
   return (
+    <DefaultLayout>
     <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
       <div className="container mx-auto px-4">
         {/* <ReactImageGallery
@@ -120,6 +125,7 @@ const Page = ({ params }) => {
         </div>
       </div>
     </section>
+    </DefaultLayout>
   );
 };
 

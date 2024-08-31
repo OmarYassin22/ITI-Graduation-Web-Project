@@ -6,10 +6,6 @@ import Image from "next/image";
 import SidebarItem from "./SidebarItem";
 import useLocalStorage from "../../../hooks/useLocalStorage"
 import ClickOutside from "../ClickOutside";
-// interface SidebarProps {
-//   sidebarOpen: boolean;
-//   setSidebarOpen: (arg: boolean) => void;
-// }
 const menuGroups = [
   {
     name: "MENU",

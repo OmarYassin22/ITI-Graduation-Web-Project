@@ -18,16 +18,11 @@ const Navbar = () => {
   const pathName = usePathname();
   return (
     <nav
-      className="flex  justify-between cardesbackground dark:text-white bg-blue-900 text-white p-4"
+      className="flex  justify-between cardesbackground dark:text-white bg-blue-900 text-white p-4 dark:bg-[#2D344A] "
       style={{ position: 'sticky', top: 0, zIndex: 10000 }}
     >
       <div className="container flex  justify-between items-center">
-
-
-
-{/* //////////////////// */}
       <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
-          {/* <!-- Hamburger Toggle BTN --> */}
           <button
             aria-controls="sidebar"
             onClick={(e) => {
@@ -35,56 +30,40 @@ const Navbar = () => {
               setSidebarOpen(!sidebarOpen);
               console.log("Sidebar Open:", !sidebarOpen);
             }}
-            className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
+            className="z-99999 block rounded-sm border border-blue-900 bg-blue-900 p-1.5 shadow-sm dark:border-[#2D344A] dark:bg-[#2D344A] lg:hidden"
           >
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="du-block absolute right-0 h-full w-full">
                 <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
+                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-white delay-[0] duration-200 ease-in-out dark:bg-white ${
                     !sidebarOpen && "!w-full delay-300"
                   }`}
                 ></span>
                 <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
+                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-white delay-150 duration-200 ease-in-out dark:bg-white ${
                     !sidebarOpen && "delay-400 !w-full"
                   }`}
                 ></span>
                 <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
+                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-white delay-200 duration-200 ease-in-out dark:bg-white ${
                     !sidebarOpen && "!w-full delay-500"
-                  }`}
-                ></span>
-              </span>
-              <span className="absolute right-0 h-full w-full rotate-45">
-                <span
-                  className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-sm bg-black delay-300 duration-200 ease-in-out dark:bg-white ${
-                    !sidebarOpen && "!h-0 !delay-[0]"
-                  }`}
-                ></span>
-                <span
-                  className={`delay-400 absolute left-0 top-2.5 block h-0.5 w-full rounded-sm bg-black duration-200 ease-in-out dark:bg-white ${
-                    !sidebarOpen && "!h-0 !delay-200"
                   }`}
                 ></span>
               </span>
             </span>
           </button>
         </div>
-{/* باقى الكود لا يهم*/}
-
-
-
         <h1 onClick={handleClick} className={styles.cursor}>
-          <span className="text-sm sm:text-3xl"> E-L</span>
-          <span className="text-sm sm:text-2xl">earning</span>
+          <span className="sm:text-3xl md:text-3xl lg:text-3xl font-bold tracking-wide font-logo"> E-L</span>
+          <span className="sm:text-2xl md:text-2xl lg:text-2xl font-light tracking-wide font-logo">earning</span>
         </h1>
-        <ul className="flex  gap-x-3">
+        <ul className="flex gap-x-3">
           <li className="text-sm sm:text-base group">
-            <Link href="/" className={`${((pathName == "" || pathName == "/") ? `text-warning` : `text-white`)} `}>Home</Link>
+            <Link href="/" className={`${(pathName == "" || pathName == "/" ? `text-warning` : `text-white`)} `}>Home</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
 
-          <li className="text-sm sm:text-base group">
+          <li className="text-sm sm:text-base group hidden lg:block">
             <Link href="/user/About" className={`${(pathName == "/user/About" ? `text-warning` : `text-white`)}`}>About</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
@@ -92,11 +71,13 @@ const Navbar = () => {
             <Link href="/user/Courses" className={`${(pathName == "/user/Courses" ? `text-warning` : `text-white`)}`}>Courses</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
-          <li className="text-sm sm:text-base group">
+
+          <li className="text-sm sm:text-base group hidden lg:block">
             <Link href="/user/Contact" className={`${(pathName == "/user/Contact" ? `text-warning` : `text-white`)}`}>Contact Us</Link>
             <div className={`${styles.bar} group-hover:block dark:bg-white`}></div>
           </li>
-      
+
+          
         </ul>
         <div className="flex justify-between items-center gap-2">
           {status === "loading" && (
@@ -112,7 +93,6 @@ const Navbar = () => {
               Logout
             </button>
           )}
-
           {status == "unauthenticated" && (
             <button
               onClick={() => {
