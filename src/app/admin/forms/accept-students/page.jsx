@@ -1,7 +1,7 @@
 // pages/accept-students.jsx
 "use client";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
-import DefaultLayout from'../../../../components/adminComponents/Layouts/DefaultLayout'
+import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
 import React, { useState, useEffect } from "react";
 import {
   getDocs,
@@ -65,6 +65,7 @@ const AcceptStudents = () => {
           number: applicant.number,
           uid: applicant.uid,
           field: selectedField[applicant.id] || "frontend",
+          // degree: 0, 
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
         setBrandData(brandData.filter((item) => item.id !== applicant.id));
@@ -87,6 +88,8 @@ const AcceptStudents = () => {
           number: applicant.number,
           uid: applicant.uid, // Copy uid from applicant
           field: selectedField[applicant.id] || "frontend", // Default value
+          // degree: 0, // Default value
+
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
         setBrandData(brandData.filter((item) => item.id !== applicant.id));
@@ -130,6 +133,7 @@ const AcceptStudents = () => {
             </div>
             <div className="max-h-full">
               <Variants></Variants>
+
             </div>
           </div>
         </div>
@@ -156,91 +160,91 @@ const AcceptStudents = () => {
         </div>
 
         <div className="flex flex-col">
+
           <div className="grid grid-cols-7 gap-2 p-2.5 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-            <h5 className="text-sm text-center font-medium uppercase xsm:text-base">
+            <h5 className="text-[6px] xl:text-base text-center font-medium uppercase xsm:text-base">
               Name
             </h5>
-            <h5 className="text-sm font-medium text-center uppercase xsm:text-base">
+            <h5 className="text-[6px] xl:text-base font-medium text-center uppercase xsm:text-base">
               Phone
             </h5>
-            <h5 className="text-sm font-medium text-center uppercase xsm:text-base">
+            <h5 className="text-[6px] xl:text-base font-medium text-center uppercase xsm:text-base">
               Email
             </h5>
 
-            <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
               Selected Field
             </h5>
-            <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
               Grads
             </h5>
-            <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
               Approvement
             </h5>
-            <h5 className="hidden sm:block text-sm text-center font-medium uppercase xsm:text-base">
-              Confirmation{" "}
+            <h5 className="text-[6px] xl:text-base sm:block text-sm text-center font-medium uppercase xsm:text-base">
+              Confirmation
             </h5>
           </div>
           {filteredData.map((applicant, key) => (
             <div
-              className={`grid grid-cols-7 gap-2 ${
-                key === filteredData.length - 1
-                  ? ""
-                  : "border-b border-stroke dark:border-strokedark"
-              } p-2.5`}
+              className={`grid grid-cols-7 gap-2 ${key === filteredData.length - 1
+                ? ""
+                : "border-b border-stroke dark:border-strokedark"
+                } p-2.5`}
               key={applicant.id}
             >
-              <p className="text-black dark:text-white">
-                {applicant.fname} {applicant.lname}{" "}
+              <p className="text-[6px] xl:text-base text-black dark:text-white">
+                {applicant.fname} {applicant.lname}
               </p>
-              <p className="text-meta-3 text-center">{applicant.number}</p>
-              <p className="text-meta-3 text-center">
+              <p className="text-[6px] xl:text-base text-meta-3 text-center">{applicant.number}</p>
+              <p className="text-[6px] xl:text-base text-meta-3 text-center">
                 {applicant.email
                   ? applicant.email.split("@")[0] + "@"
                   : "No Email"}
               </p>
-              <p className="hidden sm:block text-black dark:text-white text-center">
+              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
                 {applicant.field}
               </p>
-              <p className="hidden sm:block text-black dark:text-white text-center">
+              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
                 {+applicant.grade > 5 ? (
-                  <span className=" text-lg">
-                    <span className="text-meta-3"> {applicant.grade}</span>/10
+                  <span className="text-[6px] xl:text-base">
+                    <span className="text-[6px] xl:text-base text-meta-3"> {applicant.grade}</span>/10
                   </span>
                 ) : (
-                  <span className=" text-lg">
-                    <span className="text-meta-1 text-lg">
+                  <span className="text-[6px] xl:text-base">
+                    <span className="text-meta-1 text-[6px] xl:text-base">
                       {applicant.grade}
                     </span>/10
                   </span>
                 )}
               </p>
-              <p className="hidden sm:block text-black dark:text-white text-center">
+              <p className="text-[6px] xl:text-base text-black dark:text-white text-center">
                 <select
                   onChange={(e) =>
                     handleOptionChange(applicant.id, e.target.value)
                   }
                   name="status"
-                  className="bg-transparent"
+                  className="text-[6px] xl:text-base bg-transparent"
                 >
                   <option
                     value="accepted"
-                    className="bg-transparent text-black"
+                    className="text-[6px] xl:text-base bg-transparent text-black"
                   >
                     accepted
                   </option>
                   <option
                     value="rejected"
-                    className="bg-transparent text-black"
+                    className="text-[6px] xl:text-base bg-transparent text-black"
                   >
                     rejected
                   </option>
                 </select>
               </p>
               <button
-                className="hidden sm:block text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white"
+                className="text-[6px] xl:text-base text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white"
                 onClick={() => handleAccept(applicant)}
               >
-                Confirm
+                Confim
               </button>
             </div>
           ))}

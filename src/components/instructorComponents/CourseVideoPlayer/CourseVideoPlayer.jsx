@@ -19,7 +19,7 @@ function CourseVideoPlayer({ courseName, fileName }) {
   }
 
   return (
-    <video controls className='m-auto mt-5' src={videoURL}>
+    <video controls className='m-auto mt-5 w-2/4' src={videoURL}>
       Your browser does not support the video tag.
     </video>
   );
@@ -27,7 +27,8 @@ function CourseVideoPlayer({ courseName, fileName }) {
 
 const fetchVideoURL = async (courseName, fileName) => {
   try {
-    const videoRef = ref(storage, `Emad Elshplangy/${courseName}/${fileName}`);
+    const fullName = localStorage.getItem("fname") + " " + localStorage.getItem("lname");
+    const videoRef = ref(storage, `${fullName}/${courseName}/${fileName}`);
     const url = await getDownloadURL(videoRef);
     return url;
   } catch (error) {

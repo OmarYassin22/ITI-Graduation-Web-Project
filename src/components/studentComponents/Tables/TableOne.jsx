@@ -90,52 +90,52 @@ const TableOne = () => {
             </h4>
             <br></br>
             <div className="flex flex-col">
-                <div className="grid grid-cols-1 rounded-sm bg-gray-2 dark:bg-meta-4 lg:grid-cols-4">
+                <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4">
                     <div className="p-2.5 text-center xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
+                        <h5 className="text-[6px] md:text-sm font-medium uppercase">
                             Name
                         </h5>
                     </div>
                     <div className="p-2.5 text-center xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
+                        <h5 className="text-[6px] md:text-sm font-medium uppercase">
                             Grade
                         </h5>
                     </div>
                     <div className="p-2.5 text-center xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
+                        <h5 className="text-[6px] md:text-sm font-medium uppercase">
                             Percentage
                         </h5>
                     </div>
                     <div className="p-2.5 text-center xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
+                        <h5 className="text-[6px] md:text-sm font-medium uppercase">
                             Status
                         </h5>
                     </div>
                 </div>
                 {courseData.map((course, key) => (
                     <div
-                        className={`grid grid-cols-1 lg:grid-cols-4 ${key === courseData.length - 1
+                        className={`grid grid-cols-4 ${key === courseData.length - 1
                             ? ""
                             : "border-b border-stroke dark:border-strokedark"
                             }`}
                         key={key}
                     >
                         <div className="flex items-center justify-center gap-3 p-2.5 xl:p-5">
-                            <p className="text-black dark:text-white sm:block">
+                            <p className="text-[6px] md:text-sm text-black dark:text-white sm:block">
                                 {course.name}
                             </p>
                         </div>
 
                         <div className="flex items-center justify-center p-2.5 xl:p-5">
-                            <p className="text-black dark:text-white">{course.grade}</p>
+                            <p className="text-[6px] md:text-sm text-black dark:text-white">{course.grade}</p>
                         </div>
 
                         <div className="flex items-center justify-center p-2.5 xl:p-5">
-                            <p className={`text-meta-3 ${course.percentage >= 50 ? `text-success` : `text-red`}`}>{course.percentage}%</p>
+                            <p className={`text-[6px] md:text-sm text-meta-3 ${course.percentage >= 50 ? `text-success` : `text-red`}`}>{course.percentage}%</p>
                         </div>
 
                         <div className="flex items-center justify-center p-2.5 xl:p-5">
-                            <p className={`text-meta-3 ${course.status == "Pass" ? `text-success` : `text-red`}`}>{course.status}</p>
+                            <p className={`text-[6px] md:text-sm text-meta-3 ${course.status == "Pass" ? `text-success` : `text-red`}`}>{course.status}</p>
                         </div>
                     </div>
                 ))}
