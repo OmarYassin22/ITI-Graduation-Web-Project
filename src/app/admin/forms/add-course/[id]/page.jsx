@@ -7,7 +7,12 @@ import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../firebaseConfig";
+<<<<<<< HEAD
+  import Image from 'next/image';
+
+=======
 import Image from "next/image";
+>>>>>>> 6e91ee156c90a441b8d5beb64805175e843157af
 
 const Page = ({ params }) => {
   const [courses, setCourses] = useState();
@@ -20,6 +25,12 @@ const Page = ({ params }) => {
   const [cDuration, setCDuration] = useState("");
   const [cImage, setCImage] = useState("");
   const [loading, setLoading] = useState(true);
+    // const [instructors, setInstructors] = useState([]);
+
+  //  async function getInstractor() {
+  //   let { data } = await axios.get("/api/instructors");
+  //   setInstructors(data);
+  // }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,9 +53,9 @@ const Page = ({ params }) => {
         console.log(error);
       }
     };
-
     fetchData();
   }, []);
+  
   const handlePUT = async (event) => {
     event.preventDefault();
     let imgPath = v4();
@@ -155,6 +166,23 @@ const Page = ({ params }) => {
                   setCInstructor(e.target.value);
                 }}
               />
+             {/* <select
+        required
+        value={instructors}
+        onChange={(e) => setInstructors(e.target.value)}
+        className="dark:bg-form-input dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+      >
+        <option value="">Select Instructor</option>
+        {Array.isArray(cInstructor) ? (
+          instructors.map((instructor) => (
+            <option key={instructor.id} value={instructor.data.name}>
+              {instructor.data.name}
+            </option>
+          ))
+        ) : (
+          <option value="" disabled>No instructors </option>
+        )}
+      </select> */}
             </div>
             <div>
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -186,11 +214,27 @@ const Page = ({ params }) => {
                 }}
               ></textarea>
             </div>
+<<<<<<< HEAD
+          
+{/* 
+              <div className="my-4 flex justify-center">
+                <Image
+                  src={cImage}
+                  alt={cTitle}
+                  className="border border-stroke rounded-lg object-cover"
+                  width={200}
+                  height={200}
+                />
+              </div> */}
+               <div className="my-4 flex justify-center">
+              <img
+=======
             {/* إضافة الصورة هنا */}
             <div className="my-4 flex justify-center">
               <Image
                 width={100}
                 height={100}
+>>>>>>> 6e91ee156c90a441b8d5beb64805175e843157af
                 src={cImage}
                 alt={cTitle}
                 className="border border-stroke rounded-lg object-cover"

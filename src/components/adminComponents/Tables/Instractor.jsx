@@ -18,7 +18,7 @@ const Instructor = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-  // console.log(brandData);
+console.log(brandData);
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -215,14 +215,26 @@ const Instructor = () => {
                 <label className="dark:text-white mb-3 block text-black text-sm font-medium  my-1">
                   Instructor Name
                 </label>
-                <input
+                {/* <input
                   type="text"
                   placeholder="Instructor Name"
                   className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={instructorName}
                   onChange={(e) => setInstructorName(e.target.value)}
                   required
-                />
+                /> */}
+                  <select
+                    value={instructorName}
+                    onChange={(e) => setInstructorName(e.target.value)}
+                    className=" dark:bg-slate-800 dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                  >
+                    <option value="">Select Instructor</option>
+                    {brandData.map((instructor) => (
+                      <option key={instructor.id} value={instructor.name}>
+                        {instructor.name}
+                      </option>
+                    ))}
+                  </select>
               </div>
               <div>
                 <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">
