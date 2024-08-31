@@ -89,12 +89,6 @@ const BuyerNavbar = ({ handleRouteChange }) => {
         </li>
         <li
           className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
-          onClick={() => handleRouteChange("MyCart")}
-        >
-          MyCart
-        </li>
-        <li
-          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("Scholarship")}
         >
           Scholarship
