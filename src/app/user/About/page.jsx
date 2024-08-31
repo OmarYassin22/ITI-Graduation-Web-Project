@@ -77,7 +77,7 @@ function About() {
       </div>
       <div className="flex flex-col justify-center items-center mt-20">
         <label htmlFor="countries" className="block mb-2 text-xl font-medium text-gray-900 dark:text-white ">Select a branch</label>
-        <select id="countries" onChange={(e) => { handleLocation(e) }} className="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 sm:w-96 p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 w-96 flex flex-col justify-center items-center">
+        <select id="countries" onChange={(e) => { handleLocation(e) }} className="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 sm:w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 w-96 flex flex-col justify-center items-center">
           <option value="choose" disabled className='text-sm sm:text-base text-black'>Choose a branch</option>
           <option value="Benha" className='text-sm sm:text-base text-black'>Benha</option>
           <option value="Alex" className='text-sm sm:text-base text-black'>Alex</option>
