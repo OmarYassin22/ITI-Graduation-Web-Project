@@ -6,8 +6,7 @@ import { db } from "../../../app/firebaseConfig";
 const Calendar = () => {
   const [events, setEvents] = useState({});
 
-  const fullName =
-    localStorage.getItem("fname") || "";
+  const fullName = (localStorage.getItem("fname") + " " + localStorage.getItem("lname")) || "";
 
   console.log(fullName);
 
@@ -18,38 +17,36 @@ const Calendar = () => {
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "course_instructor"));
-      const courses = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      const intructorCourse = courses.filter(
-        (course) => course.instructor === fullName
-      );
-
-      console.log(intructorCourse);
-
       const newEvents = {};
-
-      intructorCourse.forEach((course) => {
-        const timestamp = course.details?.date;
-        const date = new Date(
-          timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-        );
-        const options = { day: "numeric", month: "short" };
-        const formattedDate = date.toLocaleDateString("en-GB", options);
-        const day = date.getDate();
-
-        const newEvent = { title: course.title, date: formattedDate };
-        newEvents[day] = newEvent;
-
-        // const formattedDates = course.details.date.map((timestamp) => {
-        //   const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
-        //   const options = { day: 'numeric', month: 'short' };
-        //   const formattedDate = date.toLocaleDateString('en-GB', options);
-        //   const day = date.getDate();
-        //   newEvents[day] = { title: course.title, date: formattedDate };
-        // });
+  
+      querySnapshot.forEach((doc) => {
+        const courseType = doc.id; // This will be 'back-end', 'front-end', or 'mobile app'
+        const courses = doc.data();
+  
+        Object.entries(courses).forEach(([key, course]) => {
+          if (typeof course === 'object' && course.date && course.instructor && course.title) {
+            // Only process this course if the instructor matches fullName
+            if (course.instructor === fullName) {
+              const dateObj = new Date(course.date);
+              const formattedDate = dateObj.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+              const day = dateObj.getDate();
+  
+              const newEvent = { 
+                title: course.title, 
+                date: formattedDate,
+                // courseType: courseType
+              };
+  
+              // if (!newEvents[day]) {
+              //   newEvents[day] = [];
+              // }
+              newEvents[day] = newEvent;
+            }
+          }
+        });
       });
+  
+      console.log(newEvents);
       setEvents(newEvents);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -69,18 +66,17 @@ const Calendar = () => {
               {Array.from({ length: 31 }, (_, i) => (
                 <td
                   key={i + 1}
-                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${
-                    events[i + 1] != undefined
+                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${events[i + 1] != undefined
                       ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600`
                       : `transition`
-                  }`}
+                    }`}
                 >
                   <span className="font-medium text-black dark:text-white">
                     {i + 1}
                   </span>
                   {events[i + 1] && (
                     <div className="group h-16 w-full flex-grow py-1 md:h-30">
-                      <div className="event invisible absolute left-2 z-99 mb-1 flex w-[200%] flex-col rounded-sm border-l-[3px] border-primary bg-gray px-3 py-1 text-left opacity-0 group-hover:visible group-hover:opacity-100 dark:bg-meta-4 md:visible md:w-[90%] h-[50%] xl:h-[40%] md:opacity-100">
+                      <div className="event invisible absolute left-2 z-0 mb-1 flex w-[200%] flex-col rounded-sm border-l-[3px] border-primary bg-gray px-3 py-1 text-left opacity-0 group-hover:visible group-hover:opacity-100 dark:bg-meta-4 md:visible md:w-[90%] h-[50%] xl:h-[40%] md:opacity-100">
                         <span className="event-name text-xs xl:text-sm font-semibold text-black dark:text-white">
                           {events[i + 1].title}
                         </span>

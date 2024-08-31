@@ -48,7 +48,7 @@ const Coursess = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-        {courses?.map((course) => console.log(course))}
+        {/* {courses?.map((course) => console.log(course))} */}
         {filteredCourses?.map((course, i) => (
           <div key={i} className="mx-3 text-color  my-5">
             <div className="card-body  p-0 h-full flex flex-col justify-between">

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../firebaseConfig";
-
+import Image from "next/image";
 const Page = ({ params }) => {
   const [courses, setCourses] = useState();
   const { push } = useRouter();
@@ -19,6 +19,12 @@ const Page = ({ params }) => {
   const [cDuration, setCDuration] = useState("");
   const [cImage, setCImage] = useState("");
   const [loading, setLoading] = useState(true);
+    // const [instructors, setInstructors] = useState([]);
+
+  //  async function getInstractor() {
+  //   let { data } = await axios.get("/api/instructors");
+  //   setInstructors(data);
+  // }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,9 +47,9 @@ const Page = ({ params }) => {
         console.log(error);
       }
     };
-
     fetchData();
   }, []);
+  
   const handlePUT = async (event) => {
     event.preventDefault();
     let imgPath = v4();
@@ -61,7 +67,7 @@ const Page = ({ params }) => {
       body: JSON.stringify({
         title: cTitle,
         price: cPrice,
-        imgPath: cImage.name + imgPath,
+        imgPath: cImage?.name + imgPath,
         details: cDetails,
         instructor: cInstructor,
         duration: cDuration,
@@ -154,6 +160,23 @@ const Page = ({ params }) => {
                   setCInstructor(e.target.value);
                 }}
               />
+             {/* <select
+        required
+        value={instructors}
+        onChange={(e) => setInstructors(e.target.value)}
+        className="dark:bg-form-input dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+      >
+        <option value="">Select Instructor</option>
+        {Array.isArray(cInstructor) ? (
+          instructors.map((instructor) => (
+            <option key={instructor.id} value={instructor.data.name}>
+              {instructor.data.name}
+            </option>
+          ))
+        ) : (
+          <option value="" disabled>No instructors </option>
+        )}
+      </select> */}
             </div>
             <div>
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -185,9 +208,12 @@ const Page = ({ params }) => {
                 }}
               ></textarea>
             </div>
+
             {/* إضافة الصورة هنا */}
             <div className="my-4 flex justify-center">
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={cImage}
                 alt={cTitle}
                 className="border border-stroke rounded-lg object-cover"

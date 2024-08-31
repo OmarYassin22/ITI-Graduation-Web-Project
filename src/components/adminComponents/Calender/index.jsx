@@ -1,10 +1,10 @@
-'use client'
-import axios from 'axios';
+"use client";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const Calendar = ({ calendarId }) => {
   const [events, setEvents] = useState({});
@@ -99,33 +99,36 @@ const Calendar = ({ calendarId }) => {
     }
   };
 
-  const handleDeleteClick = () => {
-    if (editingEvent) {
-      setEvents((prevEvents) => {
-        const updatedEvents = { ...prevEvents };
-        delete updatedEvents[editingEvent.day]; // حذف الحدث من اليوم المختار
+      const handleDeleteClick = () => {
+        if (editingEvent) {
+          setEvents((prevEvents) => {
+            const updatedEvents = { ...prevEvents };
+            delete updatedEvents[editingEvent.day]; // حذف الحدث من اليوم المختار
 
-        const docRef = doc(db, "course_instructor", calendarId);
-        setDoc(docRef, updatedEvents)
-          .then(() => {
-            Swal.fire({
-              text: 'Deleted successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK',
-              width: "15em",
-              timer: "1000"
-            });
-          })
-          .catch((error) => {
-            console.error("Error deleting event: ", error);
+            const docRef = doc(db, "course_instructor", calendarId);
+            setDoc(docRef, updatedEvents)
+              .then(() => {
+                Swal.fire({
+                  text: "Deleted successfully!",
+                  icon: "success",
+                  confirmButtonText: "OK",
+                  width: "15em",
+                  timer: "1000",
+                });
+              })
+              .catch((error) => {
+                console.error("Error deleting event: ", error);
+              });
+
+            return updatedEvents;
           });
 
         return updatedEvents;
-      });
+      };
 
       setEditingEvent(null);
     }
-  };
+  
 
   return (
     <div className="mx-auto max-w-7xl">

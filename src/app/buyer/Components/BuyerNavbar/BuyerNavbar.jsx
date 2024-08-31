@@ -1,39 +1,57 @@
 // 'use client';
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
+import { signOut, useSession } from "next-auth/react";
 import { CiBellOn } from "react-icons/ci";
-import SearchBar from "./SearchBar";
-import UserProfile from "./UserProfile";
-import CategoryDropdown from "./CategoryDropdown";
+import { CourseBuyerContext } from "../../../BuyerContext";
+import styles from "./style.module.css"; // Import the CSS module
 import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
+import { useRouter } from "next/navigation";
 
 const Logo = () => (
-  <h2 className="font-bold text-2xl text-color mr-12">
+  <h2 className="font-bold text-2xl text-white dark:text-white mr-12">
     <Link href="/buyer">E-Learning</Link>
   </h2>
 );
 
-const NavIcons = () => {
-  const icons = [
-    { Icon: FaRegHeart, size: 24, label: "Favorites", href: "/favorites" },
-    { Icon: IoCartOutline, size: 30, label: "Cart", href: "/cart" },
-    {
-      Icon: CiBellOn,
-      size: 34,
-      label: "Notifications",
-      href: "/notifications",
-    },
-  ];
+const NavIcons = ({ handleRouteChange }) => {
+  let { courseBuyerCart, courseBuyerWish } = useContext(CourseBuyerContext);
+
+  const handleCart = () => {
+    handleRouteChange("MyCart");
+  };
+
+  const handleWish = () => {
+    handleRouteChange("MyWishlist");
+  };
 
   return (
     <ul className="flex items-center text-color space-x-5">
-      {icons.map(({ Icon, size, label, href }) => (
-        <li key={label} className="text-color">
-          <Link href={href} aria-label={label}>
-            <Icon size={size} />
-          </Link>
+      {[
+        {
+          Icon: FaRegHeart,
+          size: 24,
+          label: "Favorites",
+          count: courseBuyerWish.length, // Assuming courseBuyerWish is an array
+          onClick: handleWish,
+        },
+        {
+          Icon: IoCartOutline,
+          size: 30,
+          label: "Cart",
+          count: courseBuyerCart.length, // Assuming courseBuyerCart is an array
+          onClick: handleCart,
+        },
+      ].map(({ Icon, size, label, count, onClick }) => (
+        <li
+          key={label}
+          className={`text-color cursor-pointer ${styles.cartIcon}`}
+          onClick={onClick}
+        >
+          <Icon size={size} />
+          {count > 0 && <span className={styles.cartBadge}>{count}</span>}
         </li>
       ))}
     </ul>
@@ -41,6 +59,8 @@ const NavIcons = () => {
 };
 
 const BuyerNavbar = ({ handleRouteChange }) => {
+  const { data, status } = useSession();
+  let router = useRouter();
   return (
     <nav
       className="flex items-center cardesbackground justify-between px-20 py-7 w-full"
@@ -57,36 +77,55 @@ const BuyerNavbar = ({ handleRouteChange }) => {
       </div>
       <ul className="flex items-center space-x-5">
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("courses")}
         >
           Courses
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("MyLearning")}
         >
           MyLearning
         </li>
         <li
-          className="cursor-pointer"
-          onClick={() => handleRouteChange("MyCart")}
-        >
-          MyCart
-        </li>
-        <li
-          className="cursor-pointer"
+          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("Scholarship")}
         >
           Scholarship
         </li>
-        
       </ul>
 
       <div className="flex items-center space-x-5">
-        <NavIcons />
-        <UserProfile />
-        <ThemeToggle />
+        <NavIcons handleRouteChange={handleRouteChange} />
+        {/* <UserProfile /> */}
+        <div className="flex justify-between items-center gap-2">
+          {status === "loading" && (
+            <p className="text-sm sm:text-base">Loading...</p>
+          )}
+          {status == "authenticated" && (
+            <button
+              onClick={() => {
+                signOut();
+              }}
+              className="text-sm sm:text-base hover:text-warning"
+            >
+              Logout
+            </button>
+          )}
+
+          {status == "unauthenticated" && (
+            <button
+              onClick={() => {
+                router.push("/api/auth/signin");
+              }}
+              className="text-sm sm:text-base hover:text-warning"
+            >
+              Login
+            </button>
+          )}
+          <ThemeToggle />
+        </div>
       </div>
     </nav>
   );
