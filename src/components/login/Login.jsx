@@ -49,14 +49,13 @@ function Login() {
     localStorage.setItem("fname", result.docs[0].data()?.fname);
     localStorage.setItem("lname", result.docs[0].data()?.lname);
 
-    localStorage.setItem("email", result.docs[0].data().email);
+    localStorage.setItem("email", values.email);
     const res = await signIn("credentials", {
       email: values.email,
       password: values.password,
     });
     console.log(res);
     console.log("================================================");
-
   }
 
   const formik = useFormik({

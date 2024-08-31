@@ -38,6 +38,7 @@ function Page({ params }) {
       fname: "",
       lname: "",
       userName: "",
+      email: "",
       number: "",
     },
     validationSchema: Yup.object({
@@ -50,6 +51,14 @@ function Page({ params }) {
       userName: Yup.string()
         .required("please enter your user name")
         .min(6, "user name should have at least 6 characters"),
+      email: Yup.string()
+        .required(
+          "email is required and  writen  as moh.eha or o.y.sllem or omaryasyn@gmail.com"
+        )
+        .matches(
+          /^.{4,}@(\w{3,}).(\w{3,})$/i,
+          "email is required and  writen  as moh.eha or o.y.sllem or omaryasyn@gmail.com"
+        ),
       number: Yup.string()
         .required("please enter phone number")
         .matches(
@@ -121,6 +130,21 @@ function Page({ params }) {
           {formik.touched.userName && formik.errors.userName ? (
             <div className="text-sm text-red-600">{formik.errors.userName}</div>
           ) : null}
+
+          <input
+            type="email"
+            placeholder="email"
+            id="email"
+            name="email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            className="w-full px-4 mt-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400 text-black dark:text-black"
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <div className="text-sm text-red-600">{formik.errors.email}</div>
+          ) : null}
+
           <input
             type="tel"
             placeholder="phone number"
