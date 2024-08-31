@@ -31,33 +31,35 @@ function Login() {
     setUser(value);
   };
   async function login(values) {
-    // try {
-    debugger;
+    try {
+      setLoading(true);
+      setErrorMsg("");
+      const dbuser = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
 
-    setLoading(true);
-    setErrorMsg("");
-    const dbuser = await signInWithEmailAndPassword(
-      auth,
-      values.email,
-      values.password
-    );
+      const UserType = collection(db, "UserData");
+      const q = await query(UserType, where("uid", "==", dbuser.user.uid));
+      const result = await getDocs(q);
+      console.log(result.docs[0].data());
 
-    const UserType = collection(db, "UserData");
-    const q = await query(UserType, where("uid", "==", dbuser.user.uid));
-    const result = await getDocs(q);
-    console.log(result.docs[0].data());
-    
-    localStorage.setItem("type", result.docs[0].data().type);
-    localStorage.setItem("fname", result.docs[0].data()?.fname);
-    localStorage.setItem("lname", result.docs[0].data()?.lname);
+      localStorage.setItem("type", result.docs[0].data().type);
+      localStorage.setItem("fname", result.docs[0].data()?.fname);
+      localStorage.setItem("lname", result.docs[0].data()?.lname);
 
-    localStorage.setItem("email", values.email);
-    const res = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-    });
-    console.log(res);
-    console.log("================================================");
+      localStorage.setItem("email", values.email);
+      const res = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+      });
+      console.log(res);
+      console.log("================================================");
+    } catch (error) {
+      setLoading(false);
+      setErrorMsg(error.response.data.error.code);
+    }
   }
 
   const formik = useFormik({

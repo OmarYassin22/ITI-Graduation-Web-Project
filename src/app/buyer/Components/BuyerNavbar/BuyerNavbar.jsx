@@ -3,13 +3,12 @@ import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
+import { signOut, useSession } from "next-auth/react";
 import { CiBellOn } from "react-icons/ci";
-import SearchBar from "./SearchBar";
-import UserProfile from "./UserProfile";
-import CategoryDropdown from "./CategoryDropdown";
-import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
 import { CourseBuyerContext } from "../../../BuyerContext";
 import styles from "./style.module.css"; // Import the CSS module
+import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
+import { useRouter } from "next/navigation";
 
 const Logo = () => (
   <h2 className="font-bold text-2xl text-white dark:text-white mr-12">
@@ -60,6 +59,8 @@ const NavIcons = ({ handleRouteChange }) => {
 };
 
 const BuyerNavbar = ({ handleRouteChange }) => {
+  const { data, status } = useSession();
+  let router = useRouter();
   return (
     <nav
       className="flex items-center cardesbackground justify-between px-20 py-7 w-full"
@@ -89,12 +90,6 @@ const BuyerNavbar = ({ handleRouteChange }) => {
         </li>
         <li
           className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
-          onClick={() => handleRouteChange("MyCart")}
-        >
-          MyCart
-        </li>
-        <li
-          className="cursor-pointer text-white dark:text-white hover:text-warning dark:hover:text-warning"
           onClick={() => handleRouteChange("Scholarship")}
         >
           Scholarship
@@ -104,7 +99,33 @@ const BuyerNavbar = ({ handleRouteChange }) => {
       <div className="flex items-center space-x-5">
         <NavIcons handleRouteChange={handleRouteChange} />
         {/* <UserProfile /> */}
-        <ThemeToggle />
+        <div className="flex justify-between items-center gap-2">
+          {status === "loading" && (
+            <p className="text-sm sm:text-base">Loading...</p>
+          )}
+          {status == "authenticated" && (
+            <button
+              onClick={() => {
+                signOut();
+              }}
+              className="text-sm sm:text-base hover:text-warning"
+            >
+              Logout
+            </button>
+          )}
+
+          {status == "unauthenticated" && (
+            <button
+              onClick={() => {
+                router.push("/api/auth/signin");
+              }}
+              className="text-sm sm:text-base hover:text-warning"
+            >
+              Login
+            </button>
+          )}
+          <ThemeToggle />
+        </div>
       </div>
     </nav>
   );

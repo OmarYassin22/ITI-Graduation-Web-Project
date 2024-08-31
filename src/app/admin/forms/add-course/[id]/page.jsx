@@ -7,13 +7,7 @@ import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../firebaseConfig";
-<<<<<<< HEAD
-  import Image from 'next/image';
-
-=======
 import Image from "next/image";
->>>>>>> 6e91ee156c90a441b8d5beb64805175e843157af
-
 const Page = ({ params }) => {
   const [courses, setCourses] = useState();
   const { push } = useRouter();
@@ -214,27 +208,12 @@ const Page = ({ params }) => {
                 }}
               ></textarea>
             </div>
-<<<<<<< HEAD
-          
-{/* 
-              <div className="my-4 flex justify-center">
-                <Image
-                  src={cImage}
-                  alt={cTitle}
-                  className="border border-stroke rounded-lg object-cover"
-                  width={200}
-                  height={200}
-                />
-              </div> */}
-               <div className="my-4 flex justify-center">
-              <img
-=======
+
             {/* إضافة الصورة هنا */}
             <div className="my-4 flex justify-center">
               <Image
                 width={100}
                 height={100}
->>>>>>> 6e91ee156c90a441b8d5beb64805175e843157af
                 src={cImage}
                 alt={cTitle}
                 className="border border-stroke rounded-lg object-cover"
