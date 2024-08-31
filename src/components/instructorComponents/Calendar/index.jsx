@@ -6,8 +6,7 @@ import { db } from "../../../app/firebaseConfig";
 const Calendar = () => {
   const [events, setEvents] = useState({});
 
-  const fullName =
-    localStorage.getItem("fname") || "";
+  const fullName = (localStorage.getItem("fname") + " " + localStorage.getItem("lname")) || "";
 
   console.log(fullName);
 
@@ -18,38 +17,36 @@ const Calendar = () => {
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "course_instructor"));
-      const courses = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      const intructorCourse = courses.filter(
-        (course) => course.instructor === fullName
-      );
-
-      console.log(intructorCourse);
-
       const newEvents = {};
-
-      intructorCourse.forEach((course) => {
-        const timestamp = course.details?.date;
-        const date = new Date(
-          timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-        );
-        const options = { day: "numeric", month: "short" };
-        const formattedDate = date.toLocaleDateString("en-GB", options);
-        const day = date.getDate();
-
-        const newEvent = { title: course.title, date: formattedDate };
-        newEvents[day] = newEvent;
-
-        // const formattedDates = course.details.date.map((timestamp) => {
-        //   const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
-        //   const options = { day: 'numeric', month: 'short' };
-        //   const formattedDate = date.toLocaleDateString('en-GB', options);
-        //   const day = date.getDate();
-        //   newEvents[day] = { title: course.title, date: formattedDate };
-        // });
+  
+      querySnapshot.forEach((doc) => {
+        const courseType = doc.id; // This will be 'back-end', 'front-end', or 'mobile app'
+        const courses = doc.data();
+  
+        Object.entries(courses).forEach(([key, course]) => {
+          if (typeof course === 'object' && course.date && course.instructor && course.title) {
+            // Only process this course if the instructor matches fullName
+            if (course.instructor === fullName) {
+              const dateObj = new Date(course.date);
+              const formattedDate = dateObj.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+              const day = dateObj.getDate();
+  
+              const newEvent = { 
+                title: course.title, 
+                date: formattedDate,
+                // courseType: courseType
+              };
+  
+              // if (!newEvents[day]) {
+              //   newEvents[day] = [];
+              // }
+              newEvents[day] = newEvent;
+            }
+          }
+        });
       });
+  
+      console.log(newEvents);
       setEvents(newEvents);
     } catch (error) {
       console.error("Error fetching data: ", error);

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../firebaseConfig";
+import Image from "next/image";
 
 const Page = ({ params }) => {
   const [courses, setCourses] = useState();
@@ -61,7 +62,7 @@ const Page = ({ params }) => {
       body: JSON.stringify({
         title: cTitle,
         price: cPrice,
-        imgPath: cImage.name + imgPath,
+        imgPath: cImage?.name + imgPath,
         details: cDetails,
         instructor: cInstructor,
         duration: cDuration,
@@ -187,7 +188,9 @@ const Page = ({ params }) => {
             </div>
             {/* إضافة الصورة هنا */}
             <div className="my-4 flex justify-center">
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={cImage}
                 alt={cTitle}
                 className="border border-stroke rounded-lg object-cover"

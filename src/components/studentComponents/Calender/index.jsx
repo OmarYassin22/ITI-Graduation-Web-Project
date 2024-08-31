@@ -7,7 +7,7 @@ const Calendar = () => {
     const [events, setEvents] = useState({});
 
 
-    console.log(fullName);
+    // console.log(fullName);
 
 
     useEffect(() => {

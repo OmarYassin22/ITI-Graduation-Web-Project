@@ -263,26 +263,6 @@ const Instructor = () => {
                     value={instructorFields}
                     onChange={(e) => setInstructorFields(e.target.value)}
                   /></div>
-<<<<<<< HEAD
-                <div>
-                  <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">
-                    Select Course
-                  </label>
-                  <select
-                    className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium  outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    onChange={(e) => setFieldsList([...fieldsList, e.target.value])}
-                  >
-                    <option value="" disabled selected>
-                      Select a course
-                    </option>
-                    {courses.map((course) => (
-                      <option key={course.id} value={course.data.title}>
-                        {course.data.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-=======
                   <div>
                     <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">
                       Select Course
@@ -301,7 +281,6 @@ const Instructor = () => {
                       ))}
                     </select>
                   </div> 
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
                 <ul className="mt-3 ">
                   {fieldsList.map((field, index) => (
                     <li key={index} className="dark:text-white flex justify-between items-center text-black hover:bg-black hover:text-white duration-500 p-1">
