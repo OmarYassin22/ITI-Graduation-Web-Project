@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
-import { db } from "../../../app/firebaseConfig";
+import { db } from "../../../app/firebaseConfig"; 
 import { IoMdClose } from "react-icons/io";
 import { FiSearch } from 'react-icons/fi';
 
@@ -17,10 +17,11 @@ function Student() {
   const [studentFields, setStudentFields] = useState([]);
   const [newCourse, setNewCourse] = useState("");
   const [newDegree, setNewDegree] = useState("");
-  const [newInstructor, setNewInstructor] = useState(""); // إضافة المدرس الجديد
+  const [newInstructor, setNewInstructor] = useState(""); 
   const [instructors, setInstructors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredStudents, setFilteredData] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   async function getInstructors() {
     try {
@@ -30,7 +31,14 @@ function Student() {
       console.error("Error fetching instructors:", error);
     }
   }
-
+ async function fetchCourses() {
+    try {
+      const { data } = await axios.get("/api/courses");
+      setCourses(data);
+    } catch (error) {
+      console.error("Error fetching instructors:", error);
+    }
+  }
   async function getStudentData() {
     try {
       const { data } = await axios.get('/api/students');
@@ -42,7 +50,7 @@ function Student() {
         if (student.data && student.data.courses && student.data.courses.length > 0) {
           const firstCourse = student.data.courses[0];
           initialSelectedCourses[student.id] = firstCourse.course;
-          initialSelectedCourseGrades[student.id] = firstCourse.degree;
+          initialSelectedCourseGrades[student.id] = firstCourse.degree; 
         }
       });
       setSelectedCourses(initialSelectedCourses);
@@ -55,12 +63,14 @@ function Student() {
   useEffect(() => {
     getStudentData();
     getInstructors();
+    fetchCourses()
   }, []);
+
   useEffect(() => {
     setFilteredData(
-      studentData.filter((student) =>
+      studentData.filter((student) => 
         student.data.fname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.data.lname.toLowerCase().includes(searchTerm.toLowerCase())
+       student.data.lname.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
   }, [searchTerm, studentData]);
@@ -78,7 +88,7 @@ function Student() {
 
     setSelectedCourseGrades(prevState => ({
       ...prevState,
-      [studentId]: course ? course.degree : ''
+      [studentId]: course ? course.degree : '' 
     }));
   }
 
@@ -104,7 +114,7 @@ function Student() {
     setStudentName(`${student.data.fname} ${student.data.lname}`);
     setStudentEmail(student.data.email);
     setStudentPhone(student.data.number);
-    setStudentFields(student.data.courses || []);
+    setStudentFields(student.data.courses || []); 
   };
 
   const handleSubmitUpdate = async (e) => {
@@ -133,6 +143,7 @@ function Student() {
             }
           } : student
         ));
+
         setSelectedStudent(null);
         setStudentName("");
         setStudentEmail("");
@@ -153,14 +164,13 @@ function Student() {
       setStudentFields([...studentFields, { course: newCourse, degree: Number(newDegree), instructor: newInstructor }]);
       setNewCourse("");
       setNewDegree("");
-      setNewInstructor("");
+      setNewInstructor(""); 
     }
   };
 
   return (
     <>
       <div className="flex flex-col">
-
         <div className='mb-7 flex justify-between'>
           <select className=' bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
             <option value="">Tracks</option>
@@ -184,25 +194,25 @@ function Student() {
           </div>
         </div>
         <div className="grid grid-cols-12 p-2 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
-          <h5 className="text-[6px] xl:text-sm col-span-2 text-sm text-center font-medium">Name</h5>
-          <h5 className="text-[6px] xl:text-sm font-medium text-center">Phone</h5>
-          <h5 className="text-[6px] xl:text-sm col-span-3 text-sm font-medium text-center">Email</h5>
-          <h5 className="text-[6px] xl:text-sm text-center font-medium">Courses</h5>
-          <h5 className="text-[6px] xl:text-sm text-center font-medium">Degree</h5>
-          <h5 className="col-span-2 text-[6px] xl:text-sm text-center font-medium">Instructor</h5>
-          <h5 className="text-[6px] xl:text-sm text-center font-medium">Delete</h5>
-          <h5 className="text-[6px] xl:text-sm text-center font-medium">Update</h5>
+          <h5 className="col-span-2 text-sm text-center font-medium xsm:text-base">Name</h5>
+          <h5 className="text-sm font-medium text-center xsm:text-base">Phone</h5>
+          <h5 className="col-span-3 text-sm font-medium text-center xsm:text-base">Email</h5>
+          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Courses</h5>
+          <h5 className="hidden col-span-1 sm:block text-sm text-center font-medium xsm:text-base">Degree</h5>
+          <h5 className="hidden col-span-2 sm:block text-sm text-center font-medium xsm:text-base">Instructor</h5>
+          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Delete</h5>
+          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Update</h5>
         </div>
         {filteredStudentsByField.map(student => (
           <div className="grid grid-cols-12 gap-2 p-2.5" key={student.id}>
-            <p className="text-[6px] xl:text-sm col-span-2 text-black dark:text-white">{student.data.fname} {student.data.lname}</p>
-            <p className="text-[6px] xl:text-sm text-meta-3 text-center">{student.data.number}</p>
-            <p className="text-[6px] xl:text-sm text-meta-3 text-center col-span-3">
+            <p className="col-span-2 text-black dark:text-white">{student.data.fname} {student.data.lname}</p>
+            <p className="text-meta-3 text-center">{student.data.number}</p>
+            <p className="text-meta-3 text-center col-span-3">
               {student.data.email ? student.data.email.split("@")[0] + "@" : "No Email"}
             </p>
-            <p className="text-[6px] xl:text-sm text-black  dark:text-white text-center">
+            <p className="hidden sm:block text-black  dark:text-white text-center ">
               <select
-                className='text-[6px] xl:text-sm dark:bg-slate-800'
+                className='dark:bg-slate-800'
                 value={selectedCourses[student.id] || ''}
                 onChange={(e) => handleCourseChange(student.id, e)}
               >
@@ -217,18 +227,18 @@ function Student() {
                 )}
               </select>
             </p>
-            <p className="text-[6px] xl:text-sm text-center w-fit mx-auto rounded-md text-black dark:text-white">
+            <p className=" text-center w-fit mx-auto rounded-md text-black dark:text-white">
               {selectedCourseGrades[student.id] || '0'}
             </p>
-            <p className="text-[6px] xl:text-sm col-span-2 text-center w-fit mx-auto rounded-md text-black dark:text-white">
-              {student.data.courses && Array.isArray(student.data.courses) ?
+            <p className="col-span-2 text-center w-fit mx-auto rounded-md text-black dark:text-white">
+              {student.data.courses && Array.isArray(student.data.courses) ? 
                 student.data.courses.find(course => course.course === selectedCourses[student.id])?.instructor || 'No Instructor'
                 : 'No Courses Available'}
             </p>
-            <button onClick={() => handleDelete(student.id)} className="text-[6px] xl:text-sm text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white">
+            <button onClick={() => handleDelete(student.id)} className="hidden sm:block text-center bg-rose-800 w-fit mx-auto p-2 rounded-md text-white">
               Delete
             </button>
-            <button onClick={() => handleUpdate(student)} className="text-[6px] xl:text-sm text-center bg-green-800 w-fit mx-auto p-2 rounded-md text-white">
+            <button onClick={() => handleUpdate(student)} className="hidden sm:block text-center bg-green-800 w-fit mx-auto p-2 rounded-md text-white">
               Update
             </button>
           </div>
@@ -315,13 +325,21 @@ function Student() {
                   </div>
                 ))}
                 <div className="flex flex-col sm:flex-row justify-between">
-                  <input
-                    type="text"
-                    placeholder="New Course"
-                    value={newCourse}
-                    onChange={(e) => setNewCourse(e.target.value)}
-                    className="dark:bg-slate-800 dark:text-white w-1/3 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
-                  />
+                   <select
+                  className="w-1/3 dark:bg-slate-800 dark:text-white rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                 onChange={(e) => setNewCourse(e.target.value)}
+                  value={newCourse}
+                >
+                  <option value="" disabled selected>
+                 Courses
+                  </option>
+                  {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
+                  .map((course) => (
+                    <option key={course.id} value={course.data.title}>
+                      {course.data.title}
+                    </option>
+                  ))}
+                </select>
                   <input
                     type="number"
                     placeholder="Degree"
