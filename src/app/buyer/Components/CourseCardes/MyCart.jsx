@@ -33,10 +33,10 @@ const Coursess = ({ handleRouteChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredCourses = courses.filter((course) =>
-    course?.title.toLowerCase().includes(searchTerm.toLowerCase())
+    course?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const deleteCourse = (courseId) => {
-    const updatedCourses = courses.filter((course) => course.id !== courseId);
+    const updatedCourses = courses.filter((course) => course?.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerCart(updatedCourses);
     localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
@@ -44,7 +44,9 @@ const Coursess = ({ handleRouteChange }) => {
 
   const handlePaymentSuccess = async () => {
     try {
-      const purchasedCourseIds = courses.map((course) => course.id);
+      const purchasedCourseIds = courses
+        .filter((course) => course != null && course.id != null)
+        .map((course) => course.id);
       console.log("Purchased Course IDs:", purchasedCourseIds);
 
       // 1. Update local state
@@ -150,7 +152,7 @@ const Coursess = ({ handleRouteChange }) => {
         setCourses([]);
       }
     }
-  }, []);
+  },[]);
 
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (

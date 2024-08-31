@@ -39,7 +39,7 @@ function CourseDetails() {
       <div className='w-full'>
         {matchingCourseData && (
           <CourseVideoPlayer 
-            courseName={matchingCourseData.selectedCourse} 
+            courseName={matchingCourseData.selectedCourse}
             fileName={matchingCourseData.fileName} 
           />
         )}

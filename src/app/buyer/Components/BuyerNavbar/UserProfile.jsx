@@ -11,9 +11,9 @@ const UserProfile = () => {
 
   return (
     <div className="relative">
-      <div 
+      <div
         className="flex items-center cursor-pointer"
-        // onClick={toggleDropdown}
+      // onClick={toggleDropdown}
       >
         <div className="rounded-full bg-primary w-9 h-9 text-center text-white text-2xl leading-9">
           E
