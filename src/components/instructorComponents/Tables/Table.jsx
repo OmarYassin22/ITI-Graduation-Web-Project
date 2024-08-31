@@ -11,9 +11,11 @@ const Table = () => {
   const [uniqueFieldsArray, setUniqueFieldsArray] = useState([]);
   const [selectedField, setSelectedField] = useState('');
 
-  const filteredCourseData =
-    selectedField ? courseData.filter(course => course.field === selectedField)
-      : courseData;
+  const fullName = localStorage.getItem("fname") + " " + localStorage.getItem("lname");
+
+  const filteredCourseData = 
+  selectedField ? courseData.filter(course => course.field === selectedField)
+  : courseData;
 
   const handleGradeInputChange = (studentId, courseName, value) => {
     setGradeInputs(prev => ({ ...prev, [`${studentId}-${courseName}`]: value }));
@@ -212,7 +214,7 @@ const Table = () => {
                 <p className="text-[6px] md:text-sm text-black dark:text-white sm:block">{course.courseStudent}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-[6px] md:text-sm text-black dark:text-white">{course.courseName}</p>
+                <p className="text-[6px] text-center md:text-sm text-black dark:text-white">{course.courseName}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
                 <p className="text-[6px] md:text-sm text-black dark:text-white">{course.degree}</p>
@@ -223,6 +225,7 @@ const Table = () => {
               <div className="flex items-center justify-between p-2.5 xl:p-5">
                 <input
                   type="number"
+                  min="0"
                   className="w-5 sm:w-2/4 border outline-none text-black dark:text-black"
                   value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
                   onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
@@ -238,90 +241,6 @@ const Table = () => {
           ))}
         </div>
       </div>
-
-      {/* <div className="rounded-sm w-3/4 mx-auto border border-stroke bg-white px-5 pb-6 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
-        <div className="flex flex-col">
-          <div className="grid grid-cols-5 font-bold rounded-sm bg-neutral-200 dark:bg-white sm:grid-cols-5">
-            <div className="p-2.5 xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
-                onClick={() => sortData('courseStudent')}
-              >
-                Name {getSortDirection('courseStudent')}
-              </h5>
-            </div>
-            <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
-                onClick={() => sortData('courseName')}
-                >
-                Course {getSortDirection('courseName')}
-              </h5>
-            </div>
-            <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
-                onClick={() => sortData('degree')}
-                >
-                Grade {getSortDirection('degree')}
-              </h5>
-            </div>
-            <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base cursor-pointer"
-                onClick={() => sortData('field')}
-                >
-                Field 
-                {getSortDirection('field')}
-              </h5>
-            </div>
-            <div className="p-2.5 text-center xl:p-5">
-              <h5 
-                className="text-sm uppercase xsm:text-base"
-                >
-                Add Grade 
-              </h5>
-            </div>
-          </div>
-          {courseData.map((course, key) => (
-            <div
-              className={`grid grid-cols-5 sm:grid-cols-5 ${
-                key === courseData.length - 1
-                  ? ""
-                  : "border-b border-stroke dark:border-strokedark"
-              }`}
-              key={key}
-            >
-              <div className="flex items-center gap-3 p-2.5 xl:p-5">  
-                <p className="text-black dark:text-white sm:block">{course.courseStudent}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{course.courseName}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{course.degree}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{course.field}</p>
-              </div>
-              <div className="flex items-center justify-between p-2.5 xl:p-5">
-                <input 
-                  type="number" 
-                  className="w-2/4 border outline-none" 
-                  value={gradeInputs[`${course.studentId}-${course.courseName}`] || ''}
-                  onChange={(e) => handleGradeInputChange(course.studentId, course.courseName, e.target.value)}
-                />
-                <button 
-                  className="bg-sky-500 text-white px-3 py-1 rounded-lg"
-                  onClick={() => handleEditGrade(course.studentId, course.courseName)}
-                >
-                  {course.degree === '0' ? 'Add' : 'Edit'}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
     </>
   );
 };

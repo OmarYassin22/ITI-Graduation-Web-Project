@@ -13,6 +13,7 @@ const Video = () => {
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadTask, setUploadTask] = useState(null);
 
   const fullName = localStorage.getItem("fname") + " " + localStorage.getItem("lname");
 
@@ -29,7 +30,7 @@ const Video = () => {
       const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     
       const courseSet = new Set();
-      const emadCourses = students.flatMap(student => {
+      const courses = students.flatMap(student => {
         if (!student.courses || !Array.isArray(student.courses) || student.courses.length === 0) {
           return [];
         }
@@ -64,31 +65,18 @@ const Video = () => {
     
     const storageRef = ref(storage, `${fullName}/${selectedCourse}/${file.name}`);
 
-    // Get existing course data from localStorage
     let coursesData = JSON.parse(localStorage.getItem('coursesData')) || [];
-
-    // Create new course data object
     const newCourseData = {
       selectedCourse: selectedCourse,
       fileName: file.name
     };
-
-    // Append new course data to the array
     coursesData.push(newCourseData);
-
-    // Store updated array back in localStorage
     localStorage.setItem('coursesData', JSON.stringify(coursesData));
-    
-    // const storageRef = ref(storage, `Emad Elshplangy/${selectedCourse}/${file.name}`);
-    // const courseData = {
-    //   selectedCourse: selectedCourse,
-    //   fileName: file.name
-    // };
-    // localStorage.setItem('courseData', JSON.stringify(courseData));
   
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const task = uploadBytesResumable(storageRef, file);
+    setUploadTask(task);
 
-    uploadTask.on('state_changed',
+    task.on('state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setUploadProgress(progress);
@@ -98,12 +86,21 @@ const Video = () => {
         setIsUploading(false);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(task.snapshot.ref).then((downloadURL) => {
           console.log('File available at', downloadURL);
           setIsUploading(false);
         });
       }
     );
+  };
+
+  const handleStopUpload = () => {
+    if (uploadTask) {
+      uploadTask.cancel();
+      setIsUploading(false);
+      setUploadProgress(0);
+      alert("Upload cancelled");
+    }
   };
 
   return (
@@ -156,9 +153,15 @@ const Video = () => {
           />
         </div>
       )}
-      <button type="button" className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={handleUpload}>
-        Add
-      </button>
+      {!isUploading ? (
+        <button type="button" className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={handleUpload}>
+          Add
+        </button>
+      ) : (
+        <button type="button" className="mt-10 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800" onClick={handleStopUpload}>
+          Stop Upload
+        </button>
+      )}
     </form>
   );
 }

@@ -32,11 +32,6 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
 
   ////////////////////////get instructors////////////////
   useEffect(() => {
