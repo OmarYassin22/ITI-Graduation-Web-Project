@@ -1,24 +1,16 @@
-'use client'
-import axios from 'axios';
+"use client";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
-<<<<<<< HEAD
-import { collection, addDoc, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
-=======
 import { doc, getDoc, setDoc } from "firebase/firestore";
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
 import { db } from "../../../app/firebaseConfig";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const Calendar = ({ calendarId }) => {
   const [events, setEvents] = useState({});
   const [editingEvent, setEditingEvent] = useState(null);
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const Swal = require('sweetalert2')
-=======
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
-=======
+
+  const Swal = require("sweetalert2");
   const [instructors, setInstructors] = useState([]);
   const [courses, setCourses] = useState([]);
 
@@ -44,7 +36,6 @@ const Calendar = ({ calendarId }) => {
     getInstructors();
     fetchCourses();
   }, []);
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -71,72 +62,33 @@ const Calendar = ({ calendarId }) => {
             [editingEvent.day]: editingEvent.event,
           };
 
-<<<<<<< HEAD
-          const handleSaveClick = async () => {
-            if (editingEvent) {
-              const { title, date } = editingEvent.event;
-              if (title.trim() || date.trim()) {
-                setEvents((prevEvents) => {
-                  const updatedEvents = {
-                    ...prevEvents,
-                    [editingEvent.day]: editingEvent.event,
-                  };
-
-                  const docRef = doc(db, "course_instructor", "calendar_events");
-                  setDoc(docRef, updatedEvents)
-                    .then(() => {
-                      //  alert("saved successfully!");
-                      Swal.fire({
-                        text: 'saved successfully!',
-=======
           const docRef = doc(db, "course_instructor", calendarId);
           setDoc(docRef, updatedEvents)
             .then(() => {
               Swal.fire({
-                text: 'Saved successfully!',
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        width: "15em",
-                        timer: "1000"
-<<<<<<< HEAD
-                      })
-=======
+                text: "Saved successfully!",
+                icon: "success",
+                confirmButtonText: "OK",
+                width: "15em",
+                timer: "1000",
               });
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
-                    })
-                    .catch((error) => {
-                      console.error("Error saving event: ", error);
-                    });
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  return updatedEvents;
-                });
-              }
-              setEditingEvent(null);
-=======
-=======
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
-              return updatedEvents;
+            })
+            .catch((error) => {
+              console.error("Error saving event: ", error);
             });
+
+          return updatedEvents;
+        });
       }
       setEditingEvent(null);
-<<<<<<< HEAD
->>>>>>> 381310fef86c17d9cf3d0ea6c01da4f7b27a0407
     }
   };
-=======
-    }
-  };
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
 
   const handleEditClick = (day) => {
     const event = events[day] || { title: "", date: "" };
     setEditingEvent({ day, event });
   };
 
-<<<<<<< HEAD
   // Handle input change during editing
   const handleInputChange = (e, field) => {
     if (editingEvent) {
@@ -160,11 +112,11 @@ const Calendar = ({ calendarId }) => {
         setDoc(docRef, updatedEvents)
           .then(() => {
             Swal.fire({
-              text: 'Deleted successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK',
+              text: "Deleted successfully!",
+              icon: "success",
+              confirmButtonText: "OK",
               width: "15em",
-              timer: "1000"
+              timer: "1000",
             });
           })
           .catch((error) => {
@@ -173,53 +125,49 @@ const Calendar = ({ calendarId }) => {
 
         return updatedEvents;
       });
-=======
-  const handleInputChange = (e, field) => {
-    if (editingEvent) {
-      setEditingEvent({
-        ...editingEvent,
-        event: {
-          ...editingEvent.event,
-          [field]: e.target.value,
-        },
-      });
-    }
-  };
+      const handleInputChange = (e, field) => {
+        if (editingEvent) {
+          setEditingEvent({
+            ...editingEvent,
+            event: {
+              ...editingEvent.event,
+              [field]: e.target.value,
+            },
+          });
+        }
+      };
 
-  const handleDeleteClick = () => {
-    if (editingEvent) {
-      setEvents((prevEvents) => {
-        const updatedEvents = { ...prevEvents };
-        delete updatedEvents[editingEvent.day]; // حذف الحدث من اليوم المختار
+      const handleDeleteClick = () => {
+        if (editingEvent) {
+          setEvents((prevEvents) => {
+            const updatedEvents = { ...prevEvents };
+            delete updatedEvents[editingEvent.day]; // حذف الحدث من اليوم المختار
 
-        const docRef = doc(db, "course_instructor", calendarId);
-        setDoc(docRef, updatedEvents)
-          .then(() => {
-            Swal.fire({
-              text: 'Deleted successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK',
-              width: "15em",
-              timer: "1000"
-            });
-          })
-          .catch((error) => {
-            console.error("Error deleting event: ", error);
+            const docRef = doc(db, "course_instructor", calendarId);
+            setDoc(docRef, updatedEvents)
+              .then(() => {
+                Swal.fire({
+                  text: "Deleted successfully!",
+                  icon: "success",
+                  confirmButtonText: "OK",
+                  width: "15em",
+                  timer: "1000",
+                });
+              })
+              .catch((error) => {
+                console.error("Error deleting event: ", error);
+              });
+
+            return updatedEvents;
           });
 
-        return updatedEvents;
-      });
-
-      setEditingEvent(null);
-    }
-  };
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
+          setEditingEvent(null);
+        }
+      };
 
       setEditingEvent(null); // إخفاء النموذج بعد الحذف
     }
   };
-
-<<<<<<< HEAD
   return (
     <div className="mx-auto max-w-7xl">
       <Breadcrumb pageName="Calendar" />
@@ -236,7 +184,11 @@ const Calendar = ({ calendarId }) => {
               {Array.from({ length: 31 }, (_, i) => (
                 <td
                   key={i + 1}
-                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${(events[i + 1] != undefined ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600` : `transition`)}`}
+                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${
+                    events[i + 1] != undefined
+                      ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600`
+                      : `transition`
+                  }`}
                   onClick={() => handleEditClick((i + 1).toString())}
                 >
                   <span className="font-medium text-black dark:text-white">
@@ -309,8 +261,8 @@ const Calendar = ({ calendarId }) => {
             </div>
           </div>
         )}
-=======
-      <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+
+        <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <table className="w-full">
             <thead>
               <tr className="grid grid-cols-7 rounded-t-sm bg-primary text-white">
@@ -322,7 +274,11 @@ const Calendar = ({ calendarId }) => {
                 {Array.from({ length: 31 }, (_, i) => (
                   <td
                     key={i + 1}
-                    className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${(events[i + 1] !== undefined ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600` : `transition`)}`}
+                    className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${
+                      events[i + 1] !== undefined
+                        ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600`
+                        : `transition`
+                    }`}
                     onClick={() => handleEditClick((i + 1).toString())}
                   >
                     <span className="font-medium text-black dark:text-white">
@@ -348,7 +304,6 @@ const Calendar = ({ calendarId }) => {
               </tr>
             </tbody>
           </table>
-
           {editingEvent && (
             <div className="bg-gray-800 fixed inset-0 z-99 flex items-center justify-center bg-opacity-50 ">
               <div className="dark:bg-slate-800 dark:text-white bg-white p-5 rounded-lg shadow-lg max-w-md max-h-[80vh] overflow-y-auto border border-primary ">
@@ -362,13 +317,21 @@ const Calendar = ({ calendarId }) => {
                     onChange={(e) => handleInputChange(e, "title")}
                     value={editingEvent.event.title}
                   >
-                    <option value="" disabled>Select a course</option>
-                    {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
-                      .map((course) => (
-                        <option key={course.id} value={course.data.title}>
-                          {course.data.title}
-                        </option>
-                      ))}
+                    <option value="" disabled>
+                      Select a course
+                    </option>
+                    {[
+                      ...new Map(
+                        courses.map((course) => [
+                          course.data.title.toLowerCase(),
+                          course,
+                        ])
+                      ).values(),
+                    ].map((course) => (
+                      <option key={course.id} value={course.data.title}>
+                        {course.data.title}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="mb-4">
@@ -380,7 +343,9 @@ const Calendar = ({ calendarId }) => {
                     onChange={(e) => handleInputChange(e, "instructor")}
                     className="dark:bg-slate-800 dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                   >
-                    <option value="" disabled>Select Instructor</option>
+                    <option value="" disabled>
+                      Select Instructor
+                    </option>
                     {instructors.map((instructor) => (
                       <option key={instructor.id} value={instructor.data.name}>
                         {instructor.data.name}
@@ -418,10 +383,14 @@ const Calendar = ({ calendarId }) => {
                   >
                     Cancel
                   </button>
->>>>>>> a31b3dec0e1e2d650baac06a1eebcc98235912cc
                 </div>
               </div>
-              );
-        };
-
-              export default Calendar;
+            </div>
+          )}
+          ;
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Calendar;
