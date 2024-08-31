@@ -147,6 +147,8 @@ const Coursess = ({ handleRouteChange }) => {
       } catch (error) {
         console.error("Error parsing cart from localStorage:", error);
         // If there's an error parsing, clear the invalid data
+        // remove courseBuyerCart from local storage
+
         localStorage.removeItem("courseBuyerCart");
         setCourseBuyerCart([]);
         setCourses([]);
