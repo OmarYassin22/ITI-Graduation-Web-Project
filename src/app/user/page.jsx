@@ -15,9 +15,11 @@ function UserPage() {
       ? localStorage.setItem("counter", 0)
       : +localStorage.getItem("counter");
   console.log(counter);
-  window.onload = () => {
-    localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
-  };
+  if (window !== "undefined") {
+    window.onload = () => {
+      localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
+    };
+  }
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { localCourse, setLocalCourse } = useContext(courseContext);

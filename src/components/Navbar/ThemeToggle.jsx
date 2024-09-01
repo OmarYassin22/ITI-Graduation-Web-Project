@@ -8,6 +8,7 @@ function ThemeToggle() {
 
   useEffect(() => {
     const theme = window.localStorage.getItem("theme");
+
     if (theme === "dark") {
       setDarkMode(true);
     } else {

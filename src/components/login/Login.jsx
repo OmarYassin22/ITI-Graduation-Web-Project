@@ -30,7 +30,7 @@ function Login() {
   const handleSet = (value) => {
     setUser(value);
   };
-  async function login(values) {
+  async function handleLogin(values) {
     try {
       debugger;
       setLoading(true);
@@ -82,7 +82,7 @@ function Login() {
           "password sould have at least 6 number and capital & small liter and have at least special characters"
         ),
     }),
-    onSubmit: login,
+    onSubmit: handleLogin,
   });
 
   return (
@@ -175,3 +175,4 @@ function Login() {
 }
 
 export default Login;
+

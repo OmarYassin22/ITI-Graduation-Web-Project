@@ -54,7 +54,10 @@ const Coursess = ({ handleRouteChange }) => {
       setSearchTerm("");
       localStorage.removeItem("courseBuyerCart");
 
-      let buyerEmail = window.localStorage.getItem("email");
+      let buyerEmail = "";
+      if (window !== "undefined") {
+        window.localStorage.getItem("email");
+      }
       console.log("Buyer Email:", buyerEmail);
 
       // 2. Update external database (if you're still using this)
@@ -154,7 +157,7 @@ const Coursess = ({ handleRouteChange }) => {
         setCourses([]);
       }
     }
-  },[]);
+  }, []);
 
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (

@@ -1,6 +1,12 @@
-
 import React, { useEffect, useState, useContext } from "react";
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./../../../firebaseConfig";
 import { courseContext } from "./../../../Contexts/Courses/CourseContextProvider";
@@ -22,7 +28,7 @@ function MyLearning() {
 
   function openCourseDetails(id) {
     if (!selectedCourses.includes(id)) {
-      setSelectedCourses(prev => [...prev, id]);
+      setSelectedCourses((prev) => [...prev, id]);
     }
   }
 
@@ -32,164 +38,173 @@ function MyLearning() {
         if (!videoUrls[courseId]) {
           setIsLoading(true);
           try {
-            const courseRef = doc(db, 'courses', courseId);
+            const courseRef = doc(db, "courses", courseId);
             const courseSnap = await getDoc(courseRef);
             if (courseSnap.exists()) {
               const courseData = courseSnap.data();
-              const videoRef = ref(storage, `${courseData.instructor}/${courseData.title}/${courseData.title}.mp4`);
+              const videoRef = ref(
+                storage,
+                `${courseData.instructor}/${courseData.title}/${courseData.title}.mp4`
+              );
               const url = await getDownloadURL(videoRef);
-              setVideoUrls(prev => ({
+              setVideoUrls((prev) => ({
                 ...prev,
-                [courseId]: { title: courseData.title, instructor: courseData.instructor, url }
+                [courseId]: {
+                  title: courseData.title,
+                  instructor: courseData.instructor,
+                  url,
+                },
               }));
             } else {
-              console.error('No such course!');
+              console.error("No such course!");
             }
           } catch (error) {
-            console.error('Error fetching course:', error);
-            setError('Error fetching course: ' + error.message);
+            console.error("Error fetching course:", error);
+            setError("Error fetching course: " + error.message);
           } finally {
             setIsLoading(false);
           }
         }
       }
     };
-    
+
     fetchCourseDetails();
   }, [selectedCourses]);
-// import React, { useEffect, useState, useContext } from "react";
-// import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
-// import { ref, getDownloadURL } from "firebase/storage";
-// import { db, storage } from "./../../../firebaseConfig";
-// import { courseContext } from "./../../../Contexts/Courses/CourseContextProvider";
-// import Image from "next/image";
+  // import React, { useEffect, useState, useContext } from "react";
+  // import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+  // import { ref, getDownloadURL } from "firebase/storage";
+  // import { db, storage } from "./../../../firebaseConfig";
+  // import { courseContext } from "./../../../Contexts/Courses/CourseContextProvider";
+  // import Image from "next/image";
 
-// function MyLearning() {
-//   const [buyedCourses, setBuyedCourses] = useState([]);
-//   const [courses, setCourses] = useState(null);
-//   const [learningCourses, setLearningCourses] = useState([]);
-//   const { localCourse } = useContext(courseContext);
-//   const [selectedCourseId, setSelectedCourseId] = useState(null);
-//   const [courseTitle, setCourseTitle] = useState('');
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [courseIns, setCourseIns] = useState(null);
-//   const [videoUrl, setVideoUrl] = useState(null);
+  // function MyLearning() {
+  //   const [buyedCourses, setBuyedCourses] = useState([]);
+  //   const [courses, setCourses] = useState(null);
+  //   const [learningCourses, setLearningCourses] = useState([]);
+  //   const { localCourse } = useContext(courseContext);
+  //   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  //   const [courseTitle, setCourseTitle] = useState('');
+  //   const [isLoading, setIsLoading] = useState(true);
+  //   const [error, setError] = useState(null);
+  //   const [courseIns, setCourseIns] = useState(null);
+  //   const [videoUrl, setVideoUrl] = useState(null);
 
-//   useEffect(() => {
-//     setCourses(localCourse);
-//   }, [localCourse]);
+  //   useEffect(() => {
+  //     setCourses(localCourse);
+  //   }, [localCourse]);
 
-//   function openCourseDetails(id) {
-//     setSelectedCourseId(id);
-//   }
+  //   function openCourseDetails(id) {
+  //     setSelectedCourseId(id);
+  //   }
 
-//   useEffect(() => {
-//     const fetchCourseTitle = async () => {
-//       if (selectedCourseId) {
-//         setIsLoading(true);
-//         try {
-//           const courseRef = doc(db, 'courses', selectedCourseId);
-//           const courseSnap = await getDoc(courseRef);
-//           if (courseSnap.exists()) {
-//             setCourseTitle(courseSnap.data().title);
-//             setCourseIns(courseSnap.data().instructor);
-//           } else {
-//             setError('No such course!');
-//           }
-//         } catch (error) {
-//           setError('Error fetching course: ' + error.message);
-//         } finally {
-//           setIsLoading(false);
-//         }
-//       }
-//     };
-    
-//     fetchCourseTitle();
-//   }, [selectedCourseId]);
+  //   useEffect(() => {
+  //     const fetchCourseTitle = async () => {
+  //       if (selectedCourseId) {
+  //         setIsLoading(true);
+  //         try {
+  //           const courseRef = doc(db, 'courses', selectedCourseId);
+  //           const courseSnap = await getDoc(courseRef);
+  //           if (courseSnap.exists()) {
+  //             setCourseTitle(courseSnap.data().title);
+  //             setCourseIns(courseSnap.data().instructor);
+  //           } else {
+  //             setError('No such course!');
+  //           }
+  //         } catch (error) {
+  //           setError('Error fetching course: ' + error.message);
+  //         } finally {
+  //           setIsLoading(false);
+  //         }
+  //       }
+  //     };
 
-//   useEffect(() => {
-//     const fetchVideo = async () => {
-//       if (courseIns && courseTitle) {
-//         try {
-//           // Assuming the video file is named 'lecture.mp4'
-//           // Adjust the file name if it's different or if you need to fetch multiple videos
-//           const videoRef = ref(storage, `${courseIns}/${courseTitle}/${courseTitle}.mp4`);
-//           const url = await getDownloadURL(videoRef);
-//           setVideoUrl(url);
-//         } catch (error) {
-//           console.error("Error fetching video:", error);
-//           setError('Error fetching video: ' + error.message);
-//         }
-//       }
-//     };
+  //     fetchCourseTitle();
+  //   }, [selectedCourseId]);
 
-//     fetchVideo();
-//   }, [courseIns, courseTitle]);
+  //   useEffect(() => {
+  //     const fetchVideo = async () => {
+  //       if (courseIns && courseTitle) {
+  //         try {
+  //           // Assuming the video file is named 'lecture.mp4'
+  //           // Adjust the file name if it's different or if you need to fetch multiple videos
+  //           const videoRef = ref(storage, `${courseIns}/${courseTitle}/${courseTitle}.mp4`);
+  //           const url = await getDownloadURL(videoRef);
+  //           setVideoUrl(url);
+  //         } catch (error) {
+  //           console.error("Error fetching video:", error);
+  //           setError('Error fetching video: ' + error.message);
+  //         }
+  //       }
+  //     };
 
+  //     fetchVideo();
+  //   }, [courseIns, courseTitle]);
 
   //=========================================================================================
 
-// import React, { useEffect, useState, useContext } from "react";
-// import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
-// import { db } from "./../../../firebaseConfig";
-// import { courseContext } from "./../../../Contexts/Courses/CourseContextProvider";
-// import Image from "next/image";
+  // import React, { useEffect, useState, useContext } from "react";
+  // import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+  // import { db } from "./../../../firebaseConfig";
+  // import { courseContext } from "./../../../Contexts/Courses/CourseContextProvider";
+  // import Image from "next/image";
 
-// function MyLearning() {
-//   const [buyedCourses, setBuyedCourses] = useState([]);
-//   const [courses, setCourses] = useState(null);
-//   const [learningCourses, setLearningCourses] = useState([]);
-//   const { localCourse } = useContext(courseContext);
-//   console.log(localCourse);
-//   const [selectedCourseId, setSelectedCourseId] = useState(null);
-//   const [courseTitle, setCourseTitle] = useState('');
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [courseIns, setCourseIns] = useState(null);
-  
+  // function MyLearning() {
+  //   const [buyedCourses, setBuyedCourses] = useState([]);
+  //   const [courses, setCourses] = useState(null);
+  //   const [learningCourses, setLearningCourses] = useState([]);
+  //   const { localCourse } = useContext(courseContext);
+  //   console.log(localCourse);
+  //   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  //   const [courseTitle, setCourseTitle] = useState('');
+  //   const [isLoading, setIsLoading] = useState(true);
+  //   const [error, setError] = useState(null);
+  //   const [courseIns, setCourseIns] = useState(null);
 
-//   useEffect(() => {
-//     setCourses(localCourse);
-//   }, [localCourse]);
+  //   useEffect(() => {
+  //     setCourses(localCourse);
+  //   }, [localCourse]);
 
-//   function openCourseDetails(id) {
-//     setSelectedCourseId(id);
-//   }
+  //   function openCourseDetails(id) {
+  //     setSelectedCourseId(id);
+  //   }
 
-//   useEffect(() => {
-//     const fetchCourseTitle = async () => {
-//       if (selectedCourseId) {
-//         setIsLoading(true);
-//         console.log(selectedCourseId);  
-//         try {
-//           const courseRef = doc(db, 'courses', selectedCourseId);
-//           const courseSnap = await getDoc(courseRef);
-//           console.log(courseRef);
-//           console.log(courseSnap);          
-//           if (courseSnap.exists()) {
-//             setCourseTitle(courseSnap.data().title);
-//             setCourseIns(courseSnap.data().instructor)
-//           } else {
-//             setError('No such course!');
-//           }
-//         } catch (error) {
-//           setError('Error fetching course: ' + error.message);
-//         } finally {
-//           setIsLoading(false);
-//         }
-//       }
-//     };
-    
-//     fetchCourseTitle();
-//   }, [selectedCourseId]);
+  //   useEffect(() => {
+  //     const fetchCourseTitle = async () => {
+  //       if (selectedCourseId) {
+  //         setIsLoading(true);
+  //         console.log(selectedCourseId);
+  //         try {
+  //           const courseRef = doc(db, 'courses', selectedCourseId);
+  //           const courseSnap = await getDoc(courseRef);
+  //           console.log(courseRef);
+  //           console.log(courseSnap);
+  //           if (courseSnap.exists()) {
+  //             setCourseTitle(courseSnap.data().title);
+  //             setCourseIns(courseSnap.data().instructor)
+  //           } else {
+  //             setError('No such course!');
+  //           }
+  //         } catch (error) {
+  //           setError('Error fetching course: ' + error.message);
+  //         } finally {
+  //           setIsLoading(false);
+  //         }
+  //       }
+  //     };
 
-//   console.log(courseTitle);
-//   console.log(courseIns);
+  //     fetchCourseTitle();
+  //   }, [selectedCourseId]);
+
+  //   console.log(courseTitle);
+  //   console.log(courseIns);
 
   async function getData() {
     try {
-      let buyerEmail = window.localStorage.getItem("email");
+      let buyerEmail = "";
+
+      if (window !== "undefined") {
+        window.localStorage.getItem("email");
+      }
       const UserDataCollection = collection(db, "UserData");
       const q = query(UserDataCollection, where("email", "==", buyerEmail));
 
@@ -325,14 +340,14 @@ function MyLearning() {
       </div>
       {/* <div className="flex justify-center">
         {/* {isLoading && <p>Loading...</p>} */}
-        {/* {error && <p>Error: {error}</p>}
+      {/* {error && <p>Error: {error}</p>}
         {videoUrl && (
           <video width="320" height="240" controls>
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         )}
-      </div> */} 
+      </div> */}
     </div>
   );
 }
