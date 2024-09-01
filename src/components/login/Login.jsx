@@ -32,6 +32,7 @@ function Login() {
   };
   async function login(values) {
     try {
+      debugger;
       setLoading(true);
       setErrorMsg("");
       const dbuser = await signInWithEmailAndPassword(
@@ -54,8 +55,6 @@ function Login() {
         email: values.email,
         password: values.password,
       });
-      console.log(res);
-      console.log("================================================");
     } catch (error) {
       setLoading(false);
       setErrorMsg(error.response.data.error.code);
