@@ -16,7 +16,7 @@ const CalendarPage = () => {
         <label htmlFor="calendarDropdown" className="mr-2">
           Select Calendar:
         </label>
-        a
+        
         <select
           id="calendarDropdown"
           value={selectedCalendar}
