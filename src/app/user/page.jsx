@@ -1,8 +1,7 @@
 "use client";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
-import axios from "axios";
 import Variants from "../Spinner";
 import { useRouter } from "next/navigation";
 import { BackgroundSection, CardGridSection } from "./StaticSections";
@@ -10,16 +9,20 @@ import { courseContext } from "../Contexts/Courses/CourseContextProvider";
 import Acordion from "./acordion";
 import DefaultLayout from "../../components/homeComponents/Layouts/DefaultLayout";
 function UserPage() {
-  const counter =
-    localStorage.getItem("counter") == 0
-      ? localStorage.setItem("counter", 0)
-      : +localStorage.getItem("counter");
-  console.log(counter);
-  if (window !== "undefined") {
+  const [counter, setCounter] = useState(0);
+  useEffect(() => {
+    setCounter(
+      localStorage.getItem("counter") == 0
+        ? localStorage.setItem("counter", 0)
+        : +localStorage.getItem("counter")
+    );
+
+    console.log(counter);
     window.onload = () => {
-      localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
+      // localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
+      localStorage.setItem("counter", Number(counter) + 1);
     };
-  }
+  }, [counter]);
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { localCourse, setLocalCourse } = useContext(courseContext);

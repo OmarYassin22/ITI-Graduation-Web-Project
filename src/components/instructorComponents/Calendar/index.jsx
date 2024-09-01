@@ -6,7 +6,10 @@ import { db } from "../../../app/firebaseConfig";
 const Calendar = () => {
   const [events, setEvents] = useState({});
 
-  const fullName = (localStorage.getItem("fname") + " " + localStorage.getItem("lname")) || "";
+  const fullName =
+    (typeof window !== "undefined" &&
+      localStorage.getItem("fname") + " " + localStorage.getItem("lname")) ||
+    "";
 
   console.log(fullName);
 
@@ -18,25 +21,33 @@ const Calendar = () => {
     try {
       const querySnapshot = await getDocs(collection(db, "course_instructor"));
       const newEvents = {};
-  
+
       querySnapshot.forEach((doc) => {
         const courseType = doc.id; // This will be 'back-end', 'front-end', or 'mobile app'
         const courses = doc.data();
-  
+
         Object.entries(courses).forEach(([key, course]) => {
-          if (typeof course === 'object' && course.date && course.instructor && course.title) {
+          if (
+            typeof course === "object" &&
+            course.date &&
+            course.instructor &&
+            course.title
+          ) {
             // Only process this course if the instructor matches fullName
             if (course.instructor === fullName) {
               const dateObj = new Date(course.date);
-              const formattedDate = dateObj.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+              const formattedDate = dateObj.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+              });
               const day = dateObj.getDate();
-  
-              const newEvent = { 
-                title: course.title, 
+
+              const newEvent = {
+                title: course.title,
                 date: formattedDate,
                 // courseType: courseType
               };
-  
+
               // if (!newEvents[day]) {
               //   newEvents[day] = [];
               // }
@@ -45,7 +56,7 @@ const Calendar = () => {
           }
         });
       });
-  
+
       console.log(newEvents);
       setEvents(newEvents);
     } catch (error) {
@@ -66,10 +77,11 @@ const Calendar = () => {
               {Array.from({ length: 31 }, (_, i) => (
                 <td
                   key={i + 1}
-                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${events[i + 1] != undefined
+                  className={`ease relative h-20 border border-stroke p-2  duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31 ${
+                    events[i + 1] != undefined
                       ? `md:bg-white md:dark:bg-boxdark bg-green-600 dark:bg-green-600`
                       : `transition`
-                    }`}
+                  }`}
                 >
                   <span className="font-medium text-black dark:text-white">
                     {i + 1}

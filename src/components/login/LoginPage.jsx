@@ -45,12 +45,13 @@ function Login() {
       const q = await query(UserType, where("uid", "==", dbuser.user.uid));
       const result = await getDocs(q);
       console.log(result.docs[0].data());
+      if (window !== "undefined") {
+        localStorage.setItem("type", result.docs[0].data().type);
+        localStorage.setItem("fname", result.docs[0].data()?.fname);
+        localStorage.setItem("lname", result.docs[0].data()?.lname);
 
-      localStorage.setItem("type", result.docs[0].data().type);
-      localStorage.setItem("fname", result.docs[0].data()?.fname);
-      localStorage.setItem("lname", result.docs[0].data()?.lname);
-
-      localStorage.setItem("email", values.email);
+        localStorage.setItem("email", values.email);
+      }
       const res = await signIn("credentials", {
         email: values.email,
         password: values.password,

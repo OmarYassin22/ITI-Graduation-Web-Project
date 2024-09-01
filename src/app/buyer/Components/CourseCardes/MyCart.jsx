@@ -39,7 +39,9 @@ const Coursess = ({ handleRouteChange }) => {
     const updatedCourses = courses.filter((course) => course?.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerCart(updatedCourses);
-    localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
+    if (window !== "undefined") {
+      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
+    }
   };
 
   const handlePaymentSuccess = async () => {
@@ -52,8 +54,9 @@ const Coursess = ({ handleRouteChange }) => {
       // 1. Update local state
       setCourses([]);
       setSearchTerm("");
-      localStorage.removeItem("courseBuyerCart");
-
+      if (window !== "undefined") {
+        localStorage.removeItem("courseBuyerCart");
+      }
       let buyerEmail = "";
       if (window !== "undefined") {
         window.localStorage.getItem("email");

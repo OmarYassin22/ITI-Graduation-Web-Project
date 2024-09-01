@@ -41,8 +41,9 @@ const Coursess = ({ handleRouteChange }) => {
     } else {
       const updatedCart = [...courseBuyerCart, courses];
       setCourseBuyerCart(updatedCart);
-
-      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCart));
+      if (window !== "undefined") {
+        localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCart));
+      }
 
       Swal.fire({
         position: "center-center",
@@ -59,7 +60,9 @@ const Coursess = ({ handleRouteChange }) => {
     const updatedCourses = courses.filter((course) => course.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerWish(updatedCourses);
-    localStorage.setItem("courseBuyerWish", JSON.stringify(updatedCourses));
+    if (window !== "undefined") {
+      localStorage.setItem("courseBuyerWish", JSON.stringify(updatedCourses));
+    }
     Swal.fire({
       position: "center-center",
       icon: "success",
