@@ -6,6 +6,8 @@ import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import Variants from "../../Spinner";
 import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
+import DefaultLayout from "../../../components/homeComponents/Layouts/DefaultLayout";
+
 ///
 const Page = () => {
   const [courses, setCourses] = useState(null);
@@ -27,14 +29,19 @@ const Page = () => {
 
   if (!courses)
     return (
+      
       <div className="max-h-full flex flex-row flex-wrap">
+        <DefaultLayout>
         <Variants></Variants>
         <Variants></Variants>
         <Variants></Variants>
         <Variants></Variants>
+        </DefaultLayout>
       </div>
+      
     );
   return (
+    <DefaultLayout>
     <div>
       <div className="flex flex-col sm:flex-row items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All courses</h2>
@@ -98,6 +105,7 @@ const Page = () => {
         ))}
       </div>
     </div>
+    </DefaultLayout>
   );
 };
 export default Page;

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Contact from "../Contact/page";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import DefaultLayout from '../../../components/homeComponents/Layouts/DefaultLayout';
 
 
 
@@ -41,6 +42,7 @@ function About() {
   };
   return (
     <>
+    <DefaultLayout>
       <div className="text-blue-700 text-5xl mt-5 text-center">About Us</div>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-5 mb-5 place-items-center pl-20">
         <div className="col-span-2 text-l sm:text-2xl container dark:text-white">
@@ -70,12 +72,12 @@ function About() {
           />
         </div>
         <div className="col-span-2 text-l sm:text-2xl container dark:text-white">
-          Our mission is simple: to democratize education by providing affordable and flexible learning opportunities to people everywhere. Whether you're looking to develop new skills, advance in your career, or simply learn something new, we are here to support you on your journey.
+          Our mission is simple: to democratize education by providing affordable and flexible learning opportunities to people everywhere. Whether you are looking to develop new skills, advance in your career, or simply learn something new, we are here to support you on your journey.
         </div>
       </div>
       <div className="flex flex-col justify-center items-center mt-20">
         <label htmlFor="countries" className="block mb-2 text-xl font-medium text-gray-900 dark:text-white ">Select a branch</label>
-        <select id="countries" onChange={(e) => { handleLocation(e) }} className="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 sm:w-96 p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 w-96 flex flex-col justify-center items-center">
+        <select id="countries" onChange={(e) => { handleLocation(e) }} className="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 sm:w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 w-96 flex flex-col justify-center items-center">
           <option value="choose" disabled className='text-sm sm:text-base text-black'>Choose a branch</option>
           <option value="Benha" className='text-sm sm:text-base text-black'>Benha</option>
           <option value="Alex" className='text-sm sm:text-base text-black'>Alex</option>
@@ -95,6 +97,7 @@ function About() {
           </GoogleMap>
         </LoadScript>
       </div>
+      </DefaultLayout>
     </>
   );
 }

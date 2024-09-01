@@ -3,8 +3,10 @@ import { CiMobile1 } from "react-icons/ci";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import { BsTelephone } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
+import DefaultLayout from "../../../components/homeComponents/Layouts/DefaultLayout";
 function ContactPage() {
   return (
+    <DefaultLayout>
     <div className="min-h-screen text-color flex items-center justify-center">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full p-4">
         {/* Box 1 */}
@@ -110,6 +112,7 @@ function ContactPage() {
       </div>
       <div></div>
     </div>
+    </DefaultLayout>
   );
 }
 
