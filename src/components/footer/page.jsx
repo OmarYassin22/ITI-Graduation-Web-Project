@@ -1,31 +1,25 @@
 import { doc } from "firebase/firestore";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
-  let noFooter = false;
-  if (typeof window !== "undefined") {
+  const [noFooter, SetNoFooter] = useState(false);
+  useEffect(() => {
     const href = window.location.href;
-    noFooter =
+    SetNoFooter(
       href.includes("admin") ||
-      href.includes("buyer") ||
-      href.includes("buyre") ||
-      href.includes("redirect") ||
-      href.includes("student")
+        href.includes("buyer") ||
+        href.includes("buyre") ||
+        href.includes("redirect") ||
+        href.includes("student")
         ? true
-        : false;
-  }
+        : false
+    );
+  }, );
 
   return (
-    <div
-      className="cardesbackground w-full"
-      style={{
-        position: "relative",
-        bottom: "0",
-        display: noFooter ? "none" : true,
-      }}
-    >
-      <footer className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">
+    <div className="cardesbackground w-full">
+      <footer style={{display:noFooter?'none':'rekative'}} className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">
         <div className="footer-icon">
           <ul className="flex space-x-4 mb-4 text-cyan-700 ">
             <li className="hover:text-white duration-300">
@@ -47,7 +41,7 @@ function Footer() {
           </ul>
         </div>
         <p className="copy-right text-white">
-          Copy Right 2018 © By{" "}
+          Copy Right 2024 © By{" "}
           <span className="text-cyan-600">Team 5aleha 3al alah</span> All Rights
           Reserved
         </p>
