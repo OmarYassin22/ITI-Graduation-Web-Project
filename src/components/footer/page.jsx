@@ -3,22 +3,26 @@ import React from "react";
 import { FaFacebookF, FaTwitter, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Footer() {
-  const href = window.location.href;
-  const noFooter =
-    href.includes("admin") ||
-    href.includes("buyer") ||
-    href.includes("buyre") ||
-    href.includes("redirect") ||
-    href.includes("student")
-      ? true
-      : false;
+  let noFooter = false;
+  if (typeof window !== "undefined") {
+    const href = window.location.href;
+    noFooter =
+      href.includes("admin") ||
+      href.includes("buyer") ||
+      href.includes("buyre") ||
+      href.includes("redirect") ||
+      href.includes("student")
+        ? true
+        : false;
+  }
+
   return (
     <div
       className="cardesbackground w-full"
       style={{
         position: "relative",
         bottom: "0",
-        display: noFooter ? 'none' : true,
+        display: noFooter ? "none" : true,
       }}
     >
       <footer className="footer cardesbackground py-10 flex justify-center items-center flex-col max-w-full">

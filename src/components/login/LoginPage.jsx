@@ -30,8 +30,9 @@ function Login() {
   const handleSet = (value) => {
     setUser(value);
   };
-  async function login(values) {
+  async function handleLogin(values) {
     try {
+      debugger;
       setLoading(true);
       setErrorMsg("");
       const dbuser = await signInWithEmailAndPassword(
@@ -44,18 +45,17 @@ function Login() {
       const q = await query(UserType, where("uid", "==", dbuser.user.uid));
       const result = await getDocs(q);
       console.log(result.docs[0].data());
+      if (window !== "undefined") {
+        localStorage.setItem("type", result.docs[0].data().type);
+        localStorage.setItem("fname", result.docs[0].data()?.fname);
+        localStorage.setItem("lname", result.docs[0].data()?.lname);
 
-      localStorage.setItem("type", result.docs[0].data().type);
-      localStorage.setItem("fname", result.docs[0].data()?.fname);
-      localStorage.setItem("lname", result.docs[0].data()?.lname);
-
-      localStorage.setItem("email", values.email);
+        localStorage.setItem("email", values.email);
+      }
       const res = await signIn("credentials", {
         email: values.email,
         password: values.password,
       });
-      console.log(res);
-      console.log("================================================");
     } catch (error) {
       setLoading(false);
       setErrorMsg(error.response.data.error.code);
@@ -83,7 +83,7 @@ function Login() {
           "password sould have at least 6 number and capital & small liter and have at least special characters"
         ),
     }),
-    onSubmit: login,
+    onSubmit: handleLogin,
   });
 
   return (

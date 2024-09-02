@@ -22,6 +22,7 @@ function Student() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredStudents, setFilteredData] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [relatedCourses, setRelatedCourses] = useState([]);
 
   async function getInstructors() {
     try {
@@ -59,7 +60,15 @@ function Student() {
       console.error("Error fetching student data:", error);
     }
   }
-
+  //=======
+  useEffect(() => {
+    if (newInstructor) {
+      const selectedInstructor = instructors.find(instructor => instructor.data.name === newInstructor);
+      if (selectedInstructor) {
+        setRelatedCourses(selectedInstructor.data.fields || []);
+      }
+    }
+  }, [newInstructor, instructors]);
   useEffect(() => {
     getStudentData();
     getInstructors();
@@ -170,7 +179,7 @@ function Student() {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <div className='mb-7 flex justify-between'>
           <select className=' bg-white text-black dark:bg-slate-800 dark:text-white' onChange={handleFieldChange} value={selectedField}>
             <option value="">Tracks</option>
@@ -196,8 +205,8 @@ function Student() {
         <div className="grid grid-cols-12 p-2 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
           <h5 className="col-span-2 text-sm text-center font-medium xsm:text-base">Name</h5>
           <h5 className="text-sm font-medium text-center xsm:text-base">Phone</h5>
-          <h5 className="col-span-3 text-sm font-medium text-center xsm:text-base">Email</h5>
-          <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Courses</h5>
+          <h5 className="col-span-2 text-sm font-medium text-center xsm:text-base">Email</h5>
+          <h5 className="col-span-2 hidden sm:block text-sm text-center font-medium xsm:text-base">Courses</h5>
           <h5 className="hidden col-span-1 sm:block text-sm text-center font-medium xsm:text-base">Degree</h5>
           <h5 className="hidden col-span-2 sm:block text-sm text-center font-medium xsm:text-base">Instructor</h5>
           <h5 className="hidden sm:block text-sm text-center font-medium xsm:text-base">Delete</h5>
@@ -206,11 +215,11 @@ function Student() {
         {filteredStudentsByField.map(student => (
           <div className="grid grid-cols-12 gap-2 p-2.5" key={student.id}>
             <p className="col-span-2 text-black dark:text-white">{student.data.fname} {student.data.lname}</p>
-            <p className="text-meta-3 text-center">{student.data.number}</p>
-            <p className="text-meta-3 text-center col-span-3">
+            <p className="text-meta-3 text-center">{student.data.number.toString().slice(0,7)}..</p>
+            <p className="text-meta-3 text-center col-span-2">
               {student.data.email ? student.data.email.split("@")[0] + "@" : "No Email"}
             </p>
-            <p className="hidden sm:block text-black  dark:text-white text-center ">
+            <p className="hidden sm:block text-black  dark:text-white text-center col-span-2 ">
               <select
                 className='dark:bg-slate-800'
                 value={selectedCourses[student.id] || ''}
@@ -219,7 +228,7 @@ function Student() {
                 {student.data?.courses?.length > 0 ? (
                   student.data.courses.map((course, index) => (
                     <option key={index} value={course.course}>
-                      {course.course}
+                      {course.course.split(" ").slice(0,2).join(" ")}
                     </option>
                   ))
                 ) : (
@@ -333,12 +342,11 @@ function Student() {
                   <option value="" disabled selected>
                  Courses
                   </option>
-                  {[...new Map(courses.map(course => [course.data.title.toLowerCase(), course])).values()]
-                  .map((course) => (
-                    <option key={course.id} value={course.data.title}>
-                      {course.data.title}
-                    </option>
-                  ))}
+                   {relatedCourses.map((course, index) => (
+                  <option key={index} value={course}>
+                    {course}
+                  </option>
+                ))}
                 </select>
                   <input
                     type="number"
@@ -354,8 +362,8 @@ function Student() {
                   >
                     <option value="">Select Instructor</option>
                     {instructors.map((instructor) => (
-                      <option key={instructor.id} value={instructor.name}>
-                        {instructor.data.name}
+                      <option key={instructor.id} value={instructor.data.name}>
+                        {instructor.data.name } | ({instructor.data.fields.join("-")})
                       </option>
                     ))}
                   </select>

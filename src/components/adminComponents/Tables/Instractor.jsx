@@ -113,7 +113,7 @@ console.log(brandData);
   };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="text-sm rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex items-center justify-between">
         <h4 className="mb-6 mr-5 text-xl font-semibold text-black dark:text-white">
           Instructors
