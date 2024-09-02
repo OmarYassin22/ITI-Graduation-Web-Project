@@ -80,8 +80,9 @@ const Page = ({ params }) => {
     } else {
       const updatedCart = [...courseBuyerCart, courses];
       setCourseBuyerCart(updatedCart);
-
-      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCart));
+      if (window !== "undefined") {
+        localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCart));
+      }
 
       Swal.fire({
         position: "center-center",
@@ -110,8 +111,9 @@ const Page = ({ params }) => {
     } else {
       const updatedWish = [...courseBuyerWish, courses];
       setCourseBuyerWish(updatedWish);
-
-      localStorage.setItem("courseBuyerWish", JSON.stringify(updatedWish));
+      if (window !== "undefined") {
+        localStorage.setItem("courseBuyerWish", JSON.stringify(updatedWish));
+      }
 
       Swal.fire({
         position: "center-center",

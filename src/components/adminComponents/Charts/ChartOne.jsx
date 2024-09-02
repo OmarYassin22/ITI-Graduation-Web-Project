@@ -111,6 +111,11 @@ const options = {
     },
     min: 0,
     max: 100,
+    label: {
+      formatter: function (value) {
+        return value.toFixed(0);
+      },
+    },
   },
 };
 const ChartOne = () => {
@@ -136,8 +141,9 @@ const ChartOne = () => {
   useEffect(() => {
     getCourseData();
   }, []);
-  const totalYearProfit = 10000;
-  let profitPersentage = (totalProfit/totalYearProfit)*100;
+  const totalYearProfit = 1000;
+  let profitPersentage = ((totalProfit/totalYearProfit)*100).toFixed(0);
+  let profitPersentage2 = (profitPersentage*1.5).toFixed(0);
 ///////////////////////////////////////////////////////////////////////////////// 
 async function getStudentData() {
   try {
@@ -147,24 +153,6 @@ async function getStudentData() {
     console.error("Error fetching student data:", error);
   }
 }
-// function calculateTotalPercentage(students) {
-//   return students.map((student) => {
-//     if (student.data && student.data.courses) {
-//       const totalDegrees = student.data.courses.reduce((acc, course) => acc + course.degree, 0);
-//       const maxDegrees = student.data.courses.length * 100; 
-//       const percentage = (totalDegrees / maxDegrees) * 100;
-//       return {
-//         id: student.id,
-//         name: `${student.data.fname} ${student.data.lname}`,
-//         percentage: percentage.toFixed(2),
-//         field: student.data.field,
-//         phone: student.data.number,
-//       };
-//     }
-//     return null;
-//   }).filter(Boolean);
-// }
-////////
 function calculateTotalPercentage(students) {
   const totalPercentage = students.reduce((acc, student) => {
     if (student.data && student.data.courses && student.data.courses.length > 0) {
@@ -175,35 +163,26 @@ function calculateTotalPercentage(students) {
     }
     return acc;
   }, 0);
-
   return totalPercentage.toFixed(2);
 }
-
 useEffect(() => {
   getStudentData();
 }, []);
-
 const totalPercentage = calculateTotalPercentage(studentData);
-
 console.log("totalPercentage :", totalPercentage);
 const totalYearPersentage = 300;
-let studentsPersentage = (totalPercentage/totalYearPersentage)*100;
-
-
-
-
-
-
+let studentsPersentage = ((totalPercentage/totalYearPersentage)*100).toFixed(0);
+let studentsPersentage2 = (studentsPersentage*0.4).toFixed(0);
   const series2 = [
     {
-      name: "Students rate",
-      data: [studentsPersentage, studentsPersentage*0.2,0,0,0,0,0,0,0,0,0,0],
+      name: "Students Persentage rate",
+      data: [studentsPersentage,studentsPersentage2,0,0,0,0,0,0,0,0,0,0],
     },
   ];
   const series3 = [
     {
       name: "Courses sales rate",
-      data: [profitPersentage,profitPersentage*1.5,0,0,0,0,0,0,0,0,0,0],
+      data: [profitPersentage,profitPersentage2,0,0,0,0,0,0,0,0,0,0],
     },
   ];
   const [currentSeries, setCurrentSeries] = useState(series2);
@@ -220,9 +199,6 @@ let studentsPersentage = (totalPercentage/totalYearPersentage)*100;
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
-          
-          {/* ////////////////// */}
-          {/* /////////////// */}
           <div className="form-control min-w-47.5">
             <label className="label cursor-pointer">
               <span className="label-text m-2 font-semibold text-secondary">
@@ -236,7 +212,7 @@ let studentsPersentage = (totalPercentage/totalYearPersentage)*100;
                 onChange={handleRadioChange}
               />
             </label>
-            <p className="text-sm font-medium">12.08.2024</p>
+            <p className="text-sm font-medium">08.2024</p>
           </div>
           {/* ////////////////// */}
           <div className="form-control min-w-47.5">
@@ -252,7 +228,7 @@ let studentsPersentage = (totalPercentage/totalYearPersentage)*100;
                 onChange={handleRadioChange}
               />
             </label>
-            <p className="text-sm font-medium">12.08.2024</p>
+            <p className="text-sm font-medium">08.2024</p>
           </div>
           {/* ////////////////// */}
         </div>
