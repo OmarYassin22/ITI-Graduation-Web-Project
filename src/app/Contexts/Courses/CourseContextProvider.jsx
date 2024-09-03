@@ -8,7 +8,6 @@ const func = () => {
   console.log("func called");
 };
 const CourseContextProvider = ({ children }) => {
-  console.log("course context provider");
   const [localCourse, setLocalCourse] = useState();
   useEffect(() => {
     axios
