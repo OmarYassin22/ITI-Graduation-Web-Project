@@ -202,6 +202,8 @@ function Student() {
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
           </div>
         </div>
+
+        
         <div className="grid grid-cols-12 p-2 bg-gray-2 dark:bg-meta-4 text-black dark:text-white">
           <h5 className="col-span-2 text-sm text-center font-medium xsm:text-base">Name</h5>
           <h5 className="text-sm font-medium text-center xsm:text-base">Phone</h5>

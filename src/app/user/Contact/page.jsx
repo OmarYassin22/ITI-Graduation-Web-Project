@@ -1,15 +1,48 @@
-import React from "react";
+"use client"
 import { CiMobile1 } from "react-icons/ci";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import { BsTelephone } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
 import DefaultLayout from "../../../components/homeComponents/Layouts/DefaultLayout";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { IoMdClose } from "react-icons/io";
+import Swal from 'sweetalert2';
+import { getDocs, collection, doc, deleteDoc, updateDoc , addDoc } from "firebase/firestore";
+import { db, auth } from "../../../app/firebaseConfig";
 function ContactPage() {
+  // const [messages, setMessages] = useState(null);
+  // const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [success, setSuccess] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    try {
+      await addDoc(collection(db, "messages"), {
+        name,
+        email,
+        subject,
+        message,
+      });
+      Swal.fire("Success!", "Your message has been sent!", "success");
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      Swal.fire("Error!", "There was an error sending your message.", "error");
+    }
+  };
   return (
     <DefaultLayout>
     <div className="min-h-screen text-color flex items-center justify-center">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full p-4">
-        {/* Box 1 */}
         <div className="box-1 flex flex-col justify-center p-6">
           <h4 className="text-lg font-semibold mb-2 text-blue-700">
             Contact Us
@@ -33,8 +66,6 @@ function ContactPage() {
             </h3>
           </div>
         </div>
-
-        {/* Box 2 */}
         <div className="box-2 flex flex-col justify-center p-6 bg-gray-100 rounded-md shadow-2xl  border-1">
           <form className="space-y-4">
             <div className="mb-4">
@@ -50,9 +81,10 @@ function ContactPage() {
                 name="name"
                 required
                 className="mt-1 block w-full p-2 border rounded-md text-black"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
-
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -66,9 +98,10 @@ function ContactPage() {
                 name="email"
                 required
                 className="mt-1 block w-full p-2 border rounded-md text-black"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-
             <div className="mb-4">
               <label
                 htmlFor="subject"
@@ -82,9 +115,10 @@ function ContactPage() {
                 name="subject"
                 required
                 className="mt-1 block w-full p-2 border rounded-md text-black"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
               />
             </div>
-
             <div className="mb-4">
               <label
                 htmlFor="message"
@@ -98,11 +132,14 @@ function ContactPage() {
                 required
                 rows="4"
                 className="mt-1 block w-full p-2 border rounded-md text-black"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               />
             </div>
 
             <button
               type="submit"
+              onClick={handleSubmit}
               className="bg-blue-700 hover:bg-blue-600 duration-300 w-full text-white font-bold py-2 px-4 rounded"
             >
               Submit
@@ -115,5 +152,4 @@ function ContactPage() {
     </DefaultLayout>
   );
 }
-
 export default ContactPage;

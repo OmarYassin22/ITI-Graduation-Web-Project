@@ -173,6 +173,25 @@ const menuGroups = [
         label: "Chart",
         route: "/admin/chart",
       },
+      {
+        icon: (
+          <svg
+            className="fill-current"
+            width="18"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C6.48 2 2 5.58 2 10C2 12.39 3.19 14.47 5 15.74V20L9.24 17.56C10.14 17.85 11.06 18 12 18C17.52 18 22 14.42 22 10C22 5.58 17.52 2 12 2ZM12 16C11.22 16 10.45 15.91 9.71 15.73L7 17V14.28C5.21 13.1 4 11.17 4 10C4 6.69 7.58 4 12 4C16.42 4 20 6.69 20 10C20 13.31 16.42 16 12 16Z"
+              fill="currentColor"
+            />
+          </svg>
+        ),
+        label: "messages",
+        route: "/admin/masseges",
+      },
     ],
   },
 ];
