@@ -15,10 +15,10 @@ import Flutter from './assets/Images/flutter-logo.svg';
 import { useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../app/firebaseConfig';
+import DefaultImages from "../../../app/DefaultImages";
 
-
-const CourseCard = ({ course, instructor, imgPath, link }) => (
-    <Link href={`/student/courses`}>
+const CourseCard = ({ course, instructor, imgPath, id }) => (
+    <Link href={`/student/courses/${id}`}>
         <div className="card card-compact bg-base-100 w-60 hover:shadow-xl hover:scale-105 cardesbackgroundcourse duration-700 border rounded-lg">
             <figure>
                 <Image
@@ -67,12 +67,13 @@ function Courses() {
                 const querySnapshot2 = await getDocs(collection(db, "courses"));
 
                 querySnapshot2.forEach((doc) => {
+                    const courseid = doc.id;
                     const coursesData2 = doc.data();
                     if (typeof coursesData2 === 'object' && coursesData2.title && coursesData2.imgPath) {
                         if (newData.length >= 1) {
                             newData.map((coursedata, index) => {
                                 if (coursedata.course == coursesData2.title) {
-                                    Object.assign(newData[index], { "imgPath": `/${coursesData2.imgPath}` });
+                                    Object.assign(newData[index], { "imgPath": DefaultImages[coursesData2.title], "id": courseid });
                                 }
                             });
                         }

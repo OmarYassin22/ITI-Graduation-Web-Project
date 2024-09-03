@@ -2,12 +2,12 @@
 import axios from "axios";
 import React, { memo, useEffect, useMemo, useState } from "react";
 import { createContext } from "react";
+import DefaultImages from "../../DefaultImages";
 export const courseContext = createContext();
 const func = () => {
-  console.log('func called');
-}
+  console.log("func called");
+};
 const CourseContextProvider = ({ children }) => {
-  console.log("course context provider");
   const [localCourse, setLocalCourse] = useState();
   useEffect(() => {
     axios
@@ -21,7 +21,13 @@ const CourseContextProvider = ({ children }) => {
         console.error("Error fetching courses:", error);
       });
   }, []);
-
+  localCourse?.map((course) => {
+    course.image =
+      // course.image.length == 0
+      // ?
+      DefaultImages[course.data.title];
+    // : course.image;
+  });
   const obj = useMemo(
     () => ({
       localCourse,
