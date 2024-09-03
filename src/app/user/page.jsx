@@ -8,6 +8,7 @@ import { BackgroundSection, CardGridSection } from "./StaticSections";
 import { courseContext } from "../Contexts/Courses/CourseContextProvider";
 import Acordion from "./acordion";
 import DefaultLayout from "../../components/homeComponents/Layouts/DefaultLayout";
+
 function UserPage() {
   const [counter, setCounter] = useState(0);
   useEffect(() => {
@@ -17,7 +18,6 @@ function UserPage() {
         : +localStorage.getItem("counter")
     );
 
-    console.log(counter);
     window.onload = () => {
       // localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
       localStorage.setItem("counter", Number(counter) + 1);
@@ -26,7 +26,6 @@ function UserPage() {
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { localCourse, setLocalCourse } = useContext(courseContext);
-  console.log(courses);
   useEffect(() => {
     setCourses(localCourse);
   }, [localCourse]);
@@ -45,8 +44,10 @@ function UserPage() {
       }
     }
   }, []);
+
   return (
     <DefaultLayout>
+      {/* <Image src={"http://localhost:3000"+ defaultCourseImage[0].src} alt='rest' width={250} height={250}></Image> */}
       <div className="container text-color mx-auto px-4">
         {/* Introduction Section */}
         <div className="my-14">
@@ -79,14 +80,22 @@ function UserPage() {
           <h2 className="font-bold text-4xl mb-5">Most Popular Courses</h2>
           <div className="cards-course text-white grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
             {courses?.length > 0 ? (
-              courses.map((course) => (
+              courses.map((course, i) => (
                 <div
                   key={course.id}
                   onClick={() => {
                     router.push(`/user/Courses/${course.id}`);
                   }}
                   className="relative w-full h-80 flex items-end p-5 bg-cover bg-center bg-no-repeat rounded-xl hover:scale-105 duration-500"
-                  style={{ backgroundImage: `url(${course.image})` }}
+                  style={{
+                    backgroundImage: `url(${
+                      // course.data.title == "UI UX Design "
+                      //   ? defaultCourseImage["UI UX Design "]
+                      //   : defaultCourseImage[course.data.title]
+                      course.image
+                    })`,
+                  }} // -->dynamic from firebase
+                  // style={{ backgroundImage: `url(${course.image})` }} // -->dynamic from firebase
                 >
                   <div className="overlay rounded-xl absolute top-0 left-0 opacity-50 h-full w-full bg-slate-900"></div>
                   <div className="relative z-10 text-white">

@@ -4,6 +4,8 @@ import { doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig"; 
 import { IoMdClose } from "react-icons/io";
 import { FiSearch } from 'react-icons/fi';
+import Swal from "sweetalert2";
+
 
 function Student() {
   const [studentData, setStudentData] = useState([]);
@@ -152,7 +154,13 @@ function Student() {
             }
           } : student
         ));
-
+   Swal.fire({
+          text: 'Updated successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          width: "15em",
+          timer: "1000"
+        });
         setSelectedStudent(null);
         setStudentName("");
         setStudentEmail("");
@@ -169,10 +177,10 @@ function Student() {
   };
 
   const handleAddField = () => {
-    if (newCourse && newDegree && newInstructor) {
-      setStudentFields([...studentFields, { course: newCourse, degree: Number(newDegree), instructor: newInstructor }]);
+    if (newCourse && newInstructor) {
+      setStudentFields([...studentFields, { course: newCourse, instructor: newInstructor }]);
       setNewCourse("");
-      setNewDegree("");
+      // setNewDegree("");
       setNewInstructor(""); 
     }
   };
@@ -304,17 +312,18 @@ function Student() {
                       readOnly
                       className="dark:bg-slate-800 dark:text-white w-1/3 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                     />
-                    <input
+                    {/* <input
                       type="number"
                       placeholder="Degree"
-                      value={field.degree}
+                      disabled
+                      value="0"
                       onChange={(e) => {
                         const updatedFields = [...studentFields];
                         updatedFields[index].degree = e.target.value;
                         setStudentFields(updatedFields);
                       }}
                       className="dark:bg-slate-800 dark:text-white w-1/4 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
-                    />
+                    /> */}
                     <input
                       type="text"
                       placeholder="Instructor"
@@ -324,20 +333,41 @@ function Student() {
                         updatedFields[index].instructor = e.target.value;
                         setStudentFields(updatedFields);
                       }}
-                      className="dark:bg-slate-800 dark:text-white w-2/5 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                      className="dark:bg-slate-800 dark:text-white w-1/2 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                     />
                     <button
                       type="button"
                       onClick={() => handleDeleteField(index)}
-                      className="text-red-600 text-xl"
+                      className="text-red-600 text-2xl"
                     >
                       <IoMdClose />
                     </button>
                   </div>
                 ))}
                 <div className="flex flex-col sm:flex-row justify-between">
-                   <select
-                  className="w-1/3 dark:bg-slate-800 dark:text-white rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                 <select
+                    value={newInstructor}
+                    onChange={(e) => setNewInstructor(e.target.value)}
+                    className=" dark:bg-slate-800 dark:text-white w-5/12 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                  >
+                    <option value="">Select Instructor</option>
+                    {instructors.map((instructor) => (
+                      <option key={instructor.id} value={instructor.data.name}>
+                        {instructor.data.name } | ({instructor.data.fields.join("-")})
+                      </option>
+                    ))}
+                  </select>
+                  {/* <input
+                    type="number"
+                    placeholder="Degree"
+                    disabled
+                    value="0"
+                    onChange={(e) => setNewDegree(e.target.value)}
+                    className="dark:bg-slate-800 dark:text-white w-1/4 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                  /> */}
+                 
+                     <select
+                  className="w-5/12 dark:bg-slate-800 dark:text-white rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
                  onChange={(e) => setNewCourse(e.target.value)}
                   value={newCourse}
                 >
@@ -350,25 +380,6 @@ function Student() {
                   </option>
                 ))}
                 </select>
-                  <input
-                    type="number"
-                    placeholder="Degree"
-                    value={newDegree}
-                    onChange={(e) => setNewDegree(e.target.value)}
-                    className="dark:bg-slate-800 dark:text-white w-1/4 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
-                  />
-                  <select
-                    value={newInstructor}
-                    onChange={(e) => setNewInstructor(e.target.value)}
-                    className=" dark:bg-slate-800 dark:text-white w-2/5 rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
-                  >
-                    <option value="">Select Instructor</option>
-                    {instructors.map((instructor) => (
-                      <option key={instructor.id} value={instructor.data.name}>
-                        {instructor.data.name } | ({instructor.data.fields.join("-")})
-                      </option>
-                    ))}
-                  </select>
                 </div>
                 <button
                   type="button"

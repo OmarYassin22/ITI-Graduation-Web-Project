@@ -4,6 +4,7 @@ import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firesto
 import { db } from "../../../app/firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
+import Swal from "sweetalert2";
 
 
 const Instructor = () => {
@@ -95,6 +96,13 @@ console.log(brandData);
           instructor.id === selectedInstructor.id ? { ...instructor, name: instructorName, email: instructorEmail, phone: instructorPhone, fields: fieldsList } : instructor
         ));
         setSelectedInstructor(null);
+         Swal.fire({
+          text: 'Updated successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          width: "15em",
+          timer: "1000"
+        });
       } catch (error) {
         alert("Error updating instructor: ", error);
       }

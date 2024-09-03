@@ -308,7 +308,6 @@ const Scholarship = () => {
         cancelButtonText: "No, cancel",
       }).then((result) => {
         if (result.isConfirmed) {
-          
           let grade = 0;
           for (let i = 0; i < questions[field].length; i++) {
             {
@@ -331,8 +330,8 @@ const Scholarship = () => {
             "Your application has been canceled.",
             "error"
           );
-          router.push("/buyer");
         }
+        router.push("/buyer");
       });
     } else {
       Swal.fire("Error", "Please select a field", "error");
@@ -343,7 +342,7 @@ const Scholarship = () => {
     return (
       <div>
         <h2 className="text-primary text-3xl">You are already an applicant</h2>
-        <p className="text-xl" >You can not apply again</p>
+        <p className="text-xl">You can not apply again</p>
       </div>
     );
 
@@ -407,7 +406,7 @@ const Scholarship = () => {
               onClick={submitHandle}
               type="button"
               style={{ margins: "0 auto" }}
-              class="text-white m-6 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-6"
+              className="text-white m-6 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-6"
             >
               Submit
             </button>
