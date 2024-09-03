@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { memo, useEffect, useMemo, useState } from "react";
 import { createContext } from "react";
 export const courseContext = createContext();
-const func=()=>{
+const func = () => {
   console.log('func called');
 }
 const CourseContextProvider = ({ children }) => {

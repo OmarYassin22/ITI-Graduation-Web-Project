@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 import HTML from './assets/Images/html-logo.svg';
@@ -13,36 +13,25 @@ import ReactLogo from './assets/Images/react-logo.svg';
 import Dart from './assets/Images/dart-logo.svg';
 import Flutter from './assets/Images/flutter-logo.svg';
 import { useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../../app/firebaseConfig';
 
 
-export const courses = [
-    { name: 'HTML', image: HTML},
-    { name: 'CSS', image: CSS},
-    { name: 'JavaScript', image: JS},
-    { name: 'Bootstrap', image: Bootstrap},
-    { name: 'Tailwind', image: Tailwind},
-    { name: 'SASS', image: SASS},
-    { name: 'TypeScript', image: TS},
-    { name: 'React', image: ReactLogo},
-    { name: 'Dart', image: Dart},
-    { name: 'Flutter', image: Flutter},
-];
-
-const CourseCard = ({ name, image, link }) => (
-    <Link href={`/student/courses/${name.toLowerCase()}`}>
-        <div className="card card-compact bg-base-100 w-60 hover:shadow-xl hover:scale-105 transition-all duration-700 border rounded-lg">
+const CourseCard = ({ course, instructor, imgPath, link }) => (
+    <Link href={`/student/courses`}>
+        <div className="card card-compact bg-base-100 w-60 hover:shadow-xl hover:scale-105 cardesbackgroundcourse duration-700 border rounded-lg">
             <figure>
                 <Image
                     className="w-48 h-48 m-auto"
                     width={100}
                     height={100}
-                    src={image}
-                    alt={name}
+                    src={imgPath}
+                    alt={course}
                 />
             </figure>
-            <div className="card-body px-4">
-                <h2 className="card-title font-bold text-xl">{name}</h2>
-                <p>Instructor Name</p>
+            <div className="card-body py-4 px-4">
+                <h2 className="font-bold text-black dark:text-white">{course}</h2>
+                <p className='text-black dark:text-white'>{instructor}</p>
             </div>
         </div>
     </Link>
@@ -50,12 +39,60 @@ const CourseCard = ({ name, image, link }) => (
 
 
 function Courses() {
-    const [filteredCourses, setFilteredCourses] = useState(courses);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const firstname = localStorage.getItem("fname");
+        const lastname = localStorage.getItem("lname");
+        var newData = [];
+        const fetchData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "students"));
+
+                querySnapshot.forEach((doc) => {
+                    const coursesData = doc.data();
+                    if (typeof coursesData === 'object' && typeof coursesData.courses === "object" && coursesData.email && coursesData.field
+                        && coursesData.fname && coursesData.lname && coursesData.number && coursesData.uid) {
+                        if (coursesData.fname === firstname && coursesData.lname === lastname) {
+                            coursesData.courses.forEach((coursedata) => {
+                                newData.push({ "course": coursedata.course, "instructor": coursedata.instructor });
+                            });
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            };
+            try {
+                const querySnapshot2 = await getDocs(collection(db, "courses"));
+
+                querySnapshot2.forEach((doc) => {
+                    const coursesData2 = doc.data();
+                    if (typeof coursesData2 === 'object' && coursesData2.title && coursesData2.imgPath) {
+                        if (newData.length >= 1) {
+                            newData.map((coursedata, index) => {
+                                if (coursedata.course == coursesData2.title) {
+                                    Object.assign(newData[index], { "imgPath": `/${coursesData2.imgPath}` });
+                                }
+                            });
+                        }
+                    }
+                });
+
+            } catch {
+                console.error("Error fetching data: ", error);
+            }
+            setData(newData);
+            console.log(data);
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
             <div className="px-10 py-5 flex gap-y-4 justify-evenly flex-wrap">
-                {filteredCourses.map((course, index) => (
-                    <CourseCard key={index} {...course} />
+                {data.map((coursed, index) => (
+                    <CourseCard key={index} {...coursed} />
                 ))}
             </div>
         </>
