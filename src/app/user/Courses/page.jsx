@@ -73,7 +73,7 @@ const Page = () => {
                     src={`${
                       course.image !== null
                         ? course.image
-                        : "images/defaultCourse.jpeg"
+                        : "/defaultCourse.jpeg"
                     }`}
                     // src="/images/13.jpg"
                     alt={course.data.title}

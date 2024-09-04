@@ -36,12 +36,10 @@ const Coursess = ({ handleRouteChange }) => {
     course?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const deleteCourse = (courseId) => {
-    const updatedCourses = courses.filter((course) => course?.id !== courseId);
+    const updatedCourses = courses.filter((course) => course.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerCart(updatedCourses);
-    if (window !== "undefined") {
-      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
-    }
+    localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
   };
 
   const handlePaymentSuccess = async () => {
@@ -54,13 +52,9 @@ const Coursess = ({ handleRouteChange }) => {
       // 1. Update local state
       setCourses([]);
       setSearchTerm("");
-      if (window !== "undefined") {
-        localStorage.removeItem("courseBuyerCart");
-      }
-      let buyerEmail = "";
-      if (window !== "undefined") {
-        window.localStorage.getItem("email");
-      }
+      localStorage.removeItem("courseBuyerCart");
+
+      let buyerEmail = window.localStorage.getItem("email");
       console.log("Buyer Email:", buyerEmail);
 
       // 2. Update external database (if you're still using this)
@@ -109,7 +103,7 @@ const Coursess = ({ handleRouteChange }) => {
           await updateDoc(courseRef, { buyers: updatedBuyersCount });
 
           console.log(
-            `Buyers count updated successfully for course ${courseId}`
+            "Buyers count updated successfully for course ${courseId}"
           );
         }
 
@@ -145,6 +139,7 @@ const Coursess = ({ handleRouteChange }) => {
 
   useEffect(() => {
     const savedCart = localStorage.getItem("courseBuyerCart");
+
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
@@ -153,14 +148,12 @@ const Coursess = ({ handleRouteChange }) => {
       } catch (error) {
         console.error("Error parsing cart from localStorage:", error);
         // If there's an error parsing, clear the invalid data
-        // remove courseBuyerCart from local storage
-
         localStorage.removeItem("courseBuyerCart");
         setCourseBuyerCart([]);
         setCourses([]);
       }
     }
-  }, []);
+  }, [setCourseBuyerCart]);
 
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (
@@ -209,7 +202,9 @@ const Coursess = ({ handleRouteChange }) => {
                     .split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">{`Price: ${course.price}`}</p>
+                  <p className="text-3xl text-color mb-4">
+                    Price: ${course.price}
+                  </p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
                   <button
