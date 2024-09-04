@@ -11,6 +11,7 @@ const Calendar = () => {
         const firstname = localStorage.getItem("fname");
         const lastname = localStorage.getItem("lname");
         var field;
+        var cdata = [];
         console.log(firstname, lastname);
         const fetchData = async () => {
             try {
@@ -23,6 +24,9 @@ const Calendar = () => {
                         && coursesData.fname && coursesData.lname && coursesData.number && coursesData.uid) {
                         if (coursesData.fname === firstname && coursesData.lname === lastname) {
                             field = coursesData.field.toLowerCase();
+                            coursesData.courses.map((c, index) => {
+                                cdata.push(c.course);
+                            });
                             console.log(field);
                         }
                     }
@@ -40,21 +44,25 @@ const Calendar = () => {
                             console.log(courseType);
                             Object.entries(coursesData2).forEach(([key, course]) => {
                                 if (typeof course == "object" && course.date && course.instructor && course.title) {
-                                    console.log(course.title);
-                                    const dateObj2 = new Date(course.date);
-                                    const formattedDate2 = dateObj2.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-                                    const day2 = dateObj2.getDate();
+                                    cdata.map((c2, i) => {
+                                        if (c2[i] == course.title) {
+                                            console.log(course.title);
+                                            const dateObj2 = new Date(course.date);
+                                            const formattedDate2 = dateObj2.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+                                            const day2 = dateObj2.getDate();
 
-                                    var newEvent = {
-                                        title: course.title,
-                                        date: formattedDate2,
-                                        instructor: course.instructor,
-                                        courseType: courseType,
-                                    };
-                                    // if (!newEvents[day]) {
-                                    //     newEvents[day] = [];
-                                    // }
-                                    newEvents[day2] = newEvent;
+                                            var newEvent = {
+                                                title: course.title,
+                                                date: formattedDate2,
+                                                instructor: course.instructor,
+                                                courseType: courseType,
+                                            };
+                                            // if (!newEvents[day]) {
+                                            //     newEvents[day] = [];
+                                            // }
+                                            newEvents[day2] = newEvent;
+                                        }
+                                    });
                                 }
                             });
                         }
