@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 const Scholarship = () => {
   const [field, setField] = useState(null);
   const questions = {
-    frontend: [
+    "Front-end": [
       {
         questions: "1. What does HTML stand for?",
         answers: [
@@ -99,7 +99,7 @@ const Scholarship = () => {
         rightAnswer: 1,
       },
     ],
-    backend: [
+    "Back-end": [
       {
         questions:
           "1. Which of the following is a commonly used back-end programming language?",
@@ -186,7 +186,7 @@ const Scholarship = () => {
         rightAnswer: 0,
       },
     ],
-    "mobile-app": [
+    "Mobile-app": [
       {
         questions:
           "1. Which programming language is primarily used for Android app development?",
