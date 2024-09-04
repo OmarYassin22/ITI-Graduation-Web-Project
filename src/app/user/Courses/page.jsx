@@ -1,14 +1,11 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
-///
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import Variants from "../../Spinner";
 import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
 import DefaultLayout from "../../../components/homeComponents/Layouts/DefaultLayout";
-
-///
 const Page = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
@@ -16,7 +13,6 @@ const Page = () => {
   const { push } = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const { localCourse, setLocalCourse } = useContext(courseContext);
-
   useEffect(() => {
     setCourses(localCourse);
   }, [localCourse]);
@@ -26,10 +22,8 @@ const Page = () => {
   const filteredCourses = courses?.filter((course) =>
     course.data.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   if (!courses)
     return (
-      
       <div className="max-h-full flex flex-row flex-wrap">
         <DefaultLayout>
         <Variants></Variants>
@@ -38,7 +32,6 @@ const Page = () => {
         <Variants></Variants>
         </DefaultLayout>
       </div>
-      
     );
   return (
     <DefaultLayout>
@@ -71,11 +64,10 @@ const Page = () => {
                   <Image
                     className="object-cover w-full h-full"
                     src={`${
-                      course.image !== null
+                      course.image
                         ? course.image
-                        : "images/defaultCourse.jpeg"
+                        : "/defaultCourse.jpeg"
                     }`}
-                    // src="/images/13.jpg"
                     alt={course.data.title}
                     width={100}
                     height={100}
