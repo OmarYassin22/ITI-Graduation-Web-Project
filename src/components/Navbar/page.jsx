@@ -144,7 +144,7 @@ const AuthenticationCheck=async ()=>{
               onClick={() => {
                 signOut();
               }}
-              className="text-sm sm:text-base"
+              className="text-sm sm:text-base border border-white text-white py-2 px-4 rounded"
             >
               Logout
             </button>
@@ -154,7 +154,7 @@ const AuthenticationCheck=async ()=>{
               onClick={() => {
                 router.push("/api/auth/signin");
               }}
-              className="text-sm sm:text-base"
+              className="text-sm sm:text-base border border-white text-white py-2 px-4 rounded"
             >
               Login
             </button>
