@@ -39,7 +39,9 @@ const Coursess = ({ handleRouteChange }) => {
     const updatedCourses = courses.filter((course) => course?.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerCart(updatedCourses);
-    localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
+    if (window !== "undefined") {
+      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
+    }
   };
 
   const handlePaymentSuccess = async () => {
@@ -52,9 +54,13 @@ const Coursess = ({ handleRouteChange }) => {
       // 1. Update local state
       setCourses([]);
       setSearchTerm("");
-      localStorage.removeItem("courseBuyerCart");
-
-      let buyerEmail = window.localStorage.getItem("email");
+      if (window !== "undefined") {
+        localStorage.removeItem("courseBuyerCart");
+      }
+      let buyerEmail = "";
+      if (window !== "undefined") {
+        window.localStorage.getItem("email");
+      }
       console.log("Buyer Email:", buyerEmail);
 
       // 2. Update external database (if you're still using this)
@@ -147,12 +153,14 @@ const Coursess = ({ handleRouteChange }) => {
       } catch (error) {
         console.error("Error parsing cart from localStorage:", error);
         // If there's an error parsing, clear the invalid data
+        // remove courseBuyerCart from local storage
+
         localStorage.removeItem("courseBuyerCart");
         setCourseBuyerCart([]);
         setCourses([]);
       }
     }
-  },[]);
+  }, []);
 
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (

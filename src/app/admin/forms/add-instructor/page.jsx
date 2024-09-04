@@ -1,14 +1,14 @@
 "use client";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
-import Link from "next/link";
+// import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Variants from "../../../Spinner";
 import { IoMdClose } from "react-icons/io";
 import Swal from 'sweetalert2';
 
-import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { getDocs, collection, doc, deleteDoc, updateDoc , addDoc } from "firebase/firestore";
 import { db, auth } from "../../../../app/firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { createUserWithEmailAndPassword } from "firebase/auth";

@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../../app/firebaseConfig";
-
+import axios from "axios";
 import ChartOne from "../Charts/ChartOne";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
@@ -13,6 +13,34 @@ const AdminHome = () => {
   const { localCourse, steLocalCourse } = useContext(courseContext);
   const [course, setCourse] = useState();
   const [usersCount, setUsersCont] = useState();
+  const [totalProfit, setTotalProfit] = useState(0);
+  async function getCourseData() {
+    try {
+      const { data } = await axios.get("/api/courses");
+
+      const courses = data.map((course) => {
+        const profit = course.data.price * course.data.buyers;
+        return {
+          buyers: course.data.buyers,
+          price: course.data.price,
+          profit: profit.toFixed(2),
+        };
+      });
+      const total = courses.reduce(
+        (acc, course) => acc + parseFloat(course.profit),
+        0
+      );
+      setTotalProfit(total.toFixed(2));
+    } catch (error) {
+      console.error("Error fetching course data:", error);
+    }
+  }
+  useEffect(() => {
+    getCourseData();
+  }, []);
+  let profit = totalProfit + " $";
+  ///////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     setCourse[localCourse];
   }, [localCourse]);
@@ -20,7 +48,7 @@ const AdminHome = () => {
     const fetchData = async () => {
       const querySnapshot = await getDocs(collection(db, "UserData"));
       setUsersCont(await querySnapshot.docs.length);
-      console.log('======================================');
+      console.log("======================================");
       // let docs = [];
       // querySnapshot.forEach((doc) => {
       //   docs.push({
@@ -30,14 +58,16 @@ const AdminHome = () => {
       // });
     };
     fetchData();
-  },[]);
+  }, []);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats
           title="Total views"
-          total={localStorage.getItem("counter")}
+          total={
+            typeof window !== "undefined" && localStorage.getItem("counter")
+          }
           // rate="0.43%"
           // levelUp
         >
@@ -59,7 +89,7 @@ const AdminHome = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$5K" rate="5.35%" levelUp>
+        <CardDataStats title="Total Profit" total={profit}>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -104,7 +134,7 @@ const AdminHome = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total={usersCount} >
+        <CardDataStats title="Total Users" total={usersCount}>
           <svg
             className="fill-primary dark:fill-white"
             width="22"

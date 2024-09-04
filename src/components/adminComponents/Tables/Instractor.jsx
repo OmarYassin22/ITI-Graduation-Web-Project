@@ -4,6 +4,7 @@ import { getDocs, collection, doc, deleteDoc, updateDoc } from "firebase/firesto
 import { db } from "../../../app/firebaseConfig";
 import { FiSearch } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
+import Swal from "sweetalert2";
 
 
 const Instructor = () => {
@@ -18,7 +19,7 @@ const Instructor = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
-  // console.log(brandData);
+console.log(brandData);
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -95,6 +96,13 @@ const Instructor = () => {
           instructor.id === selectedInstructor.id ? { ...instructor, name: instructorName, email: instructorEmail, phone: instructorPhone, fields: fieldsList } : instructor
         ));
         setSelectedInstructor(null);
+         Swal.fire({
+          text: 'Updated successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          width: "15em",
+          timer: "1000"
+        });
       } catch (error) {
         alert("Error updating instructor: ", error);
       }
@@ -113,7 +121,7 @@ const Instructor = () => {
   };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="text-sm rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex items-center justify-between">
         <h4 className="mb-6 mr-5 text-xl font-semibold text-black dark:text-white">
           Instructors
@@ -215,14 +223,26 @@ const Instructor = () => {
                 <label className="dark:text-white mb-3 block text-black text-sm font-medium  my-1">
                   Instructor Name
                 </label>
-                <input
+                {/* <input
                   type="text"
                   placeholder="Instructor Name"
                   className="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   value={instructorName}
                   onChange={(e) => setInstructorName(e.target.value)}
                   required
-                />
+                /> */}
+                  <select
+                    value={instructorName}
+                    onChange={(e) => setInstructorName(e.target.value)}
+                    className=" dark:bg-slate-800 dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
+                  >
+                    <option value="">Select Instructor</option>
+                    {brandData.map((instructor) => (
+                      <option key={instructor.id} value={instructor.name}>
+                        {instructor.name}
+                      </option>
+                    ))}
+                  </select>
               </div>
               <div>
                 <label className="dark:text-white mb-3 block text-sm font-medium text-black my-1">

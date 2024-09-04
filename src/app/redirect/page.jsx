@@ -1,22 +1,20 @@
 "use client";
 
-import React ,{useEffect}from "react";
+import React, { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import "./test.css";
 
-const type = localStorage.getItem("type");
 const Redirect = (props) => {
   const router = useRouter();
-  const type = localStorage.getItem("type");
 
-  useEffect(() => {
-    if (type === "admin") router.push("/admin/home");
-    else if (type === "buyer" || type === 'applicant') router.push("/buyer");
-    else if (type === "student") router.push("/student");
-    else if (type === "instructor") router.push("/instructor");
-  }, []); // Ensure this effect only runs when type changes
-
+  // useEffect(() => {
+  //   const type = localStorage.getItem("type");
+  //   if (type === "admin") router.push("/admin/home");
+  //   else if (type === "buyer" || type === "applicant") router.push("/buyer");
+  //   else if (type === "student") router.push("/student");
+  //   else if (type === "instructor") router.push("/instructor");
+  // }, []); // Ensure this effect only runs when type changes
 
   return (
     <div>
