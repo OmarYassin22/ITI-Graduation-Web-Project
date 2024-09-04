@@ -41,7 +41,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Role-based redirection: Check if the user is already on the correct page to avoid loops
-  if (userType === "admin" && !pathName.startsWith("/admin/home")) {
+  if (userType === "admin" && !pathName.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/admin/home", request.url));
   } else if (
     (userType === "buyer" || userType === "applicant") &&
