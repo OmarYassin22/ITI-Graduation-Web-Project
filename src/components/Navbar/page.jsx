@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import ThemeToggel from "./ThemeToggle";
@@ -10,6 +10,23 @@ import { useRouter } from "next/navigation";
 import { useSidebar } from "../SidebarContext";
 import Image from "next/image";
 const Navbar = () => {
+// check authontication of use
+useEffect(
+  ()=>{
+
+const AuthenticationCheck=async ()=>{
+
+  if(   await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET }))
+  {
+
+    
+  }
+}
+
+  }
+  ,[])
+
+
   const { sidebarOpen, setSidebarOpen } = useSidebar();
   let router = useRouter();
   const { data, status } = useSession();

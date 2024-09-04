@@ -15,3 +15,4 @@ student2@gmail.com St@123456
 --------------------buyer---------------------------
 emad.buyer@gmail.com EmBu@123456
 mahmoud@gmail.com mA@123456
+buyer2@gmail.com Bu@123456

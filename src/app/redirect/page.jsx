@@ -8,13 +8,13 @@ import "./test.css";
 const Redirect = (props) => {
   const router = useRouter();
 
-  useEffect(() => {
-    const type = localStorage.getItem("type");
-    if (type === "admin") router.push("/admin/home");
-    else if (type === "buyer" || type === "applicant") router.push("/buyer");
-    else if (type === "student") router.push("/student");
-    else if (type === "instructor") router.push("/instructor");
-  }, []); // Ensure this effect only runs when type changes
+  // useEffect(() => {
+  //   const type = localStorage.getItem("type");
+  //   if (type === "admin") router.push("/admin/home");
+  //   else if (type === "buyer" || type === "applicant") router.push("/buyer");
+  //   else if (type === "student") router.push("/student");
+  //   else if (type === "instructor") router.push("/instructor");
+  // }, []); // Ensure this effect only runs when type changes
 
   return (
     <div>
