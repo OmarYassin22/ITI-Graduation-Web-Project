@@ -6,14 +6,14 @@ import TableOne from "../../../components/studentComponents/Tables/TableOne";
 function page() {
   return (
     <>
-      {/* <DefaultLayout> */}
+      <DefaultLayout>
         <Breadcrumb pageName="Table" />
         <div className="flex flex-col gap-10">
           <TableOne />
           {/* <TableTwo />
         <TableThree /> */}
         </div>
-      {/* </DefaultLayout> */}
+      </DefaultLayout>
     </>
   );
 }
