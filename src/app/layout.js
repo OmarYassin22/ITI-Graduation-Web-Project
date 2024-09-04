@@ -28,13 +28,15 @@ export default function RootLayout({ children }) {
   // const [sidebarOpen, setSidebarOpen] = useSidebar();
   return (
     <html lang="en">
-      <body className={inter.className}>
+         <body className={`${inter.className} flex flex-col min-h-screen`}>
         <NextAuthProviderWraper>
           <StripeProvider>
             <CourseContextProvider>
               <SidebarProvider>
                 <NavbarWrapper />
+                <div className=" flex-grow">
                 <CourseBuyerProvider>{children}</CourseBuyerProvider>
+                </div>
                 <Footer />
               </SidebarProvider>
             </CourseContextProvider>
