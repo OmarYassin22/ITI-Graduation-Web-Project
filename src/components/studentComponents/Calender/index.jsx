@@ -25,7 +25,7 @@ const Calendar = () => {
                         if (coursesData.fname === firstname && coursesData.lname === lastname) {
                             field = coursesData.field.toLowerCase();
                             coursesData.courses.map((c, index) => {
-                                cdata.push(c.course);
+                                cdata.push(c[index].course);
                             });
                             console.log(field);
                         }
