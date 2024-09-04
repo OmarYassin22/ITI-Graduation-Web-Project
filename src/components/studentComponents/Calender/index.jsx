@@ -9,9 +9,8 @@ const Calendar = () => {
   useEffect(() => {
     const firstname = localStorage.getItem("fname");
     const lastname = localStorage.getItem("lname");
-    var field;
+    var field = null;
     var cdata = [];
-    console.log(firstname, lastname);
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "students"));
@@ -19,32 +18,35 @@ const Calendar = () => {
 
         querySnapshot.forEach((doc) => {
           const coursesData = doc.data();
-          console.log("===============");
+          // const currentStudent= coursesData.map(st=>st?.fname== firstname && st?.lname== lastname)
           console.log(coursesData);
+
+          // if (
+          //   typeof coursesData === "object" &&
+          //   typeof coursesData.courses === "object" &&
+          //   coursesData.email &&
+          //   coursesData.field &&
+          //   coursesData.fname &&
+          //   coursesData.lname &&
+          //   coursesData.number &&
+          //   coursesData.uid
+          // ) {
+          console.log(
+            `${coursesData.fname}---------------------------------${coursesData.lname}`
+          );
           if (
-            typeof coursesData === "object" &&
-            typeof coursesData.courses === "object" &&
-            coursesData.email &&
-            coursesData.field &&
-            coursesData.fname &&
-            coursesData.lname &&
-            coursesData.number &&
-            coursesData.uid
+            coursesData.fname === firstname &&
+            coursesData.lname === lastname
           ) {
-            if (
-              coursesData.fname === firstname &&
-              coursesData.lname === lastname
-            ) {
-              console.log("get data");
-              field = coursesData.field.toLowerCase();
-              coursesData?.courses?.map((c, index) => {
-                console.table(c);
-                cdata.push(c.course);
-                console.log(cdata);
-              });
-              console.log(field);
-            }
+            console.log("---------------------get data-----------------------");
+            field = coursesData.field.toLowerCase();
+            coursesData?.courses?.map((c, index) => {
+              cdata.push(c.course);
+              console.log(cdata);
+            });
+            console.log(field);
           }
+          // }
         });
       } catch (error) {
         console.error("Error fetching data: ", error);

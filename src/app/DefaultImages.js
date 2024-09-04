@@ -14,11 +14,15 @@ import reactNative from "../../public/coureses images/react-native-1.png";
 import react from "../../public/coureses images/react.png";
 import Tailwind from "../../public/coureses images/Tailwind.png";
 import uiux from "../../public/coureses images/ui ux.jpeg";
+import dart from "../../public/coureses images/Dart.png";
+import ruby from "../../public/coureses images/Ruby.png";
+import arduino from "../../public/coureses images/arduino.png";
+import r from "../../public/coureses images/R.png";
 
 const DefaultImages = {
   '.Net': dotnet.src,
   Bootstrap: Bootstrap.src,
-  css: css.src,
+  CSS3: css.src,
   Flutter: flutterr2.src,
   Flutter: Flutter.src,
   "HTML 5": html.src,
@@ -32,6 +36,10 @@ const DefaultImages = {
   "React":react.src,
   Tailwind:Tailwind.src,
   "UI UX Design ":uiux.src,
+  "r":r.src,
+  "Arduino":arduino.src,
+  "ruby":ruby.src,
+  "dart":dart.src,
 };
 
 export default DefaultImages;

@@ -27,18 +27,18 @@ const Calendar = ({ calendarId }) => {
 
     getInstructors();
   }, []);
-useEffect(() => {
-  if (newInstructor) {
-    const selectedInstructor = instructors.find(
-      (instructor) => instructor.data.name === newInstructor
-    );
-    if (selectedInstructor) {
-      setRelatedCourses(selectedInstructor.data.fields || []);
-      // Reset the selected course when a new instructor is selected
-      setNewCourse("");
+  useEffect(() => {
+    if (newInstructor) {
+      const selectedInstructor = instructors.find(
+        (instructor) => instructor.data.name === newInstructor
+      );
+      if (selectedInstructor) {
+        setRelatedCourses(selectedInstructor.data.fields || []);
+        // Reset the selected course when a new instructor is selected
+        setNewCourse("");
+      }
     }
-  }
-}, [newInstructor, instructors]);
+  }, [newInstructor, instructors]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -109,7 +109,7 @@ useEffect(() => {
     const event = events[day] || { title: "", date: "" };
     const currentMonth = new Date().getMonth() + 1; // Get the current month
     const currentYear = new Date().getFullYear(); // Get the current year
-    const formattedDate = `${day}-${currentMonth}-${currentYear}`; // Format the date as 'day-month-year'
+    const formattedDate = `${currentYear}-${currentMonth}-${day}`; // Format the date as 'day-month-year'
 
     setEditingEvent({
       day,
@@ -118,24 +118,24 @@ useEffect(() => {
     setNewInstructor(event.instructor || "");
     setNewCourse(event.title || "");
   };
-const handleInputChange = async (e, field) => {
-  const value = e.target.value;
+  const handleInputChange = async (e, field) => {
+    const value = e.target.value;
 
-  if (field === "instructor") {
-    setNewInstructor(value);
-    setNewCourse(""); 
-  } else if (field === "title") {
-    setNewCourse(value);
-  }
+    if (field === "instructor") {
+      setNewInstructor(value);
+      setNewCourse("");
+    } else if (field === "title") {
+      setNewCourse(value);
+    }
 
-  setEditingEvent((prev) => ({
-    ...prev,
-    event: {
-      ...prev.event,
-      [field]: value,
-    },
-  }));
-};
+    setEditingEvent((prev) => ({
+      ...prev,
+      event: {
+        ...prev.event,
+        [field]: value,
+      },
+    }));
+  };
 
   const handleDeleteClick = () => {
     if (editingEvent) {
@@ -164,12 +164,12 @@ const handleInputChange = async (e, field) => {
       setEditingEvent(null);
     }
   };
-const handleCancelClick = () => {
-  // Reset the form fields
-  setNewInstructor("");
-  setNewCourse("");
-  setEditingEvent(null); // Close the modal
-};
+  const handleCancelClick = () => {
+    // Reset the form fields
+    setNewInstructor("");
+    setNewCourse("");
+    setEditingEvent(null); // Close the modal
+  };
   return (
     <div className="mx-auto max-w-7xl">
       <Breadcrumb pageName="Calendar" />
@@ -204,10 +204,9 @@ const handleCancelClick = () => {
                         </span>
                         <span className="time text-xs xl:text-xs font-medium text-black dark:text-white">
                           {events[i + 1].instructor.split(" ")[0]}{" "}
-                          {events[i + 1].instructor.split(" ")[1]?.substring(
-                            0,
-                            6
-                          )}
+                          {events[i + 1].instructor
+                            .split(" ")[1]
+                            ?.substring(0, 6)}
                           ..
                         </span>
                         <span className="time text-xs xl:text-xs font-medium text-black dark:text-white">
@@ -299,7 +298,7 @@ const handleCancelClick = () => {
                 >
                   Delete
                 </button>
-                 <button
+                <button
                   onClick={handleCancelClick}
                   className="rounded bg-gray-500 px-4 py-2 text-white bg-slate-600 hover:bg-slate-700"
                 >
