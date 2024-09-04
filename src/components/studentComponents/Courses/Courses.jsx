@@ -2,16 +2,6 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
-import HTML from './assets/Images/html-logo.svg';
-import CSS from './assets/Images/css-logo.svg';
-import JS from './assets/Images/javascript-logo.svg';
-import Bootstrap from './assets/Images/bootstrap-logo.svg';
-import Tailwind from './assets/Images/tailwind-logo.svg';
-import SASS from './assets/Images/sass-logo.svg';
-import TS from './assets/Images/typescript-logo.svg';
-import ReactLogo from './assets/Images/react-logo.svg';
-import Dart from './assets/Images/dart-logo.svg';
-import Flutter from './assets/Images/flutter-logo.svg';
 import { useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../app/firebaseConfig';
