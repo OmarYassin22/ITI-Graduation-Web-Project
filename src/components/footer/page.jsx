@@ -9,7 +9,7 @@ function Footer() {
     SetNoFooter(
       href.includes("admin") ||
         href.includes("buyer") ||
-        href.includes("buyre") ||
+        href.includes("instructor") ||
         href.includes("redirect") ||
         href.includes("student")
         ? true
