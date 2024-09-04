@@ -10,6 +10,7 @@ import Rater from "react-rater";
 import BuyerNavbar from "./../Components/BuyerNavbar/BuyerNavbar";
 
 import { CourseBuyerContext } from "./../../BuyerContext";
+import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
 
 const Page = ({ params }) => {
   let {
@@ -26,30 +27,33 @@ const Page = ({ params }) => {
   const [cImage, setCImage] = useState("");
   const [cDetails, setCDetails] = useState("");
   const [cInstructor, setCInstructor] = useState("");
+  const [result, setResult] = useState(null);
+  const { localCourse, setLocalCourse } = useContext(courseContext);
 
   /////////////////////////////////
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/courses/${params?.id}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+     
+        localCourse?.map((c) => (c.id == params.id ? setResult(c) : null));
+        if (result) {
+          {
+            setCTitle(result.data.title);
+            setCPrice(result.data.price);
+            setCDetails(result.data.details);
+            setCImage(result.image);
+            setCInstructor(result.data.instructor);
+            setComments(result.data.coments); // Fix typo: changed 'coments' to 'comments'
+            setCourses(result);
+          }
         }
-        const result = await response.json();
-        setCTitle(result.title);
-        setCPrice(result.price);
-        setCDetails(result.details);
-        setCImage(result.image);
-        setCInstructor(result.instructor);
-        setComments(result.coments); // Fix typo: changed 'coments' to 'comments'
-        setCourses(result);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, []);
+  }, [localCourse, params.id, result]);
   ////////////////////////////////
 
   console.log(comments);

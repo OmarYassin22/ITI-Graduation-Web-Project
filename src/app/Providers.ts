@@ -1,6 +1,7 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import { auth } from "./firebaseConfig";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -15,10 +16,12 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (credentials == null) return null;
-
         try {
-         
+          const dbuser = await signInWithEmailAndPassword(
+            auth,
+            credentials.email,
+            credentials.password
+          );
           return {
             email: credentials.email,
             password: credentials.password,
@@ -28,10 +31,6 @@ export const authOptions: AuthOptions = {
         }
       },
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID as string,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    // }),
   ],
   callbacks: {
     async redirect({ baseUrl, url }) {

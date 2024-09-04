@@ -49,13 +49,20 @@ function Login() {
         localStorage.setItem("type", result.docs[0].data().type);
         localStorage.setItem("fname", result.docs[0].data()?.fname);
         localStorage.setItem("lname", result.docs[0].data()?.lname);
-
         localStorage.setItem("email", values.email);
+
+        localStorage.setItem("type", result.docs[0].data().type);
+        document.cookie = `userType=${result.docs[0].data().type}`;
       }
       const res = await signIn("credentials", {
         email: values.email,
         password: values.password,
+        redirect: true,
+        callbackUrl: "/redirect",
       });
+      debugger;
+      console.log(res);
+      router.push("/redirect");
     } catch (error) {
       setLoading(false);
       setErrorMsg(error.response.data.error.code);
