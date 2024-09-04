@@ -15,9 +15,8 @@ const Video = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadTask, setUploadTask] = useState(null);
 
-  const fullName =
-    typeof window !== "undefined" &&
-    localStorage.getItem("fname") + " " + localStorage.getItem("lname");
+  const fullName = typeof window !== "undefined" && localStorage.getItem("fname") + 
+  (localStorage.getItem("lname") === null || localStorage.getItem("lname") === "undefined" ? "" : " " + localStorage.getItem("lname"));
 
   useEffect(() => {
     if (!dataFetched) {

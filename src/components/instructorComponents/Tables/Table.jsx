@@ -16,9 +16,10 @@ const Table = () => {
   const [uniqueFieldsArray, setUniqueFieldsArray] = useState([]);
   const [selectedField, setSelectedField] = useState("");
 
-  const fullName =
-    typeof window !== "undefined" &&
-    localStorage.getItem("fname") + " " + localStorage.getItem("lname");
+  const fullName = typeof window !== "undefined" && localStorage.getItem("fname") + 
+  (localStorage.getItem("lname") === null || localStorage.getItem("lname") === "undefined" ? "" : " " + localStorage.getItem("lname"));
+
+  console.log(fullName);
 
   const filteredCourseData = selectedField
     ? courseData.filter((course) => course.field === selectedField)

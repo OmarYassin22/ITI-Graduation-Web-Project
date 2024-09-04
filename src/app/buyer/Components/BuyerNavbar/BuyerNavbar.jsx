@@ -1,18 +1,27 @@
 // 'use client';
 import React, { useState, useEffect, useContext } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { signOut, useSession } from "next-auth/react";
-import { CiBellOn } from "react-icons/ci";
 import { CourseBuyerContext } from "../../../BuyerContext";
 import styles from "./style.module.css"; // Import the CSS module
 import ThemeToggle from "./../../../../components/Navbar/ThemeToggle";
 import { useRouter } from "next/navigation";
+import LogoImage from '../../../../../public/test3.png'
 
 const Logo = () => (
   <h2 className="font-bold text-2xl text-white dark:text-white mr-12">
-    <Link href="/buyer">E-Learning</Link>
+    <Link href="/buyer">
+      <Image
+        // className="w-48 h-48 m-auto"
+        width={150}
+        height={150}
+        src={LogoImage}
+        alt={`Logo`}
+      />
+    </Link>
   </h2>
 );
 
