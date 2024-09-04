@@ -365,9 +365,9 @@ const Scholarship = () => {
         <option selected value="">
           -- select field --
         </option>
-        <option value="frontend">Front-end</option>
-        <option value="backend">Back-end</option>
-        <option value="mobile-app">Mobile App</option>
+        <option value="Front-end">Front-end</option>
+        <option value="Back-end">Back-end</option>
+        <option value="Mobile-app">Mobile App</option>
       </select>
       {field?.length > 0 ? (
         <div className="cardesbackgroundcourse rounded-2xl p-4 m-4">

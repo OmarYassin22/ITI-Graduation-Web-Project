@@ -25,7 +25,8 @@ const Calendar = () => {
                         if (coursesData.fname === firstname && coursesData.lname === lastname) {
                             field = coursesData.field.toLowerCase();
                             coursesData.courses.map((c, index) => {
-                                cdata.push(c.course);
+                                cdata.push(c[index].course);
+                                console.log(cdata);
                             });
                             console.log(field);
                         }
@@ -44,8 +45,8 @@ const Calendar = () => {
                             console.log(courseType);
                             Object.entries(coursesData2).forEach(([key, course]) => {
                                 if (typeof course == "object" && course.date && course.instructor && course.title) {
-                                    cdata.map((c2, i) => {
-                                        if (c2[i] == course.title) {
+                                    cdata.forEach(c2 => {
+                                        if (c2 == course.title) {
                                             console.log(course.title);
                                             const dateObj2 = new Date(course.date);
                                             const formattedDate2 = dateObj2.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
