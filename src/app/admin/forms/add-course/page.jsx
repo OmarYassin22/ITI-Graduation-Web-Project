@@ -1,8 +1,8 @@
 "use client";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import Breadcrumb from "../../../../components/adminComponents/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "../../../../components/adminComponents/Layouts/DefaultLayout";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
 import { ref, uploadBytes } from "firebase/storage";
@@ -11,6 +11,8 @@ import { v4 } from "uuid";
 import Image from "next/image";
 import Variants from "../../../Spinner";
 import axios from "axios";
+import { courseContext } from "../../../Contexts/Courses/CourseContextProvider";
+
 const Page = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
@@ -18,21 +20,21 @@ const Page = () => {
   const { push } = useRouter();
   const [success, setSuccess] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [instractors, setInstractors] = useState(null)
-
+  const [instractors, setInstractors] = useState(null);
+  const {localCourse, setLocalCourse} = useContext(courseContext);
   async function getInstractor() {
-    let { data } = await axios.get("/api/instructors")
-    setInstractors(data)
+    let { data } = await axios.get("/api/instructors");
+    setInstractors(data);
   }
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/courses");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setCourses(result);
+        // const response = await fetch("/api/courses");
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
+        // const result = await response.json();
+        setCourses(localCourse);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -40,8 +42,8 @@ const Page = () => {
       }
     };
     fetchData();
-    getInstractor()
-  }, []);
+    getInstractor();
+  }, [localCourse]);
 
   const handleCourseDetails = async (id) => {
     push(`/admin/forms/add-course/${id}`);
@@ -58,13 +60,15 @@ const Page = () => {
   const handleCreate = async (event) => {
     event.preventDefault();
     const lowerCaseTitle = cTitle.toLowerCase();
-    const existingCourse = courses.find((course) => course.data.title.toLowerCase() === lowerCaseTitle);
+    const existingCourse = courses.find(
+      (course) => course.data.title.toLowerCase() === lowerCaseTitle
+    );
     if (existingCourse) {
       Swal.fire({
-        icon: 'error',
-        title: 'Course name already exists',
-        text: 'Please choose a different name.',
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Course name already exists",
+        text: "Please choose a different name.",
+        confirmButtonText: "OK",
       });
       return;
     }
@@ -209,15 +213,15 @@ const Page = () => {
                   value={cInstructor}
                   onChange={(e) => {
                     setCInstructor(e.target.value);
-                  }}>
-
+                  }}
+                >
                   <option>Instractor Name</option>
                   {instractors?.map((instractor) => (
                     <option key={instractor.id} value={instractor.data.name}>
-                      {instractor.data.name} | {instractor.data.fields.join(', ')}
+                      {instractor.data.name} |{" "}
+                      {instractor.data.fields.join(", ")}
                     </option>
                   ))}
-
                 </select>
               </div>
               <div>
@@ -313,9 +317,10 @@ const Page = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={`${course.image ||
+                    src={`${
+                      course.image ||
                       "https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg"
-                      }`}
+                    }`}
                     alt={course.data.title}
                     width={100}
                     height={100}

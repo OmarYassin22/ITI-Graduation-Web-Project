@@ -34,7 +34,10 @@ export default function RootLayout({ children }) {
             <CourseContextProvider>
               <SidebarProvider>
                 <NavbarWrapper />
-                <CourseBuyerProvider>{children}</CourseBuyerProvider>
+                <div className="flex-grow">
+                  <CourseBuyerProvider>{children}</CourseBuyerProvider>
+                </div>
+
                 <Footer />
               </SidebarProvider>
             </CourseContextProvider>
