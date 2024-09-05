@@ -102,7 +102,7 @@ const Coursess = ({ handleRouteChange }) => {
 
           // Get the current 'buyers' count for the course
           const courseSnapshot = await getDoc(courseRef);
-          const currentBuyersCount = courseSnapshot.data().buyers || 0;
+          const currentBuyersCount = courseSnapshot.data()?.buyers || 0;
 
           // Increment the 'buyers' field by 1 for the course
           const updatedBuyersCount = currentBuyersCount + 1;
@@ -195,7 +195,7 @@ const Coursess = ({ handleRouteChange }) => {
               <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
                 <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {course?.data?.title}
+                    {course.data?.title}
                   </h5>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
@@ -208,11 +208,11 @@ const Coursess = ({ handleRouteChange }) => {
                   />
                 </div>
                 <div className="flex-grow">
-                  <p className="card-title text-base text-color mb-2">{`by : ${course?.data.instructor
+                  <p className="card-title text-base text-color mb-2">{`by : ${course?.data?.instructor
                     ?.split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data.price}`}</p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data?.price}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
                   <button
