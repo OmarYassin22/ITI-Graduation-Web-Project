@@ -12,6 +12,7 @@ export default function CartPayment({ courses, onSuccess }) {
   const handlePayment = async () => {
     setLoading(true);
     setError(null);
+    debugger;
 
     if (!stripe || !elements) {
       setError("Stripe hasn't loaded yet. Please try again.");
@@ -19,7 +20,10 @@ export default function CartPayment({ courses, onSuccess }) {
       return;
     }
 
-    const totalAmount = courses.reduce((sum, course) => sum + course.price, 0);
+    const totalAmount = courses.reduce(
+      (sum, course) => sum + parseInt(course?.data?.price),
+      0
+    );
 
     // Create a PaymentIntent on the server
     const response = await fetch("/api/create-payment-intent", {
