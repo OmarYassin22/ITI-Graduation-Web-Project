@@ -27,7 +27,7 @@
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { NextResponse } from "next/server";
-import cors from '../_cors'; // Adjust the import path according to your folder structure
+import cors from '../../_cors'; // Adjust the import path according to your folder structure
 
 export async function POST(request) {
   // Apply CORS middleware

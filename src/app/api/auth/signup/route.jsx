@@ -22,7 +22,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NextResponse } from "next/server";
 import { auth } from "../../../firebaseConfig";
-import cors from '../_cors'; // Adjust the path if needed based on your folder structure
+import cors from '../../_cors'; // Adjust the path if needed based on your folder structure
 
 export async function POST(request) {
   // Apply CORS middleware
