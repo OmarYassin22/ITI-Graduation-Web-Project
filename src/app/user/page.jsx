@@ -131,14 +131,13 @@
 //   );
 // }
 // export default UserPage;
-"use client";
-import React, { useEffect } from "react";
 
-const syhi = () => {
-  console.log(";hi");
-};
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+// import React from 'react';
+
 const Page = () => {
-  useEffect(() => {
+    useEffect(() => {
     console.log(localStorage.getItem("counter"));
     localStorage.setItem(
       "counter",
@@ -148,12 +147,14 @@ const Page = () => {
     );
 
     window.onload = () => {
-      // localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
       localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
     };
-    syhi();
   }, []);
-  return <div></div>;
-};
+  return (
+    <div>
+      
+    </div>
+  );
+}
 
 export default Page;
