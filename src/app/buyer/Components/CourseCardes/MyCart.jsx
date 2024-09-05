@@ -36,14 +36,17 @@ const Coursess = ({ handleRouteChange }) => {
     course?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const deleteCourse = (courseId) => {
-    const updatedCourses = courses.filter((course) => course.id !== courseId);
+    const updatedCourses = courses.filter((course) => course?.id !== courseId);
     setCourses(updatedCourses);
     setCourseBuyerCart(updatedCourses);
-    localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
+    if (window !== "undefined") {
+      localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCourses));
+    }
   };
 
   const handlePaymentSuccess = async () => {
     try {
+      debugger;
       const purchasedCourseIds = courses
         .filter((course) => course != null && course.id != null)
         .map((course) => course.id);
@@ -52,10 +55,15 @@ const Coursess = ({ handleRouteChange }) => {
       // 1. Update local state
       setCourses([]);
       setSearchTerm("");
-      localStorage.removeItem("courseBuyerCart");
-
-      let buyerEmail = window.localStorage.getItem("email");
+      if (window !== "undefined") {
+        localStorage.removeItem("courseBuyerCart");
+      }
+      let buyerEmail = "";
+      if (window !== "undefined") {
+        buyerEmail= window.localStorage.getItem("email");
+      }
       console.log("Buyer Email:", buyerEmail);
+
 
       // 2. Update external database (if you're still using this)
       await fetch("/api/update-user-courses", {
@@ -94,7 +102,7 @@ const Coursess = ({ handleRouteChange }) => {
 
           // Get the current 'buyers' count for the course
           const courseSnapshot = await getDoc(courseRef);
-          const currentBuyersCount = courseSnapshot.data().buyers || 0;
+          const currentBuyersCount = courseSnapshot.data()?.buyers || 0;
 
           // Increment the 'buyers' field by 1 for the course
           const updatedBuyersCount = currentBuyersCount + 1;
@@ -103,7 +111,7 @@ const Coursess = ({ handleRouteChange }) => {
           await updateDoc(courseRef, { buyers: updatedBuyersCount });
 
           console.log(
-            "Buyers count updated successfully for course ${courseId}"
+            `Buyers count updated successfully for course ${courseId}`
           );
         }
 
@@ -139,7 +147,6 @@ const Coursess = ({ handleRouteChange }) => {
 
   useEffect(() => {
     const savedCart = localStorage.getItem("courseBuyerCart");
-
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
@@ -148,12 +155,14 @@ const Coursess = ({ handleRouteChange }) => {
       } catch (error) {
         console.error("Error parsing cart from localStorage:", error);
         // If there's an error parsing, clear the invalid data
+        // remove courseBuyerCart from local storage
+
         localStorage.removeItem("courseBuyerCart");
         setCourseBuyerCart([]);
         setCourses([]);
       }
     }
-  }, [setCourseBuyerCart]);
+  }, []);
 
   if (!courseBuyerCart || courseBuyerCart.length === 0) {
     return (
@@ -166,7 +175,7 @@ const Coursess = ({ handleRouteChange }) => {
     <div>
       <div className="flex items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All Cart courses</h2>
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             placeholder="search about courses..."
@@ -175,36 +184,35 @@ const Coursess = ({ handleRouteChange }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FiSearch className="absolute left-3 top-1/3 transform-translate-y-1/2 text-gray-500" />
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         {courses?.map((course) => console.log(course))}
-        {filteredCourses?.map((course, i) => (
+
+        {courses?.map((course, i) => (
           <div key={i} className="mx-3 text-color  my-5">
             <div className="card-body  p-0 h-full flex flex-col justify-between">
               <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
                 <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {course.title}
+                    {course.data?.title}
                   </h5>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={course.image}
-                    alt={course.title}
+                    src={course?.image}
+                    alt={course?.data?.title}
                     width={100}
                     height={100}
                   />
                 </div>
                 <div className="flex-grow">
-                  <p className="card-title text-base text-color mb-2">{`by : ${course.instructor
-                    .split(" ")
+                  <p className="card-title text-base text-color mb-2">{`by : ${course?.data?.instructor
+                    ?.split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">
-                    Price: ${course.price}
-                  </p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data?.price}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
                   <button
@@ -220,7 +228,7 @@ const Coursess = ({ handleRouteChange }) => {
           </div>
         ))}
       </div>
-      <CartPayment courses={filteredCourses} onSuccess={handlePaymentSuccess} />
+      <CartPayment courses={courses} onSuccess={handlePaymentSuccess} />
     </div>
   );
 };
