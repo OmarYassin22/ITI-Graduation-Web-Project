@@ -18,33 +18,37 @@
 // }
 
 // File: /pages/api/auth/signup.js
+// File: /pages/api/auth/signup.js
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NextResponse } from "next/server";
 import { auth } from "../../../firebaseConfig";
-import cors from '../../_cors'; // Adjust the path if needed based on your folder structure
+import cors from '../_cors'; // Ensure the path is correct to your CORS middleware
 
-export async function POST(request) {
-  // Apply CORS middleware
-  const response = new NextResponse(); // Create an empty response to pass to the CORS middleware
-  cors(request, response); // Apply CORS headers
+export async function POST(req) {
+  // Initialize response object to pass through middleware
+  const res = new NextResponse(); 
+  
+  // Apply CORS headers using the middleware
+  cors(req, res); 
 
-  // Check for preflight response (OPTIONS request)
-  if (request.method === 'OPTIONS') {
-    return response; // Return early for preflight requests
+  // If the request is an OPTIONS request (preflight), end early
+  if (req.method === 'OPTIONS') {
+    return res; // This ends the preflight check with the necessary headers
   }
 
   try {
-    // Parse the request body to get email and password
-    const { email, password } = await request.json();
+    // Parse the incoming JSON body
+    const { email, password } = await req.json();
 
-    // Create a new user using Firebase Authentication
+    // Create a new user with Firebase Authentication
     const userData = await createUserWithEmailAndPassword(auth, email, password);
 
-    // Return the created user data with a 201 status code
+    // Respond with the newly created user data
     return NextResponse.json({ user: userData.user }, { status: 201 });
   } catch (error) {
-    // Handle errors and return a 400 status code with the error message
+    // Handle errors (e.g., invalid email, weak password)
+    console.error('Error during signup:', error);
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }
