@@ -319,7 +319,7 @@ const Page = () => {
                     className="object-cover w-full h-full"
                     src={`${
                       course.image ||
-                      "/defaultCourse.jpeg"
+                      '/defaultCourse.jpeg'
                     }`}
                     alt={course.data.title}
                     width={100}
