@@ -24,7 +24,8 @@ function Page() {
       setLoading(true);
       setErrorMsg("");
       const res = await axios.post(
-        "https://e-learning-bztenhoh2-omaryassin22s-projects.vercel.app/api/auth/signup",
+        "https://e-learning-i92641q8e-omaryassin22s-projects.vercel.app/api/auth/signup",
+        // "https://e-learning-bztenhoh2-omaryassin22s-projects.vercel.app/api/auth/signup",
         // "http://localhost:3000/api/auth/signup",
         values
       );
