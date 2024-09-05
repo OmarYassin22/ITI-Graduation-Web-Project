@@ -19,7 +19,6 @@
 //         ? 0
 //         : +localStorage.getItem("counter") + 1
 //     );
-    
 
 //     window.onload = () => {
 //       // localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
@@ -133,14 +132,24 @@
 // }
 // export default UserPage;
 
-import React from 'react';
+import React from "react";
 
 const Page = () => {
-  return (
-    <div>
-      
-    </div>
-  );
-}
+  useEffect(() => {
+    console.log(localStorage.getItem("counter"));
+    localStorage.setItem(
+      "counter",
+      localStorage.getItem("counter") == null
+        ? 0
+        : +localStorage.getItem("counter") + 1
+    );
+
+    window.onload = () => {
+      // localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
+      localStorage.setItem("counter", +localStorage.getItem("counter") + 1);
+    };
+  }, []);
+  return <div></div>;
+};
 
 export default Page;
