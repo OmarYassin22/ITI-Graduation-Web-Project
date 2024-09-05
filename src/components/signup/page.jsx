@@ -1,5 +1,3 @@
-///////////////////////////////////////////
-
 "use client";
 import React, { useState } from "react";
 import { useFormik } from "formik";
@@ -23,12 +21,7 @@ function Page() {
     try {
       setLoading(true);
       setErrorMsg("");
-      // "https://e-learning-i92641q8e-omaryassin22s-projects.vercel.app/api/auth/signup",
-      // // "https://e-learning-bztenhoh2-omaryassin22s-projects.vercel.app/api/auth/signup",
-      // const res = await axios.post(
-      // "http://localhost:3000/api/auth/signup",
-      //   values
-      // );
+    
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {

@@ -32,12 +32,7 @@ function Page() {
     try {
       setLoading(true);
       setErrorMsg("");
-      // const res = await axios.post(
-      //   // "http://localhost:3000/api/auth/signup",
-      //   // "https://e-learning-bztenhoh2-omaryassin22s-projects.vercel.app/api/auth/signup",
-      //   "https://e-learning-i92641q8e-omaryassin22s-projects.vercel.app/api/auth/signup",
-      //   values
-      // );
+     
 
       const temp = await fetch("/api/auth/signup", {
         method: "POST",
@@ -47,7 +42,9 @@ function Page() {
         body: JSON.stringify(values),
       });
       const res = await temp.json();
-      router.push("/signup/" + res.data.user.uid);
+      debugger;
+      console.log(res?.user.uid);
+      router.push("/signup/" + res?.user.uid);
 
       setErrorMsg("");
     } catch (error) {
