@@ -33,6 +33,7 @@ const AcceptStudents = () => {
           ...doc.data(),
         }));
         setBrandData(applicantsList);
+        console.table(applicantsList);
       } catch (error) {
         console.error("Error fetching applicants: ", error);
       }
@@ -64,7 +65,7 @@ const AcceptStudents = () => {
           email: applicant.email,
           number: applicant.number,
           uid: applicant.uid,
-          field: selectedField[applicant.id] || "frontend",
+          field: applicant.field || "Front-end",
           // degree: 0, 
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
@@ -87,7 +88,8 @@ const AcceptStudents = () => {
           email: applicant.email,
           number: applicant.number,
           uid: applicant.uid, // Copy uid from applicant
-          field: selectedField[applicant.id] || "frontend", // Default value
+          field: applicant.field || "Front-end", // Default value
+          // field: selectedField[applicant.id] || "Front-end", // Default value
           // degree: 0, // Default value
 
         };
