@@ -49,9 +49,10 @@ function UserPage() {
   }, []);
 
   return (
-    <DefaultLayout>
+    null
+    // <DefaultLayout>
      
-    </DefaultLayout>
+    // </DefaultLayout>
   );
 }
 export default UserPage;
