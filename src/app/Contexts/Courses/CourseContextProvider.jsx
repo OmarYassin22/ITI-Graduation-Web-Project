@@ -22,10 +22,12 @@ const CourseContextProvider = ({ children }) => {
       });
   }, []);
   localCourse?.map((course) => {
-    course.image =
-      course?.image?.length == 0
-        ? DefaultImages[course.data.title]
-        : course.image;
+    // course.image =
+    //   course?.image?.length == 0
+    //     ? DefaultImages[course.data.title]
+    //     : course.image;
+    course.image =DefaultImages[course.data.title];
+     
   });
   const obj = useMemo(
     () => ({
