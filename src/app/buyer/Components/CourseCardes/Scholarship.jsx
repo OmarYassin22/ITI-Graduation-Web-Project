@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 
 const Scholarship = () => {
-  const [field, setField] = useState(null);
+  const [field, setField] = useState("Front-end");
   const questions = {
     "Front-end": [
       {
