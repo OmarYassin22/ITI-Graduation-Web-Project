@@ -22,7 +22,7 @@ const Coursess = ({ handleRouteChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredCourses = courses.filter((course) =>
-    course?.title.toLowerCase().includes(searchTerm.toLowerCase())
+    course?.title?.toLowerCase()?.includes(searchTerm.toLowerCase())
   );
 
   function addCourse(courseId) {
@@ -40,6 +40,8 @@ const Coursess = ({ handleRouteChange }) => {
       });
     } else {
       const updatedCart = [...courseBuyerCart, courses];
+      debugger;
+      console.log(updatedCart);
       setCourseBuyerCart(updatedCart);
       if (window !== "undefined") {
         localStorage.setItem("courseBuyerCart", JSON.stringify(updatedCart));
@@ -100,7 +102,7 @@ const Coursess = ({ handleRouteChange }) => {
     <div>
       <div className="flex items-center text-color justify-between pl-5 pt-7 mb-5">
         <h2 className="text-5xl">All Wish courses</h2>
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             placeholder="search about courses..."
@@ -109,34 +111,31 @@ const Coursess = ({ handleRouteChange }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FiSearch className="absolute left-3 top-1/3 transform-translate-y-1/2 text-gray-500" />
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         {courses?.map((course) => console.log(course))}
-        {filteredCourses?.map((course, i) => (
+        {courses?.map((course, i) => (
           <div key={i} className="mx-3 text-color  my-5">
             <div className="card-body  p-0 h-full flex flex-col justify-between">
               <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
                 <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {course.title}
+                    {course.data?.title}
                   </h5>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
                     src={course.image}
-                    alt={course.title}
+                    alt={course.data?.title}
                     width={100}
                     height={100}
                   />
                 </div>
                 <div className="flex-grow">
-                  <p className="card-title text-base text-color mb-2">{`by : ${course.instructor
-                    .split(" ")
-                    .slice(0, 3)
-                    .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">{`Price: ${course.price}`}</p>
+                  <p className="card-title text-base text-color mb-2">{`by : ${course.data?.instructor?.split(" ").slice(0, 3).join(" ")}`}</p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course.data?.price}`}</p>
                 </div>
 
                 <div className="mt-7 flex flex-row items-center gap-6">

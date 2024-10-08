@@ -9,24 +9,18 @@ import { avatarClasses, Avatar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "../SidebarContext";
 import Image from "next/image";
+import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa'; 
+
+
 const Navbar = () => {
-// check authontication of use
 useEffect(
   ()=>{
-
 const AuthenticationCheck=async ()=>{
-
   if(   await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET }))
-  {
-
-    
-  }
+  {}
 }
-
   }
   ,[])
-
-
   const { sidebarOpen, setSidebarOpen } = useSidebar();
   let router = useRouter();
   const { data, status } = useSession();
@@ -71,31 +65,20 @@ const AuthenticationCheck=async ()=>{
             </span>
           </button>
         </div>
-        <h1 onClick={handleClick} className={styles.cursor}>
-          {/* <Image
-            src="/lgog-transformed (2).png"
-            alt="logo"
-            width={150}
-            height={150}
-          /> */}
+        <h1
+          onClick={handleClick}
+          className="cursor-pointer lg:relative lg:left-0 lg:transform-none sm:absolute sm:left-1/2 sm:transform sm:-translate-x-1/2"
+        >
           <Image
             src="/test3.png"
             alt="logo"
             width={150}
             height={50}
-            style={{ marginLeft: "1rem" }}
+            style={{ marginLeft: "1rem"}}
           />
-          {/* <Image
-            src="/test2.png"
-            alt="logo"
-            width={150}
-            height={150}
-          /> */}
-          {/* <span className="sm:text-3xl md:text-3xl lg:text-3xl font-bold tracking-wide font-logo"> E-L</span> */}
-          {/* <span className="sm:text-2xl md:text-2xl lg:text-2xl font-light tracking-wide font-logo">earning</span> */}
         </h1>
         <ul className="flex gap-x-3">
-          <li className="text-sm sm:text-base group">
+          <li className="text-sm sm:text-base group hidden lg:block">
             <Link
               href="/"
               className={`${
@@ -124,7 +107,7 @@ const AuthenticationCheck=async ()=>{
               className={`${styles.bar} group-hover:block dark:bg-white`}
             ></div>
           </li>
-          <li className="text-sm sm:text-base group">
+          <li className="text-sm sm:text-base group hidden lg:block">
             <Link
               href="/user/Courses"
               className={`${
@@ -161,7 +144,7 @@ const AuthenticationCheck=async ()=>{
               onClick={() => {
                 signOut();
               }}
-              className="text-sm sm:text-base"
+              className="text-sm sm:text-base border border-white text-white py-2 px-4 rounded"
             >
               Logout
             </button>
@@ -171,7 +154,7 @@ const AuthenticationCheck=async ()=>{
               onClick={() => {
                 router.push("/api/auth/signin");
               }}
-              className="text-sm sm:text-base"
+              className="text-sm sm:text-base border border-white text-white py-2 px-4 rounded"
             >
               Login
             </button>

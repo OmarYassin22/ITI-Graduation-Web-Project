@@ -32,12 +32,19 @@ function Page() {
     try {
       setLoading(true);
       setErrorMsg("");
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/signup",
-        values
-      );
+     
 
-      router.push("/signup/" + res.data.user.uid);
+      const temp = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const res = await temp.json();
+      debugger;
+      console.log(res?.user.uid);
+      router.push("/signup/" + res?.user.uid);
 
       setErrorMsg("");
     } catch (error) {

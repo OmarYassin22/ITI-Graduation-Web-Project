@@ -1,5 +1,3 @@
-///////////////////////////////////////////
-
 "use client";
 import React, { useState } from "react";
 import { useFormik } from "formik";
@@ -23,10 +21,14 @@ function Page() {
     try {
       setLoading(true);
       setErrorMsg("");
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/signup",
-        values
-      );
+    
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
       console.log(res.data);
       router.push("/userinfo");
       setErrorMsg("");

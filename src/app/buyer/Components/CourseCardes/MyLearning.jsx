@@ -76,7 +76,7 @@ function MyLearning() {
       let buyerEmail = "";
 
       if (window !== "undefined") {
-        window.localStorage.getItem("email");
+        buyerEmail= window.localStorage.getItem("email");
       }
       const UserDataCollection = collection(db, "UserData");
       const q = query(UserDataCollection, where("email", "==", buyerEmail));
