@@ -73,7 +73,7 @@ const TableOne = () => {
                     </div>
                     <div className="p-2.5 text-center xl:p-5">
                         <h5 className="text-[6px] md:text-sm font-medium uppercase">
-                            instructor
+                                
                         </h5>
                     </div>
                 </div>

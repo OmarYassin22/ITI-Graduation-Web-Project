@@ -64,7 +64,7 @@ const menuGroups = [
                         </defs>
                     </svg>
                 ),
-                label: "Table",
+                label: "Grades",
                 route: "/student/table",
             },
             {
