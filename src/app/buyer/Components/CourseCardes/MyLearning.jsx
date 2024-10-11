@@ -76,7 +76,7 @@ function MyLearning() {
       let buyerEmail = "";
 
       if (window !== "undefined") {
-        buyerEmail= window.localStorage.getItem("email");
+        buyerEmail = window.localStorage.getItem("email");
       }
       const UserDataCollection = collection(db, "UserData");
       const q = query(UserDataCollection, where("email", "==", buyerEmail));
@@ -136,6 +136,7 @@ function MyLearning() {
                     .split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
+                  <p className="card-title text-base text-color mb-2">{`by : ${course.data.duration}`}</p>
                 </div>
                 <div className="flex justify-center mt-auto">
                   <a

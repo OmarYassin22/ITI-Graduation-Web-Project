@@ -19,7 +19,7 @@ function CourseCardes({ key, data }) {
           <h2 className="card-title font-bold text-xl">{data.title}</h2>
           <h6>Instructor :{data.instructor}</h6>
           <p>Duration : {data.duration} hrs</p>
-          <p>Price : {data.price} EG</p>
+          <p>Price : {data.price} $</p>
           <div className="flex justify-center items-center">
             <Link href={`buyer/${data.id}`}>
               <button className="btn btn-primary mx-auto p-3 w-50 my-3 text-white bg-primary-600 rounded-full">

@@ -60,10 +60,9 @@ const Coursess = ({ handleRouteChange }) => {
       }
       let buyerEmail = "";
       if (window !== "undefined") {
-        buyerEmail= window.localStorage.getItem("email");
+        buyerEmail = window.localStorage.getItem("email");
       }
       console.log("Buyer Email:", buyerEmail);
-
 
       // 2. Update external database (if you're still using this)
       await fetch("/api/update-user-courses", {
@@ -212,7 +211,8 @@ const Coursess = ({ handleRouteChange }) => {
                     ?.split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data?.price}`}</p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data?.price} $`}</p>
+                  <p className="text-xl text-color mb-4">{`Price: ${course?.data?.duration}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
                   <button
