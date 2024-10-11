@@ -160,7 +160,7 @@ function MyLearning() {
           <div key={courseId} className="mb-6">
             <h3 className="text-2xl mb-2">{videoData.title}</h3>
             <p className="mb-2">Instructor: {videoData.instructor}</p>
-            <video width="320" height="240" controls>
+            <video width="250" controls>
               <source src={videoData.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
