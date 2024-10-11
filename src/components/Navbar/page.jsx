@@ -9,18 +9,17 @@ import { avatarClasses, Avatar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "../SidebarContext";
 import Image from "next/image";
-import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa'; 
-
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 const Navbar = () => {
-useEffect(
-  ()=>{
-const AuthenticationCheck=async ()=>{
-  if(   await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET }))
-  {}
-}
-  }
-  ,[])
+  useEffect(() => {
+    const AuthenticationCheck = async () => {
+      if (
+        await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
+      ) {
+      }
+    };
+  }, []);
   const { sidebarOpen, setSidebarOpen } = useSidebar();
   let router = useRouter();
   const { data, status } = useSession();
@@ -74,7 +73,7 @@ const AuthenticationCheck=async ()=>{
             alt="logo"
             width={150}
             height={50}
-            style={{ marginLeft: "1rem"}}
+            style={{ marginLeft: "1rem" }}
           />
         </h1>
         <ul className="flex gap-x-3">
@@ -104,7 +103,7 @@ const AuthenticationCheck=async ()=>{
               About
             </Link>
             <div
-              className={`${styles.bar} group-hover:block dark:bg-white`}
+              className={`${styles.bar} group-hover:block dark:bg-white `}
             ></div>
           </li>
           <li className="text-sm sm:text-base group hidden lg:block">

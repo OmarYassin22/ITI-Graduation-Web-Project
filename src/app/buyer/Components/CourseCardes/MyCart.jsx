@@ -217,7 +217,7 @@ const Coursess = ({ handleRouteChange }) => {
                 <div className="mt-7 flex flex-row items-center gap-2">
                   <button
                     onClick={() => deleteCourse(course.id)}
-                    className="flex rounded-md h-12 w-45 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
+                    className="flex rounded-md h-12 w-45 items-center justify-center bg-primary-400 duration-100 hover:bg-primary-300 p-2"
                   >
                     <MdDeleteSweep className="text-3xl mr-2 " />
                     Delete Course

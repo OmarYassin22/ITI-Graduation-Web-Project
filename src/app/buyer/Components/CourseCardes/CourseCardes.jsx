@@ -22,7 +22,7 @@ function CourseCardes({ key, data }) {
           <p>Price : {data.price} EG</p>
           <div className="flex justify-center items-center">
             <Link href={`buyer/${data.id}`}>
-              <button className="btn btn-primary mx-auto p-3 w-50 my-3 text-white bg-blue-600 rounded-full">
+              <button className="btn btn-primary mx-auto p-3 w-50 my-3 text-white bg-primary-600 rounded-full">
                 View Course
               </button>
             </Link>
