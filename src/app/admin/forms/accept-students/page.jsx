@@ -33,6 +33,7 @@ const AcceptStudents = () => {
           ...doc.data(),
         }));
         setBrandData(applicantsList);
+        console.table(applicantsList);
       } catch (error) {
         console.error("Error fetching applicants: ", error);
       }

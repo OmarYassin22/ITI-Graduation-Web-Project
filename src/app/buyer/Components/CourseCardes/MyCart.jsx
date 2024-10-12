@@ -60,10 +60,9 @@ const Coursess = ({ handleRouteChange }) => {
       }
       let buyerEmail = "";
       if (window !== "undefined") {
-        buyerEmail= window.localStorage.getItem("email");
+        buyerEmail = window.localStorage.getItem("email");
       }
       console.log("Buyer Email:", buyerEmail);
-
 
       // 2. Update external database (if you're still using this)
       await fetch("/api/update-user-courses", {
@@ -212,12 +211,13 @@ const Coursess = ({ handleRouteChange }) => {
                     ?.split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data?.price}`}</p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course?.data?.price} $`}</p>
+                  <p className="text-xl text-color mb-4">{`Price: ${course?.data?.duration}`}</p>
                 </div>
                 <div className="mt-7 flex flex-row items-center gap-2">
                   <button
                     onClick={() => deleteCourse(course.id)}
-                    className="flex rounded-md h-12 w-45 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 p-2"
+                    className="flex rounded-md h-12 w-45 items-center justify-center bg-primary-400 duration-100 hover:bg-primary-300 p-2"
                   >
                     <MdDeleteSweep className="text-3xl mr-2 " />
                     Delete Course

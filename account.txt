@@ -1,0 +1,15 @@
+Student :
+fuck@gmail.com
+Fu@123456
+
+Buyer:
+ali.buyer.new@gmail.com
+Ali1234567890
+
+------------------admin---------------------------
+admin@gmail.com
+Ad@123456
+
+--------------------instructor------------------------
+
+emad.ins@gmail.com Em@131372

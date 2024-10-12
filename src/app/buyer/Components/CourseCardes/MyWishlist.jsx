@@ -134,8 +134,12 @@ const Coursess = ({ handleRouteChange }) => {
                   />
                 </div>
                 <div className="flex-grow">
-                  <p className="card-title text-base text-color mb-2">{`by : ${course.data?.instructor?.split(" ").slice(0, 3).join(" ")}`}</p>
+                  <p className="card-title text-base text-color mb-2">{`by : ${course.data?.instructor
+                    ?.split(" ")
+                    .slice(0, 3)
+                    .join(" ")}`}</p>
                   <p className="text-3xl text-color mb-4">{`Price: ${course.data?.price}`}</p>
+                  <p className="text-xl text-color mb-4">{`Price: ${course.data?.duration}`}</p>
                 </div>
 
                 <div className="mt-7 flex flex-row items-center gap-6">

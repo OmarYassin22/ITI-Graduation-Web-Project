@@ -75,7 +75,8 @@ const Coursess = () => {
                     .split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
-                  <p className="text-3xl text-color mb-4">{`Price: ${course.data.price}`}</p>
+                  <p className="text-3xl text-color mb-4">{`Price: ${course.data.price} $`}</p>
+                  <p className="text-1xl text-color mb-4">{`duration: ${course.data.duration}`}</p>
                 </div>
                 <div className="flex justify-center mt-auto">
                   <a

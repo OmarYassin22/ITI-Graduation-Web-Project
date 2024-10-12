@@ -37,7 +37,7 @@ const Page = () => {
     <DefaultLayout>
     <div>
       <div className="flex flex-col sm:flex-row items-center text-color justify-between pl-5 pt-7 mb-5">
-        <h2 className="text-5xl">All courses</h2>
+        <h2 className="text-5xl dark:text-white text-black">All courses</h2>
         <div className="relative">
           <input
             type="text"
@@ -82,7 +82,7 @@ const Page = () => {
                 <div className="flex justify-center mt-auto">
                   <a
                     href="#"
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     onClick={() => {
                       openCourseDetails(course.id);
                     }}

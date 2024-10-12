@@ -76,7 +76,7 @@ function MyLearning() {
       let buyerEmail = "";
 
       if (window !== "undefined") {
-        buyerEmail= window.localStorage.getItem("email");
+        buyerEmail = window.localStorage.getItem("email");
       }
       const UserDataCollection = collection(db, "UserData");
       const q = query(UserDataCollection, where("email", "==", buyerEmail));
@@ -136,11 +136,12 @@ function MyLearning() {
                     .split(" ")
                     .slice(0, 3)
                     .join(" ")}`}</p>
+                  <p className="card-title text-base text-color mb-2">{`by : ${course.data.duration}`}</p>
                 </div>
                 <div className="flex justify-center mt-auto">
                   <a
                     href="#"
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     onClick={() => {
                       openCourseDetails(course.id);
                     }}
@@ -160,7 +161,7 @@ function MyLearning() {
           <div key={courseId} className="mb-6">
             <h3 className="text-2xl mb-2">{videoData.title}</h3>
             <p className="mb-2">Instructor: {videoData.instructor}</p>
-            <video width="320" height="240" controls>
+            <video width="250" controls>
               <source src={videoData.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

@@ -32,7 +32,6 @@ function Login() {
   };
   async function handleLogin(values) {
     try {
-      debugger;
       setLoading(true);
       setErrorMsg("");
       const dbuser = await signInWithEmailAndPassword(

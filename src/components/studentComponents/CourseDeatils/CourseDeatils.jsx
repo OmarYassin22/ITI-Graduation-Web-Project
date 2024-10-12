@@ -71,8 +71,8 @@ function CourseDetails({id}) {
     fetchData();
   },[]);
   return (
-    <div className='flex justify-between px-50 py-10'>
-      <div className="flex flex-col justify-center items-center container mx-auto p-4">
+    <div className='flex justify-evenly px-10 py-10'>
+      <div className="flex flex-col justify-center items-center">
           <h1 className="text-3xl font-bold mb-4 text-black dark:text-white">{data[0]}</h1>
           <Image
             src={data[2]}
@@ -84,7 +84,7 @@ function CourseDetails({id}) {
           <p className="text-black dark:text-white">Instructor: {data[1]}</p>
       </div>
       <div>
-        {videoUrl && <video src={videoUrl} controls />}
+        {videoUrl && <video width="250" src={videoUrl} controls />}
       </div>
     </div>
   );
