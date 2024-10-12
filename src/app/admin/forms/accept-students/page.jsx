@@ -50,6 +50,7 @@ const AcceptStudents = () => {
       )
     );
   }, [searchTerm, brandData]);
+
   const handleAccept = async (applicant) => {
     try {
       if (selectedOption[applicant.id] === "accepted") {
@@ -64,7 +65,8 @@ const AcceptStudents = () => {
           email: applicant.email,
           number: applicant.number,
           uid: applicant.uid,
-          field: selectedField[applicant.id] || "frontend",
+          field:applicant.field,
+          // field: selectedField[applicant.id] || "frontend",
           // degree: 0, 
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
@@ -86,9 +88,10 @@ const AcceptStudents = () => {
           lname: applicant.lname,
           email: applicant.email,
           number: applicant.number,
-          uid: applicant.uid, // Copy uid from applicant
-          field: selectedField[applicant.id] || "frontend", // Default value
-          // degree: 0, // Default value
+          uid: applicant.uid,
+          field:applicant.field,
+          // field: selectedField[applicant.id] || "frontend",
+          // degree: 0, 
 
         };
         await setDoc(doc(db, "students", applicant.id), newStudent);
@@ -106,12 +109,12 @@ const AcceptStudents = () => {
       [id]: value,
     }));
   };
-  const handleFieldChange = (id, value) => {
-    setSelectedField((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
+  // const handleFieldChange = (id, value) => {
+  //   setSelectedField((prevState) => ({
+  //     ...prevState,
+  //     [id]: value,
+  //   }));
+  // };
   if (!filteredData)
     return (
       <DefaultLayout>

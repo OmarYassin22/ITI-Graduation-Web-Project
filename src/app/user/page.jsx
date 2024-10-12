@@ -58,8 +58,8 @@ function UserPage() {
                 <span className="text-blue-700 font-bold">Few Minutes</span>
               </h2>
               <p className="max-w-96">
-                We are accredited with the Most Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Illum
+              Welcome to E-learning 
+              your gateway to a world of knowledge! Discover a wide range of courses to elevate your skills, or apply for our Solarship Program for a chance to learn for free under the guidance of expert instructors. Start your journey today!
               </p>
             </div>
             <div className="w-full md:w-auto mr-auto">

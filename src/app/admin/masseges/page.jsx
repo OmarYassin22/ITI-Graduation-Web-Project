@@ -67,50 +67,57 @@ const Page = () => {
 
   return (
     <DefaultLayout>
-  <Breadcrumb pageName="All Messages" />
-  <div className="flex flex-col mb-6 mt-4 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-    {/* Header */}
-    <div className="grid grid-cols-12 rounded-sm bg-gray-2 dark:bg-meta-4">
-      <div className="col-span-3 p-2.5 xl:p-5 text-left">
-        <h5 className="text-sm font-medium uppercase xsm:text-base">Name</h5>
-      </div>
-      <div className="col-span-3 p-2.5 xl:p-5 text-center">
-        <h5 className="text-sm font-medium uppercase xsm:text-base">Email</h5>
-      </div>
-      <div className="col-span-3 p-2.5 xl:p-5 text-center">
-        <h5 className="text-sm font-medium uppercase xsm:text-base">Open</h5>
-      </div>
-      <div className="col-span-3 p-2.5 xl:p-5 text-center hidden sm:block">
-        <h5 className="text-sm font-medium uppercase xsm:text-base">Delete</h5>
-      </div>
-    </div>
-    
-    {/* Content */}
-    {loading ? (
-      <Variants />
-    ) : (
-      messages.map((message) => (
-        <div className="grid grid-cols-12 gap-2 p-2.5 border-b border-stroke dark:border-strokedark" key={message.id}>
-          <p className="col-span-3 text-black dark:text-white">{message.data.name}</p>
-          <p className="col-span-3 text-center text-meta-3">{message.data.email}</p>
-          <button
-            className="col-span-3 text-center bg-green-800 w-full p-2 rounded-md text-white"
-            onClick={() => handleOpenMessage(message)}
-          >
-            Open Message
-          </button>
-          <button
-            className="col-span-3 text-center bg-rose-800 w-full p-2 rounded-md text-white hidden sm:block"
-            onClick={() => handleDeleteMessage(message.id)}
-          >
-            Delete Message
-          </button>
+      <Breadcrumb pageName="All Messages" />
+      <div className="flex flex-col mb-6 mt-4 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="grid grid-cols-12 rounded-sm bg-gray-2 dark:bg-meta-4">
+          <div className="col-span-3 p-2.5 xl:p-5 text-left">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Name</h5>
+          </div>
+          <div className="col-span-3 p-2.5 xl:p-5 text-center">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Email</h5>
+          </div>
+          <p className="col-span-1 text-center text-meta-3 truncate"> </p>
+          <div className="col-span-2 p-2.5 xl:p-5 text-center">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Open</h5>
+          </div>
+          <p className="col-span-1 text-center text-meta-3 truncate"> </p>
+          <div className="col-span-2 p-2.5 xl:p-5 text-center flex sm:block">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Delete</h5>
+          </div>
         </div>
-      ))
-    )}
-  </div>
-</DefaultLayout>
+        {loading ? (
+          <Variants />
+        ) : (
+          messages.map((message) => (
+            <div className="grid grid-cols-12 gap-2 p-2.5 border-b border-stroke dark:border-strokedark" key={message.id}>
+              <p className="col-span-3 text-black dark:text-white">{message.data.name}</p>
+              <p className="col-span-3 text-center text-meta-3 truncate" style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {message.data.email}
+              </p>
+              <p className="col-span-1 text-center text-meta-3 truncate"> </p>
+              <button
+                className="col-span-2 bg-green-800 text-white px-4 py-2 rounded-md flex items-center justify-center w-auto"
+                onClick={() => handleOpenMessage(message)}
+              >
+                <span className="hidden sm:block">Open Message</span>
+                <span className="sm:hidden">Open</span>
+              </button>
+              <p className="col-span-1 text-center text-meta-3 truncate"> </p>
+              <button
+                className="col-span-2 bg-rose-800 text-white px-4 py-2 rounded-md flex items-center justify-center w-auto"
+                onClick={() => handleDeleteMessage(message.id)}
+              >
+                <span className="hidden sm:block">Delete Message</span>
+                <span className="sm:hidden">Delete</span>
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </DefaultLayout>
   );
+  
+  
 };
 
 export default Page;

@@ -136,7 +136,7 @@ const menuGroups = [
             </defs>
           </svg>
         ),
-        label: "Tables",
+        label: "Stats",
         route: "/admin/tables",
       },
       {

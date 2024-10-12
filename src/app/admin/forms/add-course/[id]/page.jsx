@@ -37,7 +37,7 @@ const Page = ({ params }) => {
         setCTitle(result.title);
         setCPrice(result.price);
         setCDetails(result.details);
-        setCImage(result.image);
+        setCImage(result.cImage);
         setCInstructor(result.instructor);
         setCDuration(result.duration);
         setCTrack(result.track);
@@ -52,13 +52,6 @@ const Page = ({ params }) => {
   
   const handlePUT = async (event) => {
     event.preventDefault();
-    let imgPath = v4();
-    // console.log(cImage.name + imgPath);
-
-    if (cImage) {
-      const imageRef = ref(storage, "images/courses/" + cImage.name + imgPath);
-      uploadBytes(imageRef, cImage).then(() => {});
-    }
     const response = await fetch(`/api/courses/${params.id}`, {
       method: "PUT",
       headers: {
@@ -67,7 +60,7 @@ const Page = ({ params }) => {
       body: JSON.stringify({
         title: cTitle,
         price: cPrice,
-        imgPath: cImage?.name + imgPath,
+        cImage: cImage,
         details: cDetails,
         instructor: cInstructor,
         duration: cDuration,
@@ -76,8 +69,19 @@ const Page = ({ params }) => {
       }),
     });
     const data = await response.json();
-    if (data.message !== null){push("/admin/forms/add-course");} 
+    if (data.message !== null){
+            
+      push("/admin/forms/add-course");
+      const updatedCourses = courses.map((course) => 
+        course.id === params.id 
+        ? { ...course, data: { title: cTitle, price: cPrice, cImage: cImage, details: cDetails, instructor: cInstructor, duration: cDuration, track: cTrack } } 
+        : course
+      );
+      setCourses(updatedCourses);
+      setSuccess(true);
+    } 
   };
+
 
   if (loading)
     return (
@@ -160,23 +164,6 @@ const Page = ({ params }) => {
                   setCInstructor(e.target.value);
                 }}
               />
-             {/* <select
-        required
-        value={instructors}
-        onChange={(e) => setInstructors(e.target.value)}
-        className="dark:bg-form-input dark:text-white w-full rounded-lg border border-stroke bg-transparent py-2 px-3 text-black text-sm outline-none focus:border-primary"
-      >
-        <option value="">Select Instructor</option>
-        {Array.isArray(cInstructor) ? (
-          instructors.map((instructor) => (
-            <option key={instructor.id} value={instructor.data.name}>
-              {instructor.data.name}
-            </option>
-          ))
-        ) : (
-          <option value="" disabled>No instructors </option>
-        )}
-      </select> */}
             </div>
             <div>
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -220,17 +207,20 @@ const Page = ({ params }) => {
                 style={{ width: '200px', height: '200px' }}
               />
             </div>
-
             <div>
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                Attach file
-              </label>
-              <input
-                type="file"
-                className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-                onChange={(e) => setCImage(e.target.files[0])}
-              />
-            </div>
+                <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
+                  Image link
+                </label>
+                <input
+                  type="text"
+                  placeholder="Course image"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  value={cImage}
+                  onChange={(e) => {
+                    setCImage(e.target.value);
+                  }}
+                />
+              </div>
             <br />
             <div className="flex justify-center">
               <button

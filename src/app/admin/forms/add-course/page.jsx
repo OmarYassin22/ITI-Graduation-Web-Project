@@ -5,14 +5,10 @@ import DefaultLayout from "../../../../components/adminComponents/Layouts/Defaul
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
-import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../../firebaseConfig";
-import { v4 } from "uuid";
 import Image from "next/image";
 import Variants from "../../../Spinner";
 import axios from "axios";
 import { courseContext } from "../../../Contexts/Courses/CourseContextProvider";
-
 const Page = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
@@ -29,12 +25,9 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await fetch("/api/courses");
-        // if (!response.ok) {
-        //   throw new Error(`HTTP error! status: ${response.status}`);
-        // }
-        // const result = await response.json();
-        setCourses(localCourse);
+        const response = await fetch("/api/courses");
+        const result = await response.json();
+        setCourses(result);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -43,20 +36,17 @@ const Page = () => {
     };
     fetchData();
     getInstractor();
-  }, [localCourse]);
-
+  }, [localCourse, success]); 
   const handleCourseDetails = async (id) => {
     push(`/admin/forms/add-course/${id}`);
   };
   const [cTitle, setCTitle] = useState("");
   const [cPrice, setCPrice] = useState(0);
-  // const [cImage, setCImage] = useState("");
+  const [cImage, setCImage] = useState("");
   const [cTrack, setCTrack] = useState("");
   const [cDetails, setCDetails] = useState("");
   const [cDuration, setCDuration] = useState("");
   const [cInstructor, setCInstructor] = useState("");
-  const [image, setImage] = useState();
-
   const handleCreate = async (event) => {
     event.preventDefault();
     const lowerCaseTitle = cTitle.toLowerCase();
@@ -72,8 +62,6 @@ const Page = () => {
       });
       return;
     }
-    console.log(cTitle, cDetails, image?.name, cInstructor, cDuration);
-    let imgPath = v4();
     const response = await fetch("/api/courses", {
       method: "POST",
       headers: {
@@ -85,35 +73,22 @@ const Page = () => {
         details: cDetails,
         instructor: cInstructor,
         duration: cDuration,
-        imgPath: imgPath,
+        cImage: cImage,
         buyers: 0,
         track: cTrack,
       }),
     });
-
     const refresh = await fetch("/api/courses");
-
     const result = await refresh.json();
-
-    if (image) {
-      const imageRef = ref(storage, "images/courses/" + image.name + imgPath);
-      uploadBytes(imageRef, image).then((res) => {
-        console.log("======================");
-        console.log(res);
-        console.log("======================");
-      });
-    }
-
     setCourses(result);
     setCTitle("");
     setCPrice(0);
-    // setCImage("");
+    setCImage("");
     setCDetails("");
     setCInstructor("");
     setCDuration("");
     setCTrack("");
     setSuccess(true);
-    setImage(null);
   };
 
   const handleDelete = async (id) => {
@@ -256,12 +231,16 @@ const Page = () => {
               </div>
               <div>
                 <label className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white">
-                  Attach file
+                  Image link
                 </label>
                 <input
-                  type="file"
-                  className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-                  onChange={(e) => setImage(e.target.files[0])}
+                  type="text"
+                  placeholder="Course image"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  value={cImage}
+                  onChange={(e) => {
+                    setCImage(e.target.value);
+                  }}
                 />
               </div>
               <br />
@@ -318,7 +297,7 @@ const Page = () => {
                   <Image
                     className="object-cover w-full h-full"
                     src={`${
-                      course.image ||
+                      course.data.cImage ||
                       '/defaultCourse.jpeg'
                     }`}
                     alt={course.data.title}

@@ -40,7 +40,6 @@ function Login() {
         values.email,
         values.password
       );
-
       const UserType = collection(db, "UserData");
       const q = await query(UserType, where("uid", "==", dbuser.user.uid));
       const result = await getDocs(q);
@@ -50,7 +49,6 @@ function Login() {
         localStorage.setItem("fname", result.docs[0].data()?.fname);
         localStorage.setItem("lname", result.docs[0].data()?.lname);
         localStorage.setItem("email", values.email);
-
         localStorage.setItem("type", result.docs[0].data().type);
         document.cookie = `userType=${result.docs[0].data().type}`;
       }
@@ -68,7 +66,6 @@ function Login() {
       setErrorMsg(error.response.data.error.code);
     }
   }
-
   const formik = useFormik({
     initialValues: {
       email: "",

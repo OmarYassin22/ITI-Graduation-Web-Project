@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 import { getDocs, collection, doc, deleteDoc, updateDoc , addDoc } from "firebase/firestore";
 import { db, auth } from "../../../../app/firebaseConfig";
-import { FiSearch } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiSearch } from "react-icons/fi";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Page = () => {
@@ -33,6 +33,19 @@ const Page = () => {
   // const [searchFieldTerm, setSearchFieldTerm] = useState("");
   const [filteredData, setFilteredData] = useState(brandData);
 
+  // const [showPassword, setShowPassword] = useState(false);
+
+  // const togglePasswordVisibility = () => {
+  //   setShowPassword(!showPassword);
+  // };
+  const [visiblePasswords, setVisiblePasswords] = useState({}); 
+
+  const togglePasswordVisibility = (id) => {
+    setVisiblePasswords((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
   ////////////////////////get instructors////////////////
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -389,9 +402,23 @@ const Page = () => {
                 {instructor.email}
               </p>
               <p className="text-[6px] md:text-sm text-center text-black dark:text-white"></p>
-              <p className="text-[6px] md:text-sm text-center text-meta-3">
+              {/* <p className="text-[6px] md:text-sm text-center text-meta-3">
                 {instructor.password}
-              </p>
+              </p> */}
+              <div className="relative text-center flex justify-center">
+              <input
+                type={visiblePasswords[instructor.id] ? "text" : "password"} 
+                value={instructor.password}
+                readOnly
+                className="text-[6px] md:text-sm text-center text-meta-3 dark:bg-boxdark"
+              />
+              <span
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                onClick={() => togglePasswordVisibility(instructor.id)}
+              >
+                {visiblePasswords[instructor.id] ? <FiEyeOff /> : <FiEye />}
+              </span>
+            </div>
               <p className="text-[6px] md:text-sm text-center text-black dark:text-white"></p>
             </div>
           ))}

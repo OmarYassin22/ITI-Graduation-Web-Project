@@ -61,12 +61,11 @@ const Page = () => {
                   </h5>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
-                  <Image
+                <Image
                     className="object-cover w-full h-full"
                     src={`${
-                      course.image
-                        ? course.image
-                        : "/defaultCourse.jpeg"
+                      course.data.cImage ||
+                      '/defaultCourse.jpeg'
                     }`}
                     alt={course.data.title}
                     width={100}

@@ -61,7 +61,10 @@ const Coursess = () => {
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={course.image}
+                    src={`${
+                      course.data.cImage ||
+                      '/defaultCourse.jpeg'
+                    }`}
                     alt={course.data.title}
                     width={100}
                     height={100}

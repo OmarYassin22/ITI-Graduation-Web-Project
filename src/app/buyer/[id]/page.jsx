@@ -42,7 +42,7 @@ const Page = ({ params }) => {
             setCTitle(result.data.title);
             setCPrice(result.data.price);
             setCDetails(result.data.details);
-            setCImage(result.image);
+            setCImage(result.data.cImage);
             setCInstructor(result.data.instructor);
             setComments(result.data.coments); // Fix typo: changed 'coments' to 'comments'
             setCourses(result);
@@ -131,11 +131,7 @@ const Page = ({ params }) => {
   }
   ///////////////////////////////////////////
   const productDetailItem = {
-    images: [
-      {
-        original: `${cImage}`,
-      },
-    ],
+    cImage: `${cImage}`,
     title: `${cTitle}`,
     reviews: "150",
     // availability: true,
@@ -161,7 +157,7 @@ const Page = ({ params }) => {
             showBullets={false}
             showFullscreenButton={false}
             showPlayButton={false}
-            items={productDetailItem.images}
+            items={productDetailItem.cImage}
             additionalClass="custom-image-gallery"
           />
           {/* /image gallery  */}
