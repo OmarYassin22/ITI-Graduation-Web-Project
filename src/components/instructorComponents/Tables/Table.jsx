@@ -93,7 +93,7 @@ const Table = () => {
         }
 
         return student.courses
-          .filter((course) => course.instructor === fullName)
+          .filter((course) => course.instructor === "Emad Elshplangy")
           .map((course) => ({
             studentId: student.id,
             courseStudent: student.fname + " " + student.lname,

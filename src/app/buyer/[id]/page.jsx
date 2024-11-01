@@ -5,9 +5,10 @@ import Swal from "sweetalert2";
 import "./CoursePage.css";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
-import ReactImageGallery from "react-image-gallery";
+// import ReactImageGallery from "react-image-gallery";
 import Rater from "react-rater";
 import BuyerNavbar from "./../Components/BuyerNavbar/BuyerNavbar";
+import Image from "next/image";
 
 import { CourseBuyerContext } from "./../../BuyerContext";
 import { courseContext } from "../../Contexts/Courses/CourseContextProvider";
@@ -153,13 +154,23 @@ const Page = ({ params }) => {
       <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
         {/* image gallery */}
         <div className="container mx-auto px-4">
-          <ReactImageGallery
+          {/* <ReactImageGallery
             showBullets={false}
             showFullscreenButton={false}
             showPlayButton={false}
             items={productDetailItem.cImage}
             additionalClass="custom-image-gallery"
-          />
+          /> */}
+          <Image
+                    className="object-cover w-full h-full"
+                    src={`${
+                      productDetailItem.cImage ||
+                      '/defaultCourse.jpeg'
+                    }`}
+                    alt={productDetailItem.title}
+                    width={100}
+                    height={100}
+                  />
           {/* /image gallery  */}
         </div>
         {/* description  */}

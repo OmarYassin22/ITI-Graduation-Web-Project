@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./CoursePage.css";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
-import ReactImageGallery from "react-image-gallery";
+// import ReactImageGallery from "react-image-gallery";
 import Rater from "react-rater";
 import { courseContext } from "../../../Contexts/Courses/CourseContextProvider";
 import Variants from "../../../Spinner";
@@ -62,22 +62,13 @@ const Page = ({ params }) => {
   ///////////////////////////////////////////
   const productDetailItem = {
     cImage: `${cImage}`,
-    // [
-    //   {
-    //     original: `${cImage}`,
-    //   },
-    // ],
     title: `${cTitle}`,
     reviews: "150",
-    // availability: true,
     instructor: `${cInstructor}`,
     duration: "22 hours",
-    // sku: "BE45VGTRK",
     price: `${cPrice}`,
     previousPrice: `${parseInt(cPrice) + 30}`,
     description: `${cDetails}`,
-    // language: ["Ar", "En"],
-    // color: ["gray", "violet", "red"],
   };
   const plusMinuceButton =
     "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
@@ -87,18 +78,25 @@ const Page = ({ params }) => {
     <>
       <DefaultLayout>
         <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
-          {/* image gallery */}
           <div className="container mx-auto px-4">
-            <ReactImageGallery
+            {/* <ReactImageGallery
               showBullets={false}
               showFullscreenButton={false}
               showPlayButton={false}
               items={productDetailItem.cImage}
               additionalClass="custom-image-gallery"
-            />
-            {/* /image gallery  */}
+            /> */}
+            <Image
+                    className="object-cover w-full h-full"
+                    src={`${
+                      productDetailItem.cImage ||
+                      '/defaultCourse.jpeg'
+                    }`}
+                    alt={productDetailItem.title}
+                    width={100}
+                    height={100}
+                  />
           </div>
-          {/* description  */}
           <div className="mx-auto text-color px-5 lg:px-5">
             <h2 className="pt-3 text-3xl font-bold lg:pt-0">
               {productDetailItem.title}
@@ -143,16 +141,6 @@ const Page = ({ params }) => {
             </p>
             <div className="mt-6">
               <p className="pb-2 text-xs text-gray-500">Language</p>
-              {/* <div className="flex gap-1">
-                {productDetailItem.language.map((x, index) => (
-                  <div
-                    key={index}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
-                  >
-                    {x}
-                  </div>
-                ))}
-              </div> */}
             </div>
 
             <div className="mt-7 flex flex-row items-center gap-6">
@@ -172,7 +160,6 @@ const Page = ({ params }) => {
               </button>
             </div>
           </div>
-          {/* Check if comments exist and render them */}
         </section>
         <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
           {comments && comments.length > 0 ? (

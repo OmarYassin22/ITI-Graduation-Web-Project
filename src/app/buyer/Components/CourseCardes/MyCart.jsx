@@ -194,13 +194,13 @@ const Coursess = ({ handleRouteChange }) => {
               <div className="max-w-sm p-6  cardesbackgroundcourse border  rounded-lg shadow   flex flex-col h-full">
                 <div className="flex  justify-between items-center cardesbackgroundcourse mb-4">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {course.data?.title}
+                    {course?.data?.title}
                   </h5>
                 </div>
                 <div className="image-container w-full h-48 mb-4 ">
                   <Image
                     className="object-cover w-full h-full"
-                    src={course?.image}
+                    src={course?.data?.cImage}
                     alt={course?.data?.title}
                     width={100}
                     height={100}

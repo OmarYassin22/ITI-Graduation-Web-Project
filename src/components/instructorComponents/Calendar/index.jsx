@@ -32,7 +32,7 @@ const Calendar = () => {
             course.title
           ) {
             // Only process this course if the instructor matches fullName
-            if (course.instructor === fullName) {
+            if (course.instructor === "Emad Elshplangy") {
               const dateObj = new Date(course.date);
               const formattedDate = dateObj.toLocaleDateString("en-GB", {
                 day: "numeric",
